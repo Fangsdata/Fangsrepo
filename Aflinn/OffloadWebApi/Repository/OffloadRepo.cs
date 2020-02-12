@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
+using OffloadWebApi.Models.InputModels;
 
 namespace OffloadWebApi.Repository
 {
@@ -7,6 +9,11 @@ namespace OffloadWebApi.Repository
     {
         public OffloadRepo()
         {
+        }
+
+        public List<OffloadDto> GetFilteredResults(QueryOffloadsInput filters)
+        {
+            throw new NotImplementedException();
         }
 
         public OffloadDetailDto GetOffloadById(int id)

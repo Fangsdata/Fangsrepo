@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
+using OffloadWebApi.Models.InputModels;
 
 namespace OffloadWebApi.Services
 {
     public interface IOffloadService
     {
-        public OffloadDto GetOffloads();
+        public List<OffloadDto> GetOffloads(QueryOffloadsInput filters);
 
         public OffloadDetailDto GetOffloadById(int id);
     }

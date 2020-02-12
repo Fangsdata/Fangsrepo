@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
+using OffloadWebApi.Models.InputModels;
 using OffloadWebApi.Repository;
 
 namespace OffloadWebApi.Services
@@ -18,10 +20,14 @@ namespace OffloadWebApi.Services
             return this._offloadRepo.GetOffloadById(id);
         }
 
-        public OffloadDto GetOffloads()
+        public List<OffloadDto>? GetOffloads(QueryOffloadsInput filters)
         {
-            // TODO þarf að láta taka inn query param og endur hugsa dto
-            throw new NotImplementedException();
+            if(filters.Count > 500)
+            {
+                return null;
+            }
+
+            return this._offloadRepo.GetFilteredResults(filters);
         }
     }
 }
