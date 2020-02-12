@@ -12,11 +12,11 @@ namespace OffloadWebApi.Controllers
     [Route("api/[controller]")]
     public class OffloadController : Controller
     {
-        private OffloadService _OffloadService;
+        private IOffloadService _OffloadService;
 
-        public OffloadController()
+        public OffloadController(IOffloadService OffloadService)
         {
-            this._OffloadService = new OffloadService();
+            this._OffloadService = OffloadService;
         }
 
         // GET: api/values

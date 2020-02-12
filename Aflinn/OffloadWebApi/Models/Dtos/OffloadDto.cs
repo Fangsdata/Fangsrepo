@@ -15,8 +15,8 @@ namespace OffloadWebApi.Models.Dtos
 
         public int TotalWeight { get; set; }
 
-        public List<FishDto> Fish { get; set; }
+        public List<FishSimpleDto> Fish { get; set; }
 
-        public BoatDto Boat { get; set; }
+        public BoatSimpleDto Boat { get; set; }
     }
 }
