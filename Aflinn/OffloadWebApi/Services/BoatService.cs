@@ -12,7 +12,7 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
-        public BoatDto GetBoat(string BoatRadioSignalId)
+        public BoatDto? GetBoat(string BoatRadioSignalId)
         {
             var boat = this._offloadRepo.GetBoatByRadioSignal(BoatRadioSignalId);
             return boat;

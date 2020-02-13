@@ -11,8 +11,13 @@ namespace OffloadWebApi.Repository
         {
         }
 
-        public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
+        public BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId)
         {
+            if (BoatRadioSignalId == "not_radioXXX")
+            {
+                return null;
+            }
+
             return new BoatDto
             {
                 Id = 1,
