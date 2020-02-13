@@ -11,12 +11,22 @@ namespace OffloadWebApi.Repository
         {
         }
 
+        public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<OffloadDto> GetFilteredResults(QueryOffloadsInput filters)
         {
             throw new NotImplementedException();
         }
 
         public OffloadDetailDto GetOffloadById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
         {
             throw new NotImplementedException();
         }

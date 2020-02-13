@@ -9,6 +9,8 @@ namespace OffloadWebApi.Repository
     {
         public OffloadDetailDto? GetOffloadById(int id);
 
-        List<OffloadDto> GetFilteredResults(QueryOffloadsInput filters);
+        public List<TopListDto>? GetFilteredResults(QueryOffloadsInput filters);
+
+        public BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
     }
 }

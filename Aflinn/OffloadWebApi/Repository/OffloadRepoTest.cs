@@ -11,76 +11,9 @@ namespace OffloadWebApi.Repository
         {
         }
 
-        public List<OffloadDto> GetFilteredResults(QueryOffloadsInput filters)
+        public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
         {
-            if (filters.Month.Count == 0)
-            {
-                filters.Month.Add(10);
-            }
-
-            if (filters.Year.Count == 0)
-            {
-                filters.Year.Add(2020);
-            }
-
-            if (filters.LandingState.Count == 0)
-            {
-                filters.LandingState.Add("Suðurnes");
-            }
-
-            if (filters.LandingTown.Count == 0)
-            {
-                filters.LandingTown.Add("Grindavík");
-            }
-
-            if (filters.FishingGear.Count == 0)
-            {
-                filters.FishingGear.Add("nót");
-            }
-
-            if (filters.BoatLength.Count == 0)
-            {
-                filters.BoatLength.Add(10);
-            }
-
-            List<OffloadDto> dummyData = new List<OffloadDto>();
-            var testFish = new List<FishSimpleDto>();
-
-            testFish.Add(new FishSimpleDto { Id = 1, Type = "þoskur", Weight = 500 });
-            testFish.Add(new FishSimpleDto { Id = 2, Type = "Ýsa", Weight = 500 });
-            testFish.Add(new FishSimpleDto { Id = 3, Type = "Urriði", Weight = 500 });
-            testFish.Add(new FishSimpleDto { Id = 4, Type = "Hafmeyjur", Weight = 500 });
-            testFish.Add(new FishSimpleDto { Id = 5, Type = "Steinbítur", Weight = 500 });
-
-            var testBoat = new BoatSimpleDto
-            {
-                Id = 1,
-                Name = "Bubbu bátur",
-                Length = filters.BoatLength[0],
-                FishingGear = filters.FishingGear[0],
-                Image = "https://cdn.britannica.com/72/153172-131-7CBA9C7C/Titanic.jpg",
-                Nationality = "Noreigur",
-                Registration_id = "234",
-                State = "Reykhólahreppur",
-                RadioSignalId = "43434",
-            };
-
-            var item1 = new OffloadDto
-            {
-                Id = 1,
-                Town = filters.LandingTown[0],
-                State = filters.LandingState[0],
-                LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
-                TotalWeight = 200000,
-                Fish = testFish,
-                Boat = testBoat,
-            };
-            for (int i = 0; i < filters.Count; i++)
-            {
-                dummyData.Add(item1);
-            }
-
-            return dummyData;
+            throw new NotImplementedException();
         }
 
         public OffloadDetailDto? GetOffloadById(int id)
@@ -193,6 +126,80 @@ namespace OffloadWebApi.Repository
             };
 
             return testData;
+        }
+
+        List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
+        {
+            if (filters.Month == null)
+            {
+                filters.Month = new List<int>();
+                filters.Month.Add(10);
+            }
+
+            if (filters.Year == null)
+            {
+                filters.Year = new List<int>();
+
+                filters.Year.Add(2020);
+            }
+
+            if (filters.LandingState == null)
+            {
+                filters.LandingState = new List<string>();
+                filters.LandingState.Add("Suðurnes");
+            }
+
+            if (filters.LandingTown == null)
+            {
+                filters.LandingTown = new List<string>();
+                filters.LandingTown.Add("Grindavík");
+            }
+
+            if (filters.FishingGear == null)
+            {
+                filters.FishingGear = new List<string>();
+                filters.FishingGear.Add("nót");
+            }
+
+            if (filters.BoatLength == null)
+            {
+                filters.BoatLength = new List<double>();
+                filters.BoatLength.Add(10);
+            }
+
+            var testFish = new List<FishSimpleDto>();
+
+            testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
+
+            var dummyItem = new TopListDto
+            {
+                Avrage = 500,
+                TotalWeight = 5000,
+                Trips = 10,
+                BoatName = "Tommi togari",
+                Town = filters.LandingTown[0],
+                State = filters.LandingState[0],
+                LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
+                BoatNationality = "Norge",
+                BoatRadioSignalId = "TT-123",
+                BoatRegistrationId = "gk-123",
+                Smallest = 400,
+                LargestLanding = 1000,
+                Fish = testFish,
+                Id = 40,
+            };
+
+            var dummyData = new List<TopListDto>();
+
+            for (int i = 0; i < filters.Count; i++)
+            {
+                dummyData.Add(dummyItem);
+            }
+
+            return dummyData;
         }
     }
 }

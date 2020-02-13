@@ -23,5 +23,7 @@
     <Compile Remove="Services\EmptyClass.cs" />
     <Compile Remove="Controllers\WeatherForecastController.cs" />
     <Compile Remove="WeatherForecast.cs" />
+    <Compile Remove="Repository\teststuff.cs" />
+    <Compile Remove="Repository\OffloadRepo.cs" />
   </ItemGroup>
 </Project>

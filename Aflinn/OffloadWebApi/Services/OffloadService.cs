@@ -15,16 +15,25 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
+        public BoatDto GetBoat(string BoatRadioSignalId)
+        {
+            throw new NotImplementedException();
+        }
+
         public OffloadDetailDto GetOffloadById(int id)
         {
             return this._offloadRepo.GetOffloadById(id);
         }
 
-        public List<OffloadDto>? GetOffloads(QueryOffloadsInput filters)
+        List<TopListDto> IOffloadService.GetOffloads(QueryOffloadsInput filters)
         {
-            if(filters.Count > 500)
+            if (filters.Count > 500)
             {
                 return null;
+            }
+            else if (filters.Count == 0 || filters.Count == null)
+            {
+                filters.Count = 5;
             }
 
             return this._offloadRepo.GetFilteredResults(filters);

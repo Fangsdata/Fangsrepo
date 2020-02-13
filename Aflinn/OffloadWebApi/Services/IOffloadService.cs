@@ -7,8 +7,10 @@ namespace OffloadWebApi.Services
 {
     public interface IOffloadService
     {
-        public List<OffloadDto> GetOffloads(QueryOffloadsInput filters);
+        public List<TopListDto> GetOffloads(QueryOffloadsInput filters);
 
         public OffloadDetailDto GetOffloadById(int id);
+
+        public BoatDto? GetBoat(string BoatRadioSignalId);
     }
 }
