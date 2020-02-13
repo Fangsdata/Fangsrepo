@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
+using OffloadWebApi.Models.InputModels;
 
 namespace OffloadWebApi.Repository
 {
@@ -8,6 +9,11 @@ namespace OffloadWebApi.Repository
     {
         public OffloadRepoTest()
         {
+        }
+
+        public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
+        {
+            throw new NotImplementedException();
         }
 
         public OffloadDetailDto? GetOffloadById(int id)
@@ -120,6 +126,80 @@ namespace OffloadWebApi.Repository
             };
 
             return testData;
+        }
+
+        List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
+        {
+            if (filters.Month == null)
+            {
+                filters.Month = new List<int>();
+                filters.Month.Add(10);
+            }
+
+            if (filters.Year == null)
+            {
+                filters.Year = new List<int>();
+
+                filters.Year.Add(2020);
+            }
+
+            if (filters.LandingState == null)
+            {
+                filters.LandingState = new List<string>();
+                filters.LandingState.Add("Suðurnes");
+            }
+
+            if (filters.LandingTown == null)
+            {
+                filters.LandingTown = new List<string>();
+                filters.LandingTown.Add("Grindavík");
+            }
+
+            if (filters.FishingGear == null)
+            {
+                filters.FishingGear = new List<string>();
+                filters.FishingGear.Add("nót");
+            }
+
+            if (filters.BoatLength == null)
+            {
+                filters.BoatLength = new List<double>();
+                filters.BoatLength.Add(10);
+            }
+
+            var testFish = new List<FishSimpleDto>();
+
+            testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
+            testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
+
+            var dummyItem = new TopListDto
+            {
+                Avrage = 500,
+                TotalWeight = 5000,
+                Trips = 10,
+                BoatName = "Tommi togari",
+                Town = filters.LandingTown[0],
+                State = filters.LandingState[0],
+                LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
+                BoatNationality = "Norge",
+                BoatRadioSignalId = "TT-123",
+                BoatRegistrationId = "gk-123",
+                Smallest = 400,
+                LargestLanding = 1000,
+                Fish = testFish,
+                Id = 40,
+            };
+
+            var dummyData = new List<TopListDto>();
+
+            for (int i = 0; i < filters.Count; i++)
+            {
+                dummyData.Add(dummyItem);
+            }
+
+            return dummyData;
         }
     }
 }

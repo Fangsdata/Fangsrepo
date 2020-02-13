@@ -17,10 +17,13 @@
     <Folder Include="Models\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="Repository\" />
+    <Folder Include="Models\InputModels\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Services\EmptyClass.cs" />
     <Compile Remove="Controllers\WeatherForecastController.cs" />
     <Compile Remove="WeatherForecast.cs" />
+    <Compile Remove="Repository\teststuff.cs" />
+    <Compile Remove="Repository\OffloadRepo.cs" />
   </ItemGroup>
 </Project>

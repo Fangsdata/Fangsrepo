@@ -6,13 +6,15 @@
 
         public string Registration_id { get; set; }
 
+        public string RadioSignalId { get; set; }
+
         public string Name { get; set; }
 
         public string State { get; set; }
 
         public string Nationality { get; set; }
 
-        public int Length { get; set; }
+        public double Length { get; set; }
 
         public string FishingGear { get; set; }
 
