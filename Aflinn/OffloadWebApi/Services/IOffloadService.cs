@@ -10,7 +10,5 @@ namespace OffloadWebApi.Services
         public List<TopListDto> GetOffloads(QueryOffloadsInput filters);
 
         public OffloadDetailDto GetOffloadById(int id);
-
-        public BoatDto? GetBoat(string BoatRadioSignalId);
     }
 }

@@ -30,7 +30,7 @@
     <Rule Id="SA1025" Action="Error" /> <!--Your comment-->
     <Rule Id="SA1026" Action="Error" /> <!--Your comment-->
     <Rule Id="SA1027" Action="Error" /> <!--Your comment-->
-    <Rule Id="SA1028" Action="Error" /> <!--Your comment-->
+    <!-- <Rule Id="SA1028" Action="Error" /> ekki hægt að hafa þessu reglu í vs code -->
 
     <Rule Id="SA1101" Action="Error" /> <!--Your comment-->
     <Rule Id="SA1102" Action="Error" /> <!--Your comment-->
