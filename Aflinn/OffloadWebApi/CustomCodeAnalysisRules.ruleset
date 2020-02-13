@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RuleSet Name="StyleCop rules for Core Application" Description="Custom Rules" ToolsVersion="10.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.CSharp.ReadabilityRules">
+   <!--Spacing rules--> 
+    <Rule Id="SA0000" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1001" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1002" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1003" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1004" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1005" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1006" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1007" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1008" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1009" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1010" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1011" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1012" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1013" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1014" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1015" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1016" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1017" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1018" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1019" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1020" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1021" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1022" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1023" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1024" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1025" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1026" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1027" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1028" Action="Error" /> <!--Your comment-->
+
+    <Rule Id="SA1101" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1102" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1103" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1104" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1105" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1106" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1107" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1108" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1109" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1110" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1111" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1112" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1113" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1114" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1115" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1116" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1117" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1118" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1119" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1120" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1121" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1122" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1123" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1124" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1125" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1126" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1127" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1128" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1129" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1130" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1131" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1132" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1133" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1134" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1135" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1136" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1137" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1138" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1140" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1141" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1142" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1143" Action="Error" /> <!--Your comment-->
+    
+    <Rule Id="SA1119" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1400" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1401" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1402" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1403" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1404" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1405" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1406" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1407" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1408" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1410" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1411" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1413" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1414" Action="Error" /> <!--Your comment-->
+
+    <Rule Id="SA1500" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1501" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1502" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1503" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1504" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1505" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1506" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1507" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1508" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1509" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1510" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1511" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1512" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1513" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1514" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1515" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1516" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1517" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1518" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1519" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1520" Action="Error" /> <!--Your comment-->
+ 
+  </Rules>
+</RuleSet>
