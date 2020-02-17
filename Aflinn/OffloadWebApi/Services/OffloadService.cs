@@ -15,11 +15,6 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
-        public BoatDto GetBoat(string BoatRadioSignalId)
-        {
-            throw new NotImplementedException();
-        }
-
         public OffloadDetailDto GetOffloadById(int id)
         {
             return this._offloadRepo.GetOffloadById(id);

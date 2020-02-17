@@ -26,8 +26,6 @@ namespace OffloadWebApi.Test
 
             Assert.Null(result2);
         }
-
-
         [Fact]
         public void CheckOffloadServiceReturnCorrectAmount()
         {
