@@ -11,9 +11,27 @@ namespace OffloadWebApi.Repository
         {
         }
 
-        public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
+        public BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId)
         {
-            throw new NotImplementedException();
+            if (BoatRadioSignalId == "not_radioXXX")
+            {
+                return null;
+            }
+
+            return new BoatDto
+            {
+                Id = 1,
+                RegistrationId = "gk-123",
+                RadioSignalId = BoatRadioSignalId,
+                Name = "bubbi bátur",
+                State = "Stebba fylki",
+                Town = "Grimdavik",
+                Length = 21.2,
+                Weight = 2000,
+                BuiltYear = 1992,
+                EnginePower = 1200,
+                FishingGear = "lalaBlabla",
+            };
         }
 
         public OffloadDetailDto? GetOffloadById(int id)
@@ -130,38 +148,38 @@ namespace OffloadWebApi.Repository
 
         List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
         {
-            if (filters.Month == null)
+            if (filters.Month == null || filters.Month.Count == 0)
             {
                 filters.Month = new List<int>();
                 filters.Month.Add(10);
             }
 
-            if (filters.Year == null)
+            if (filters.Year == null || filters.Year.Count == 0)
             {
                 filters.Year = new List<int>();
 
                 filters.Year.Add(2020);
             }
 
-            if (filters.LandingState == null)
+            if (filters.LandingState == null || filters.LandingState.Count == 0)
             {
                 filters.LandingState = new List<string>();
                 filters.LandingState.Add("Suðurnes");
             }
 
-            if (filters.LandingTown == null)
+            if (filters.LandingTown == null || filters.LandingTown.Count == 0)
             {
                 filters.LandingTown = new List<string>();
                 filters.LandingTown.Add("Grindavík");
             }
 
-            if (filters.FishingGear == null)
+            if (filters.FishingGear == null || filters.FishingGear.Count == 0)
             {
                 filters.FishingGear = new List<string>();
                 filters.FishingGear.Add("nót");
             }
 
-            if (filters.BoatLength == null)
+            if (filters.BoatLength == null || filters.BoatLength.Count == 0)
             {
                 filters.BoatLength = new List<double>();
                 filters.BoatLength.Add(10);
