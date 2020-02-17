@@ -4,9 +4,9 @@ import OffloadsList from '../OffloadsList';
 
 class TopOffLoads extends React.Component {
 
-    componentDidMount(){
+    async componentDidMount(){
         this.setState({
-            offLoads : getOffloads(),
+            offLoads : await getOffloads(),
         });
     }
 
