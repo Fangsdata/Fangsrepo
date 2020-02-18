@@ -3,16 +3,18 @@ import OffladsListItem from '../OffladsListItem';
 
 const OffladsList = ({ offloads }) => (
     <div>
-        <div className="row">
-        <p className="col-0"></p>
-            <p className="col-1"></p>
-            <p className="col">Name</p>
-            <p className="col-2">Total Offloaded</p>
-            <p className="col-2">Largest offloading</p>
-            <p className="col-1">Trips</p>
-        </div>
+        <OffladsListItem 
+        item = {{
+            boatImage: "https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg",
+            boatName: "Name",
+            totalWeight: "totalWeight",
+            largestLanding: "largestLanding",
+            trips: "trips" }} 
+            index={'#'} 
+            />
+        
         { offloads.map((item, index) => <OffladsListItem 
-            key = {item.boatRadioSignalId} item = {item} index={index} />)}
+            key = {item.boatRadioSignalId} item = {item} index={index+1} />)}
     </div>
 );
 
