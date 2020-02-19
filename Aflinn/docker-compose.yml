@@ -1,0 +1,19 @@
+version: '3'
+services:
+    offload-web-api:
+        build: ./OffloadWebApi
+        container_name: OffloadWebApi
+        ports: 
+            - "5000:5000"
+        networks: 
+            - "fangsdata-network"
+    web-app:
+        build:  ./FangsdataWebSite/web-app
+        container_name: webapp
+        ports: 
+            - "3000:3000"
+        networks: 
+            - "fangsdata-network" 
+networks:
+    fangsdata-network:
+        driver: bridge
