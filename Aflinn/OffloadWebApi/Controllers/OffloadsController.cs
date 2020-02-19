@@ -7,14 +7,14 @@ using OffloadWebApi.Models.Dtos;
 using OffloadWebApi.Models.InputModels;
 using OffloadWebApi.Services;
 
-namespace OffloadWebApi.Controllers
+namespace OffloadsWebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class OffloadController : Controller
+    public class OffloadsController : Controller
     {
         private IOffloadService _OffloadService;
 
-        public OffloadController(IOffloadService OffloadService)
+        public OffloadsController(IOffloadService OffloadService)
         {
             this._OffloadService = OffloadService;
         }
