@@ -11,7 +11,7 @@ namespace OffloadWebApi.Services
         {
             this._offloadRepo = offloadRepo;
         }
-
+        #nullable enable
         public BoatDto? GetBoat(string BoatRadioSignalId)
         {
             var boat = this._offloadRepo.GetBoatByRadioSignal(BoatRadioSignalId);

@@ -9,6 +9,7 @@ using OffloadWebApi.Services;
 
 namespace OffloadWebApi.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class BoatsController : Controller
     {
