@@ -10,7 +10,8 @@ namespace OffloadWebApi.Repository
         public OffloadRepoTest()
         {
         }
-
+        
+        #nullable enable
         public BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId)
         {
             if (BoatRadioSignalId == "not_radioXXX")
