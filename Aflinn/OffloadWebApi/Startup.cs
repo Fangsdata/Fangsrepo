@@ -28,6 +28,26 @@ namespace OffloadWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+                options => options.AddPolicy(
+                    "AllowCors",
+                    builder =>
+                    {
+                        builder
+
+                            // .WithOrigins("http://localhost:4456") //AllowSpecificOrigins;
+                            // .WithOrigins("http://localhost:4456", "http://localhost:4457") //AllowMultipleOrigins;
+                            .AllowAnyOrigin() // AllowAllOrigins;
+
+                                              // .WithMethods("GET") //AllowSpecificMethods;
+                                              // .WithMethods("GET", "PUT") //AllowSpecificMethods;
+                                              // .WithMethods("GET", "PUT", "POST") //AllowSpecificMethods;
+                            .WithMethods("GET") // AllowSpecificMethods;
+
+                                                                         // .AllowAnyMethod() //AllowAllMethods;
+                                                                         // .WithHeaders("Accept", "Content-type", "Origin", "X-Custom-Header"); //AllowSpecificHeaders;
+                            .AllowAnyHeader(); // AllowAllHeaders;
+        }));
             services.AddControllers();
             services.AddScoped<IOffloadRepo, OffloadRepoTest>();
             services.AddScoped<IOffloadService, OffloadService>();
@@ -46,6 +66,8 @@ namespace OffloadWebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowCors");
 
             app.UseAuthorization();
 

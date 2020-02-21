@@ -1,4 +1,3 @@
 export default {
-    offloadApi : "https://localhost:5001/api",
-
+    offloadApi : process.env.API_URL || "https://fangsdata-api.herokuapp.com/api",
 }

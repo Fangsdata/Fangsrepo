@@ -9,12 +9,13 @@ using OffloadWebApi.Services;
 
 namespace OffloadWebApi.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    public class BoatController : Controller
+    public class BoatsController : Controller
     {
         private IBoatService _IBoatService;
 
-        public BoatController(IBoatService boatService)
+        public BoatsController(IBoatService boatService)
         {
             this._IBoatService = boatService;
         }

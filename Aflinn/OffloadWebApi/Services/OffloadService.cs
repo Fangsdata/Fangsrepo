@@ -26,7 +26,7 @@ namespace OffloadWebApi.Services
             {
                 return null;
             }
-            else if (filters.Count == 0 || filters.Count == null)
+            else if (filters.Count == 0)
             {
                 filters.Count = 5;
             }
