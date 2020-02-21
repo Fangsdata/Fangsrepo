@@ -1,12 +1,18 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1
-
-LABEL maintainer="Stefán Örn Hrafnsson	stefanorn92@gmail.com"
-
-env ASPNETCORE_URLS=http://+:5000
-
-COPY . /app
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-RUN dotnet restore
-RUN dotnet build
 
-ENTRYPOINT ["dotnet", "run"]
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["OffloadWebApi.csproj", "OffloadWebApi/"]
+RUN dotnet restore "OffloadWebApi/OffloadWebApi.csproj"
+WORKDIR "/src/OffloadWebApi"
+COPY . .
+RUN dotnet build "OffloadWebApi.csproj" -c Release -o /app/build
+ 
+FROM build AS publish
+RUN dotnet publish "OffloadWebApi.csproj" -c Release -o /app/publish
+ 
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet OffloadWebApi.dll
