@@ -37,7 +37,9 @@ namespace OffloadWebApi.Repository
                 {
                     var item = new TopListEntity()
                     {
-                        
+                        //nafnBata = reader.GetString(0),
+
+                        //TODO Búa til entity model (mappast úr töflum i db)
                     };
                     items.Add(item);
                 }
@@ -62,7 +64,8 @@ namespace OffloadWebApi.Repository
             {
                 dto.Add(new TopListDto()
                 {
-                    BoatName = "hallo heimur"
+
+                    BoatName = "derp" //TODO this.nafnBáta
                 });
             }
             return dto;
