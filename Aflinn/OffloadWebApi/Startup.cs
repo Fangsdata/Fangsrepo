@@ -49,10 +49,10 @@ namespace OffloadWebApi
                             .AllowAnyHeader(); // AllowAllHeaders;
         }));
             services.AddControllers();
-            services.AddScoped<IOffloadRepo, OffloadRepoTest>();
+
+            services.AddScoped<IOffloadRepo>(_ => new OffloadOldDbRepo(this.Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<IOffloadService, OffloadService>();
             services.AddScoped<IBoatService, BoatService>();
-            services.AddTransient<AppDb>(_ => new AppDb(this.Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
