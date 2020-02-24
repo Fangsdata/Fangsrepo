@@ -22,7 +22,7 @@ namespace OffloadWebApi.Repository
         {
             using var cmd = _connection.CreateCommand();
             _connection.Open();
-            cmd.CommandText = @"SELECT Fartøynavn, `Registreringsmerke (seddel)`,Tosk FROM eskoy.Afli_Alle_2019_Pivot_Pretty order by Torsk desc limit 10;";
+            cmd.CommandText = @"SELECT Fartøynavn, `Registreringsmerke (seddel)`,Sei FROM eskoy.Afli_Alle_2019_Pivot_Pretty order by Sei desc limit 10;";
 
             var res = await this.ReadAllAsync(await cmd.ExecuteReaderAsync());
             _connection.Close();
@@ -37,9 +37,9 @@ namespace OffloadWebApi.Repository
                 {
                     var item = new TopListEntity()
                     {
-                        //nafnBata = reader.GetString(0),
-
-                        //TODO Búa til entity model (mappast úr töflum i db)
+                        boatName = reader.GetString(0),
+                        registrationId = reader.GetString(1),
+                        totalWeight = reader.GetDouble(2)
                     };
                     items.Add(item);
                 }
@@ -64,8 +64,9 @@ namespace OffloadWebApi.Repository
             {
                 dto.Add(new TopListDto()
                 {
-
-                    BoatName = "derp" //TODO this.nafnBáta
+                    BoatName = entity[i].boatName,
+                    TotalWeight = entity[i].totalWeight,
+                    BoatRadioSignalId = entity[i].registrationId
                 });
             }
             return dto;
