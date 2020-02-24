@@ -9,11 +9,10 @@ using System;
 
 namespace OffloadWebApi.Repository
 {
-    public class OffloadOldDbRepo : MustConstruct<string>, IOffloadRepo 
+    public class OffloadOldDbRepo : IOffloadRepo 
     {
         private MySqlConnection _connection { get; }
         public OffloadOldDbRepo(string connectionString) 
-        : base(connectionString)
         {
             _connection = new MySqlConnection(connectionString);
         } 
