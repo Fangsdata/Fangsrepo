@@ -196,9 +196,9 @@ namespace OffloadWebApi.Repository
             var dummyItem = new TopListDto
             {
                 Avrage = 500,
-                TotalWeight = 5000,
+                TotalWeight = 5000 * filters.Month[0],
                 Trips = 10,
-                BoatName = "Tommi togari",
+                BoatName = "Tommi togari " + filters.FishingGear[0] + "  " + filters.BoatLength[0],
                 Town = filters.LandingTown[0],
                 State = filters.LandingState[0],
                 LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),

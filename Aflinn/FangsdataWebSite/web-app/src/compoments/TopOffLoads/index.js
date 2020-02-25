@@ -13,11 +13,10 @@ class TopOffLoads extends React.Component {
 
     state = {
         offLoads: [],
-        filter: ""
     }
 
     async filterList(filter){
-        this.setState({ offloads : await getOffloads({boatFishingGear : filter })});
+        this.setState({ offLoads : await getOffloads({fishingGear : filter })});
     }
 
     render(){
