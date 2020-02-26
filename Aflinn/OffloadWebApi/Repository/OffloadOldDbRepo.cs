@@ -47,17 +47,17 @@ namespace OffloadWebApi.Repository
             }
             Console.WriteLine("Boatlength count: " + filters.BoatLength.Count);
             Console.WriteLine("Fishing gear count: " + filters.FishingGear.Count);
-            
+
             // Her fyrir neðan er ef við erum með filteringu á fishinggear og boatlength þá gerist þetta
             if(filters.FishingGear.Count > 0 && filters.BoatLength.Count > 0)
             {   
-                cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
                 for(var i = 0; i < filters.BoatLength.Count; i++)
                 {
+                    cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
                     cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
                     i = i + 1;
+                    cmd.CommandText = cmd.CommandText + ") ";
                 }
-                cmd.CommandText = cmd.CommandText + ") ";
                 Console.WriteLine(cmd.CommandText);
             }
 
@@ -67,10 +67,14 @@ namespace OffloadWebApi.Repository
                 cmd.CommandText = cmd.CommandText + " WHERE (boat_length BETWEEN ";
                 for(var i = 0; i < filters.BoatLength.Count; i++)
                 {
+                    if(i >= 2)
+                    {
+                        cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
+                    }
                     cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
                     i = i + 1;
+                    cmd.CommandText = cmd.CommandText + ") ";
                 }
-                cmd.CommandText = cmd.CommandText + ") ";
                 Console.WriteLine(cmd.CommandText);
             }
 
