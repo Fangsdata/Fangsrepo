@@ -17,12 +17,37 @@ namespace OffloadWebApi.Repository
             _connection = new MySqlConnection(connectionString);
         } 
 
-        private async Task<List<TopListEntity>> getFilterResultAsync()
+        private async Task<List<TopListEntity>> getFilterResultAsync(QueryOffloadsInput filters)
         {
+            var sizeOfList = filters.FishingGear.Count;
+            Console.WriteLine(sizeOfList);
             using var cmd = _connection.CreateCommand();
             _connection.Open();
-            cmd.CommandText = @"SELECT Fartøynavn, `Registreringsmerke (seddel)`,Sei FROM eskoy.Afli_Alle_2019_Pivot_Pretty order by Sei desc limit 10;";
+            cmd.CommandText = @"SELECT 
 
+                                CAST(boat_regestration_id AS CHAR(20)) as 'Línubátar',
+	                            CAST(boat_name AS CHAR(20)) as 'Línubátar nafn' , 
+                                SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg'
+
+                                FROM englishVersion ";
+            if(filters.FishingGear.Count > 0)
+            {
+                cmd.CommandText = cmd.CommandText + "WHERE fishing_gear = ";
+                for(var i = 0; i < sizeOfList; i++)
+                {
+                    cmd.CommandText = cmd.CommandText + filters.FishingGear[i];
+                    Console.WriteLine(filters.FishingGear[i]);
+                    if((i + 1) < sizeOfList)
+                    {
+                        cmd.CommandText = cmd.CommandText + " OR fishing_gear = ";
+                    }
+                }
+                Console.WriteLine(cmd.CommandText);
+            }
+
+            cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
+
+                                // ....where ... fishing_gear = 'Autoline' OR fishing_gear = 'Andreline' OR fishing_gear = 'Juksa/pilk' OR fishing_gear = 'Flyteline'
             var res = await this.ReadAllAsync(await cmd.ExecuteReaderAsync());
             _connection.Close();
             return res;
@@ -53,7 +78,7 @@ namespace OffloadWebApi.Repository
 
         public List<TopListDto> GetFilteredResults(QueryOffloadsInput filters)
         {
-            var result = getFilterResultAsync();
+            var result = getFilterResultAsync(filters);
             result.Wait();
             var entity = result.Result;
 
