@@ -32,6 +32,7 @@ namespace OffloadWebApi.Repository
                 BuiltYear = 1992,
                 EnginePower = 1200,
                 FishingGear = "lalaBlabla",
+                FishName = "lalablabla",
             };
         }
 
@@ -124,6 +125,7 @@ namespace OffloadWebApi.Repository
                 EnginePower = 311,
                 Image = "https://photos.marinetraffic.com/ais/showphoto.aspx?shipid=293459&size=thumb600",
                 FishingGear = "Autoline",
+                FishName = "Torsk",
                 Length = 14.99,
                 RegistrationId = "N 0006SF",
                 State = "Rogaland",
@@ -178,6 +180,12 @@ namespace OffloadWebApi.Repository
             {
                 filters.FishingGear = new List<string>();
                 filters.FishingGear.Add("nót");
+            }
+
+            if(filters.FishName == null || filters.FishName.Count == 0)
+            {
+                filters.FishName = new List<string>();
+                filters.FishName.Add("fiskur");
             }
 
             if (filters.BoatLength == null || filters.BoatLength.Count == 0)

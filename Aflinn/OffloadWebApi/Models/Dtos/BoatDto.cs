@@ -25,6 +25,8 @@ namespace OffloadWebApi.Models.Dtos
         public int EnginePower { get; set; }
 
         public string FishingGear { get; set; }
+        
+        public string FishName { get; set; }
 
         public string Image { get; set; }
 

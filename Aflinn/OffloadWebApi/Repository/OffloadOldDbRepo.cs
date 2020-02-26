@@ -78,6 +78,36 @@ namespace OffloadWebApi.Repository
                 Console.WriteLine(cmd.CommandText);
             }
 
+            // Her fyrir nedan er filtering fyrir fishname
+            if((filters.FishingGear.Count > 0 || filters.BoatLength.Count > 0) && filters.FishName.Count > 0)
+            {
+                cmd.CommandText = cmd.CommandText + " AND (fish_name = ";
+                for(var i = 0; i < filters.FishName.Count; i++)
+                { 
+                    cmd.CommandText = cmd.CommandText + filters.FishName[i];
+                    if((i + 1) < filters.FishName.Count)
+                    {
+                        cmd.CommandText = cmd.CommandText + " AND fishing_gear = ";
+                    }
+                }
+                cmd.CommandText = cmd.CommandText + ") ";
+                Console.WriteLine(cmd.CommandText);
+            }
+            if((filters.FishingGear.Count == 0 && filters.BoatLength.Count == 0) && filters.FishName.Count > 0)
+            {
+                cmd.CommandText = cmd.CommandText + " WHERE (fish_name = ";
+                for(var i = 0; i < filters.FishName.Count; i++)
+                { 
+                    cmd.CommandText = cmd.CommandText + filters.FishName[i];
+                    if((i + 1) < filters.FishName.Count)
+                    {
+                        cmd.CommandText = cmd.CommandText + " AND fishing_gear = ";
+                    }
+                }
+                cmd.CommandText = cmd.CommandText + ") ";
+                Console.WriteLine(cmd.CommandText);
+            }
+
             cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
 
                                 // ....where ... fishing_gear = 'Autoline' OR fishing_gear = 'Andreline' OR fishing_gear = 'Juksa/pilk' OR fishing_gear = 'Flyteline'
