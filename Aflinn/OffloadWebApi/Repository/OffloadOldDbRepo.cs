@@ -19,8 +19,6 @@ namespace OffloadWebApi.Repository
 
         private async Task<List<TopListEntity>> getFilterResultAsync(QueryOffloadsInput filters)
         {
-            var sizeOfList = filters.FishingGear.Count;
-            Console.WriteLine(sizeOfList);
             using var cmd = _connection.CreateCommand();
             _connection.Open();
             cmd.CommandText = @"SELECT 
@@ -30,18 +28,49 @@ namespace OffloadWebApi.Repository
                                 SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg'
 
                                 FROM englishVersion ";
-            if(filters.FishingGear.Count > 0)
+
+                                // Ef filtering á við fishinggear, s.s. ef fishing gear filtering er til staðar þá fer það hingað.
+            if(filters.FishingGear.Count > 0) 
             {
-                cmd.CommandText = cmd.CommandText + "WHERE fishing_gear = ";
-                for(var i = 0; i < sizeOfList; i++)
+                cmd.CommandText = cmd.CommandText + "WHERE (fishing_gear = ";
+                for(var i = 0; i < filters.FishingGear.Count; i++)
                 {
                     cmd.CommandText = cmd.CommandText + filters.FishingGear[i];
                     Console.WriteLine(filters.FishingGear[i]);
-                    if((i + 1) < sizeOfList)
+                    if((i + 1) < filters.FishingGear.Count)
                     {
                         cmd.CommandText = cmd.CommandText + " OR fishing_gear = ";
                     }
                 }
+                cmd.CommandText = cmd.CommandText + ") ";
+                Console.WriteLine(cmd.CommandText);
+            }
+            Console.WriteLine("Boatlength count: " + filters.BoatLength.Count);
+            Console.WriteLine("Fishing gear count: " + filters.FishingGear.Count);
+            
+            // Her fyrir neðan er ef við erum með filteringu á fishinggear og boatlength þá gerist þetta
+            if(filters.FishingGear.Count > 0 && filters.BoatLength.Count > 0)
+            {   
+                cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
+                for(var i = 0; i < filters.BoatLength.Count; i++)
+                {
+                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
+                    i = i + 1;
+                }
+                cmd.CommandText = cmd.CommandText + ") ";
+                Console.WriteLine(cmd.CommandText);
+            }
+
+            // Hér fyrir neðan ef við erum ekki með neina filteringu á fishing gear en við erum með filteringu á boatlength þá gerist þetta
+            if(filters.FishingGear.Count == 0 && filters.BoatLength.Count > 0)
+            {   
+                cmd.CommandText = cmd.CommandText + " WHERE (boat_length BETWEEN ";
+                for(var i = 0; i < filters.BoatLength.Count; i++)
+                {
+                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
+                    i = i + 1;
+                }
+                cmd.CommandText = cmd.CommandText + ") ";
                 Console.WriteLine(cmd.CommandText);
             }
 

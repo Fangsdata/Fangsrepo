@@ -35,9 +35,9 @@ namespace OffloadsWebApi.Controllers
         {
             try
             {
-                var boatLengthList = new List<double>();
+                var boatLengthList = new List<string>();
 
-                if (boatLength.Length > 2)
+                if (boatLengthList.Count > 2)
                 {
                     return this.BadRequest();
                 }
@@ -90,7 +90,7 @@ namespace OffloadsWebApi.Controllers
                 {
                     Count = int.Parse(count),
                     FishingGear = new List<string>(fishingGear),
-                    BoatLength = boatLengthList,
+                    BoatLength = new List<string>(boatLength),
                     LandingState = new List<string>(landingState),
                     LandingTown = new List<string>(landingTown),
                     Month = monthList,

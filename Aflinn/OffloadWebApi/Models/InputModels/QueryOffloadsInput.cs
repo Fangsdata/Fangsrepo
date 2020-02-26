@@ -10,7 +10,7 @@ namespace OffloadWebApi.Models.InputModels
         #nullable enable
         public List<string>? FishingGear { get; set; }
         #nullable enable
-        public List<double>? BoatLength { get; set; }
+        public List<string>? BoatLength { get; set; }
         #nullable enable
         public List<string>? LandingTown { get; set; }
         #nullable enable

@@ -182,8 +182,9 @@ namespace OffloadWebApi.Repository
 
             if (filters.BoatLength == null || filters.BoatLength.Count == 0)
             {
-                filters.BoatLength = new List<double>();
-                filters.BoatLength.Add(10);
+                filters.BoatLength = new List<string>();
+
+                // það þarf að laga þetta - vss
             }
 
             var testFish = new List<FishSimpleDto>();
