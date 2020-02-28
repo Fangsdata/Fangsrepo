@@ -204,7 +204,9 @@ namespace OffloadWebApi.Repository
 
             var dummyItem = new TopListDto
             {
-                Avrage = 500,
+                Average = 500,
+
+                // AverageTrips = '',
                 TotalWeight = 5000,
                 Trips = 10,
                 BoatName = "Tommi togari",
@@ -214,8 +216,10 @@ namespace OffloadWebApi.Repository
                 BoatNationality = "Norge",
                 BoatRadioSignalId = "TT-123",
                 BoatRegistrationId = "gk-123",
-                Smallest = 400,
-                LargestLanding = 1000,
+
+                // Smallest = 400,
+
+                // LargestLanding = 1000,
                 Fish = testFish,
                 Id = 40,
             };

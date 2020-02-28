@@ -25,7 +25,45 @@ namespace OffloadWebApi.Repository
 
                                 CAST(boat_regestration_id AS CHAR(20)) as 'Línubátar',
 	                            CAST(boat_name AS CHAR(20)) as 'Línubátar nafn' , 
-                                SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg'
+                                SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg',
+                                CAST(document_sales_id AS CHAR (20)) as 'Document sales id', 
+                                CAST(buyer_id AS CHAR (20)) as 'Buyer id', 
+                                CAST(buyer_nationality AS CHAR (20)) as 'Buyer nationality', 
+                                CAST(landing_town_id AS CHAR (20)) as 'Landing town id', 
+                                CAST(landing_town AS CHAR (20)) as 'Landing town', 
+                                CAST(landing_state_id AS CHAR (20)) as 'Landing state id', 
+                                CAST(landing_state AS CHAR (20)) as 'Landing state name', 
+                                CAST(boat_id AS CHAR (20)) as 'Boat id', 
+                                CAST(boat_radio_signal_id AS CHAR (20)) as 'Boat radio signal id', 
+                                CAST(boat_town_id AS CHAR (20)) as 'Boat town id', 
+                                CAST(boat_state_id AS CHAR (20)) as 'Boat state id', 
+                                CAST(boat_nationality_id AS CHAR (20)) as 'Boat nationality id', 
+                                CAST(boat_length AS CHAR (20)) as 'Boat length', 
+                                CAST(boat_weight_1969 AS CHAR (20)) as 'Boat weight 1969', 
+                                CAST(boat_weight AS CHAR (20)) as 'Boat weight', 
+                                CAST(boat_built_year AS CHAR (20)) as 'Boat built year', 
+                                CAST(engine_power AS CHAR (20)) as 'Engine power', 
+                                CAST(fishing_gear_id AS CHAR (20)) as 'Fishing gear id', 
+                                CAST(fishing_gear AS CHAR (20)) as 'Fishing gear', 
+                                CAST(Longitude AS CHAR (20)) as 'Longitute', 
+                                CAST(Latitude AS CHAR (20)) as 'Latitude', 
+                                STR_TO_DATE(CONCAT(SUBSTRING(CAST(landing_date AS CHAR (20)), 1, 2), ',' , CAST(landing_month AS CHAR (20)), ',',SUBSTRING(CAST(landing_date AS CHAR (20)), 7, 10)), '%d,%m,%Y') AS 'Landing date', 
+                                CAST(landing_time AS CHAR (20)) as 'Landing time', 
+                                CAST(landing_month AS CHAR (20)) as 'Landing month', 
+                                CAST(fish_id AS CHAR (20)) as 'Fish id', 
+                                CAST(fish_name AS CHAR (20)) AS 'Fish name',
+                                CAST(fish_condition_id AS CHAR (20)) AS 'Fish condition id',
+                                CAST(fish_condition AS CHAR (20)) AS 'Fish condition',
+                                CAST(fish_preservation_method_id AS CHAR (20)) AS 'Fish preservation method id',
+                                CAST(fish_preservation_method AS CHAR (20)) AS 'Fish preservation method',
+                                CAST(packaging_id AS CHAR (20)) AS 'Packaging id',
+                                CAST(packaging AS CHAR (20)) AS 'Packaging',
+                                CAST(fish_quality_id AS CHAR (20)) AS 'Fish quality id',
+                                CAST(fish_quality AS CHAR (20)) AS 'Fish quality',
+                                CAST(fish_utilization AS CHAR (20)) AS 'Fish utilization',
+                                CAST(landing_id AS CHAR (20)) AS 'Landing id',
+                                COUNT(landing_id)/COUNT(DISTINCT landing_month) AS 'Average landings per month',
+                                SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED))/COUNT(DISTINCT landing_month) as 'Meðal afl í kg á mánuði'
 
                                 FROM englishVersion ";
 
@@ -126,7 +164,45 @@ namespace OffloadWebApi.Repository
                     {
                         boatName = reader.GetString(0),
                         registrationId = reader.GetString(1),
-                        totalWeight = reader.GetDouble(2)
+                        totalWeight = reader.GetDouble(2),
+                        fishUtilization = reader.GetString(3),
+                        documentSalesId = reader.GetString(4),
+                        buyerId = reader.GetString(5),
+                        buyerNationality = reader.GetString(6),
+                        landingTownId = reader.GetString(7),
+                        landingTown = reader.GetString(8),
+                        landingStateId = reader.GetString(9),
+                        landingState = reader.GetString(10),
+                        boatId = reader.GetString(11),
+                        boatRadioSignalId = reader.GetString(12),
+                        boatTownId = reader.GetString(13),
+                        boatStateId = reader.GetString(14),
+                        boatNationalityId = reader.GetString(15),
+                        boatLength = reader.GetString(16),
+                        boatWeight1969 = reader.GetString(17),
+                        boatWeight = reader.GetString(18),
+                        boatBuiltYear = reader.GetString(19),
+                        enginePower = reader.GetString(20),
+                        fishingGearId = reader.GetString(21),
+                        fishingGear = reader.GetString(22),
+                        longitude = reader.GetString(23),
+                        latitude = reader.GetString(24),
+                        landingDate = reader.GetDateTime(25),
+                        landingTime = reader.GetString(26),
+                        landingMonth = reader.GetString(27),
+                        fishId = reader.GetString(28),
+                        fishName = reader.GetString(29),
+                        fishConditionId = reader.GetString(30),
+                        fishCondition = reader.GetString(31),
+                        fishPreservationMethodId = reader.GetString(32),
+                        fishPreservationMethod = reader.GetString(33),
+                        packagingId = reader.GetString(34),
+                        packaging = reader.GetString(35),
+                        fishQualityId = reader.GetString(36),
+                        fishQuality = reader.GetString(37),
+                        landingId = reader.GetString(38),
+                        averageTrips = reader.GetString(39),
+                        average = reader.GetDouble(40),
                     };
                     items.Add(item);
                 }
@@ -151,9 +227,27 @@ namespace OffloadWebApi.Repository
             {
                 dto.Add(new TopListDto()
                 {
+                    // ID!!!???
                     BoatName = entity[i].boatName,
                     TotalWeight = entity[i].totalWeight,
-                    BoatRadioSignalId = entity[i].registrationId
+                    BoatRegistrationId = entity[i].registrationId,
+                    Town = entity[i].landingTown,
+                    State = entity[i].landingState,
+                    LandingDate = entity[i].landingDate,
+                    BoatRadioSignalId = entity[i].boatRadioSignalId,
+                    BoatNationality = entity[i].boatNationalityId,
+
+                    // medal thyngd afla per londun
+                    Average = entity[i].average,
+
+                    // medl fjoldi ferda a manudi
+                    AverageTrips = entity[i].averageTrips,
+
+                    // smallest er minnsta londunin
+
+                    // largest landing er bara staersta
+
+                    // trips er fjoldi landana
                 });
             }
             return dto;
