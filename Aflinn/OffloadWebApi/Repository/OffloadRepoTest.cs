@@ -193,28 +193,28 @@ namespace OffloadWebApi.Repository
             testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
             testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
 
-            var dummyItem = new TopListDto
-            {
-                Avrage = 500,
-                TotalWeight = 5000 * filters.Month[0],
-                Trips = 10,
-                BoatName = "Tommi togari " + filters.FishingGear[0] + "  " + filters.BoatLength[0],
-                Town = filters.LandingTown[0],
-                State = filters.LandingState[0],
-                LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
-                BoatNationality = "Norge",
-                BoatRadioSignalId = "TT-123",
-                BoatRegistrationId = "gk-123",
-                Smallest = 400,
-                LargestLanding = 1000,
-                Fish = testFish,
-                Id = 40,
-            };
-
             var dummyData = new List<TopListDto>();
 
             for (int i = 0; i < filters.Count; i++)
             {
+                var dummyItem = new TopListDto
+                {
+                    Avrage = 500,
+                    TotalWeight = 5000 * filters.Month[0],
+                    Trips = 10,
+                    BoatName = "Tommi togari " + filters.FishingGear[0] + "  " + filters.BoatLength[0],
+                    Town = filters.LandingTown[0],
+                    State = filters.LandingState[0],
+                    LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
+                    BoatNationality = "Norge",
+                    BoatRegistrationId = "gk-123",
+                    Smallest = 400,
+                    LargestLanding = 1000,
+                    Fish = testFish,
+                    Id = 40,
+                };
+
+                dummyItem.BoatRadioSignalId = i.ToString();
                 dummyData.Add(dummyItem);
             }
 

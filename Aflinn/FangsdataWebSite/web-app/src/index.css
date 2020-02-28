@@ -18,7 +18,8 @@ code {
   flex-direction: row;
   align-items: stretch;
   justify-content: stretch;
-  background-color: rgb(196, 196, 196);
+  background-color: #c0cdee;
+  
 }
 .filter-container{
   align-items: center;
@@ -33,5 +34,10 @@ code {
   flex-grow: 1; 
 }
 .filter-header{
-  background-color: rgb(161, 161, 161);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  background-color: #2b59c3;
+  color: white;
 }
