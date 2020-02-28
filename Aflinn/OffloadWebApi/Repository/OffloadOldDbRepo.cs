@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OffloadWebApi.Models.EntityModels;
 using System.Data.Common;
 using System;
+using System.Globalization;
 
 namespace OffloadWebApi.Repository
 {
@@ -187,7 +188,7 @@ namespace OffloadWebApi.Repository
                         fishingGear = reader.GetString(22),
                         longitude = reader.GetString(23),
                         latitude = reader.GetString(24),
-                        landingDate = reader.GetDateTime(25),
+                        landingDate = DateTime.ParseExact(reader.GetString(25), "yyyy-MM-dd", CultureInfo.InvariantCulture),
                         landingTime = reader.GetString(26),
                         landingMonth = reader.GetString(27),
                         fishId = reader.GetString(28),

@@ -139,7 +139,8 @@ namespace OffloadWebApi.Repository
                 Id = id,
                 Town = "Vikna",
                 State = "Trøndelag",
-                LandingDate = new DateTime(2019, 1, 1, 7, 47, 0),
+               
+                // LandingDate = new DateTime(2019, 1, 1, 7, 47, 0),
                 TotalWeight = 200000,
                 Fish = testFish,
                 MapData = testMapData,
