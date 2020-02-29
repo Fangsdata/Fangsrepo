@@ -24,16 +24,19 @@ namespace OffloadsWebApi.Controllers
         // query params : count fishingGear boatLength landingTown
         // landingState month year
         [HttpGet]
-        public IActionResult Get(
-            [FromQuery]string count,
-            [FromQuery]string[] fishingGear,
-            [FromQuery]string[] boatLength,
-            [FromQuery] string[] landingTown,
-            [FromQuery] string[] landingState,
-            [FromQuery] string[] month,
-            [FromQuery] string[] year)
+        public IActionResult Get([FromQuery]QueryParamsForTopList input)
         {
-            try
+            var resp = _OffloadService.GetOffloads(input);
+            
+            if(resp != null)
+            {
+                return Ok(resp);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+            /*try
             {
                 var boatLengthList = new List<double>();
 
@@ -107,7 +110,7 @@ namespace OffloadsWebApi.Controllers
             catch (FormatException)
             {
                 return this.BadRequest();
-            }
+            }*/
         }
 
         // GET api/values/5

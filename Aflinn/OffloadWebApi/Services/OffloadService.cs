@@ -20,18 +20,48 @@ namespace OffloadWebApi.Services
             return this._offloadRepo.GetOffloadById(id);
         }
 
-        List<TopListDto> IOffloadService.GetOffloads(QueryOffloadsInput filters)
+        List<TopListDto> IOffloadService.GetOffloads(QueryParamsForTopList filters)
         {
-            if (filters.Count > 500)
+           /* public string count { get; set; }
+            public string[] fishingGear { get; set; }
+            public string[] boatLength { get; set; }
+            public string[] landingTown { get; set; }
+            public string[] landingState { get; set; }
+            public string[] month { get; set; }
+            public string[] year { get; set; }**/
+
+            var parsedFilters = new QueryOffloadsInput();
+
+            // Valitade Count
+            try
             {
+                int count = int.Parse(filters.count);
+                if(count <= 1)
+                {
+                    count = 1;
+                }
+                else if(count >= 500)
+                {
+                    count = 500;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Cannot count to int");
                 return null;
             }
-            else if (filters.Count == 0)
+
+            // Valitade fishingGear
+            try
             {
-                filters.Count = 5;
+
+            }
+            catch
+            {
+                
             }
 
-            return this._offloadRepo.GetFilteredResults(filters);
+            return this._offloadRepo.GetFilteredResults(parsedFilters);
         }
     }
 }
