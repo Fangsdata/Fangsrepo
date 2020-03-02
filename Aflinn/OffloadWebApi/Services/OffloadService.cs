@@ -54,11 +54,9 @@ namespace OffloadWebApi.Services
             // Valitade fishingGear
             try
             {
-
             }
             catch
             {
-                
             }
 
             return this._offloadRepo.GetFilteredResults(parsedFilters);

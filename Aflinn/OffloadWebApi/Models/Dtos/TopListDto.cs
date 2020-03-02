@@ -22,6 +22,13 @@ namespace OffloadWebApi.Models.Dtos
         public string BoatRadioSignalId { get; set; }
 
         public string BoatName { get; set; }
+        public string BoatFishingGear { get; set; }
+
+        public double BoatLength { get; set; }
+        
+        public string boatLandingTown { get; set; }
+        
+        public string boatLandingState { get; set; }
 
         public string BoatNationality { get; set; }
 
