@@ -88,7 +88,7 @@ namespace OffloadWebApi.Test
                 fishingGear.Add(result[i].BoatFishingGear);
             }
             Assert.Contains("troll",fishingGear);
-            Assert.Contains("Line",fishingGear);
+            Assert.Contains("line",fishingGear);
         }
         [Fact]
         public void GetOffloadsTestInputBoatLength()
@@ -98,7 +98,7 @@ namespace OffloadWebApi.Test
                 boatLength = "11m - 14,99m"
             };
             var result = _OffloadService.GetOffloads(queryInput);
-            Assert.InRange(result[0].BoatLength,10,14.99);
+            Assert.InRange(result[0].BoatLength,11,14.99);
 
             queryInput.boatLength = "";
             result = _OffloadService.GetOffloads(queryInput);

@@ -162,6 +162,14 @@ namespace OffloadWebApi.Repository
                 filters.Year.Add(2020);
             }
 
+            if (filters.BoatLength == null || filters.BoatLength.Count == 0)
+            {
+                filters.BoatLength = new List<double>();
+
+                filters.BoatLength.Add(0d);
+                filters.BoatLength.Add(1000d);
+            }
+
             if (filters.LandingState == null || filters.LandingState.Count == 0)
             {
                 filters.LandingState = new List<string>();
@@ -213,7 +221,8 @@ namespace OffloadWebApi.Repository
                     Fish = testFish,
                     Id = 40,
                 };
-
+                dummyItem.BoatFishingGear = filters.FishingGear[i % filters.FishingGear.Count];
+                dummyItem.BoatLength = filters.BoatLength[0];
                 dummyItem.BoatRadioSignalId = i.ToString();
                 dummyData.Add(dummyItem);
             }
