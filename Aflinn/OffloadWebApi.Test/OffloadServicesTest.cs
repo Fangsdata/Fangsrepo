@@ -160,7 +160,7 @@ namespace OffloadWebApi.Test
 
             queryInput = new QueryParamsForTopList
             {
-                landingTown = "Oslo,Reykjavík"
+                landingState = "Oslo,Reykjavík"
             };
             result = _OffloadService.GetOffloads(queryInput);
             Assert.NotNull(result);
@@ -220,12 +220,12 @@ namespace OffloadWebApi.Test
 
             queryInput = new QueryParamsForTopList
             {
-                year = "0"
+                month = "0"
             };
 
             queryInput = new QueryParamsForTopList
             {
-                year = "-1"
+                month = "-1"
             };
 
             result = _OffloadService.GetOffloads(queryInput);

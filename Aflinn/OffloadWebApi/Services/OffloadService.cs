@@ -25,7 +25,7 @@ namespace OffloadWebApi.Services
         private int ParseCount(string count)
         {
             int cnt = 0;
-            if(count != null)
+            if(!string.IsNullOrEmpty(count))
             {
                 cnt = int.Parse(count);
             }
@@ -47,7 +47,7 @@ namespace OffloadWebApi.Services
         
         private List<string> ChangeInputIntoList(string input, string splitter)
         {
-            if (input == null)
+            if(string.IsNullOrEmpty(input))
             {
                 return null;
             }
@@ -58,10 +58,7 @@ namespace OffloadWebApi.Services
             }
             else
             {
-                return new List<string>
-                { 
-                    input 
-                };
+                return new List<string> { input };
             }
         }
         private List<string> ParseFishingGear(string fishingGear)
@@ -74,9 +71,9 @@ namespace OffloadWebApi.Services
             switch (boatLength)
             {
                 case null:
-                    return new List<double> { 0d, 10000d };
+                    return null;
                 case "":
-                    return new List<double> { 0d, 10000d };
+                    return null;
                 case "Under 11 m":
                     return new List<double> { 0d, 11d };
                 case "11m - 14,99m":
@@ -100,24 +97,103 @@ namespace OffloadWebApi.Services
                     };
             }
         }
-        private List<string> ParseLandingTown(string fishingGear)
+        private List<string> ParseLandingTown(string input)
         {
-            return null;
+            return ChangeInputIntoList(input, ",");
         }
 
-        private List<string> ParseLandingState(string fishingGear)
+        private List<string> ParseLandingState(string input)
         {
-            return null;
+            return ChangeInputIntoList(input, ",");
         }
 
-        private List<int> ParseMonth(string fishingGear)
+        private List<int> ParseMonth(string month)
         {
-            return null;
+            if(string.IsNullOrEmpty(month))
+            {
+                return null;
+            }
+            var listMonth = ChangeInputIntoList(month, ",");
+            var intListMonth = new List<int>();
+            for(int i = 0; i < listMonth.Count; i++)
+            {
+                switch (listMonth[i])
+                {
+                    case "januar":
+                        intListMonth.Add(1);
+                        break;
+                    case "februar":
+                        intListMonth.Add(2);
+                        break;
+                    case "mars":
+                        intListMonth.Add(3);
+                        break;
+                    case "april":
+                        intListMonth.Add(4);
+                        break;
+                    case "mai":
+                        intListMonth.Add(5);
+                        break;
+                    case "juni":
+                        intListMonth.Add(66);
+                        break;
+                    case "juli":
+                        intListMonth.Add(7);
+                        break;
+                    case "august":
+                        intListMonth.Add(8);
+                        break;
+                    case "september":
+                        intListMonth.Add(9);
+                        break;
+                    case "oktober":
+                        intListMonth.Add(10);
+                        break;
+                    case "november":
+                        intListMonth.Add(11);
+                        break;
+                    case "desember":
+                        intListMonth.Add(12);
+                        break;
+                    default:
+                        int iMonth = int.Parse(listMonth[i]);
+                        if(iMonth <= 0)
+                        {
+                            throw new System.NotSupportedException();
+                        }
+                        else if (iMonth > 12)
+                        {
+                            throw new System.NotSupportedException();
+                        }
+                        intListMonth.Add(iMonth);
+                        break;
+                }
+            }
+            return intListMonth;
         }
 
-        private List<int> ParseYear(string fishingGear)
+        private List<int> ParseYear(string year)
         {
-            return null;
+            if(string.IsNullOrEmpty(year))
+            {
+                return null;
+            }
+            var listYear = ChangeInputIntoList(year, ",");
+            var iListYear = new List<int>();
+            for(int i = 0; i < listYear.Count; i++)
+            { 
+                int temp = int.Parse(listYear[i]);
+                if(temp < 2000)
+                {
+                    throw new NotSupportedException();
+                }
+                else if(temp > DateTime.Now.Year)
+                {
+                    throw new NotSupportedException();
+                }
+                iListYear.Add(temp);
+            }
+            return iListYear;
         }
 
         List<TopListDto> IOffloadService.GetOffloads(QueryParamsForTopList filters)

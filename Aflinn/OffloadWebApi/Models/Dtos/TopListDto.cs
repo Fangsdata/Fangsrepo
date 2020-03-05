@@ -6,11 +6,7 @@ namespace OffloadWebApi.Models.Dtos
     public class TopListDto
     {
         public int Id { get; set; }
-
-        public string Town { get; set; }
-
-        public string State { get; set; }
-
+        
         public DateTime LandingDate { get; set; }
 
         public double TotalWeight { get; set; }

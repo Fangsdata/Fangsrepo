@@ -208,12 +208,10 @@ namespace OffloadWebApi.Repository
                 var dummyItem = new TopListDto
                 {
                     Avrage = 500,
-                    TotalWeight = 5000 * filters.Month[0],
+                    TotalWeight = 5000 * i,
                     Trips = 10,
-                    BoatName = "Tommi togari " + filters.FishingGear[0] + "  " + filters.BoatLength[0],
-                    Town = filters.LandingTown[0],
-                    State = filters.LandingState[0],
-                    LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
+                    BoatName = "Tommi togari " + filters.FishingGear[i % filters.FishingGear.Count] + "  " + filters.BoatLength[i % filters.BoatLength.Count],
+                    LandingDate = new DateTime(filters.Year[i % filters.Year.Count], filters.Month[i % filters.Month.Count], 2, 7, 47, 0),
                     BoatNationality = "Norge",
                     BoatRegistrationId = "gk-123",
                     Smallest = 400,
@@ -222,6 +220,8 @@ namespace OffloadWebApi.Repository
                     Id = 40,
                 };
                 dummyItem.BoatFishingGear = filters.FishingGear[i % filters.FishingGear.Count];
+                dummyItem.boatLandingTown = filters.LandingTown[i % filters.LandingTown.Count];
+                dummyItem.boatLandingState = filters.LandingState[i % filters.LandingState.Count];
                 dummyItem.BoatLength = filters.BoatLength[0];
                 dummyItem.BoatRadioSignalId = i.ToString();
                 dummyData.Add(dummyItem);
