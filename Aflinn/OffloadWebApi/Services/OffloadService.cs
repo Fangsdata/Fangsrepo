@@ -209,6 +209,7 @@ namespace OffloadWebApi.Services
                     LandingState = ParseLandingState(filters.landingState),
                     Month = ParseMonth(filters.month),
                     Year = ParseYear(filters.year),
+                    FishName = ParseFishName(filters.fishType)
                 };
                 return this._offloadRepo.GetFilteredResults(parsedFilters);
             }
@@ -217,6 +218,11 @@ namespace OffloadWebApi.Services
                 Console.WriteLine("could not parse input");
                 return null;
             }
+        }
+
+        private List<string> ParseFishName(string fishType)
+        {
+            return ChangeInputIntoList(fishType, ",");
         }
     }
 }

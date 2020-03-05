@@ -196,10 +196,20 @@ namespace OffloadWebApi.Repository
 
             var testFish = new List<FishSimpleDto>();
 
-            testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
+            if(filters.FishName == null)
+            {
+                testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
+            }
+            else
+            {
+                for (int i = 0; i < filters.FishName.Count; i++)
+                {
+                    testFish.Add(new FishSimpleDto { Type = filters.FishName[i], TotalWeight = 500, Avrage = 300 });
+                }
+            }
 
             var dummyData = new List<TopListDto>();
 
