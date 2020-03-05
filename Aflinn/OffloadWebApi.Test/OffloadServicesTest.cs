@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OffloadWebApi.Models.Dtos;
 using OffloadWebApi.Models.InputModels;
 using OffloadWebApi.Repository;
 using OffloadWebApi.Services;
@@ -294,6 +295,39 @@ namespace OffloadWebApi.Test
             };
             result = _OffloadService.GetOffloads(queryInput);
             Assert.Null(result);
+        }
+        [Fact]
+        public void GetOffloadsTestFishTypeInput()
+        {
+            var queryInput = new QueryParamsForTopList
+            {
+                fishType = "hyse"
+            };
+            var result = _OffloadService.GetOffloads(queryInput);
+            Assert.NotNull(result);
+            Assert.Equal(result[0].Fish[0].Type, "hyse");
+
+            queryInput.fishType = "";
+            result = _OffloadService.GetOffloads(queryInput);
+            Assert.NotNull(result);
+
+            queryInput = new QueryParamsForTopList
+            {
+                fishType = "hyse,cod"
+            };
+            result = _OffloadService.GetOffloads(queryInput);
+            Assert.NotNull(result);
+
+            var fishType = new List<string>();
+            for (int i = 0; i < result.Count ;i++)
+            {
+                for(int j = 0; j < result[i].Fish.Count; j++)
+                {
+                    fishType.Add(result[i].Fish[j].Type);
+                }
+            }
+            Assert.Contains("hyse",fishType);
+            Assert.Contains("cod",fishType);
         }
         [Fact]
         public void GetOffloadsTestInputMultipleInput()
