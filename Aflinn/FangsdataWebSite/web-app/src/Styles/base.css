@@ -27,6 +27,10 @@
     padding-left: 1em;
 }
 
+.search-inp:focus, .search-btn:focus{
+    outline: none;
+}
+
 .search-btn {
     display: flex;
     background: transparent;

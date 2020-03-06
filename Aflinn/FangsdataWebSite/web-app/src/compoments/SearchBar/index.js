@@ -11,6 +11,7 @@ class SearchBar extends React.Component {
                     placeholder="Search for boats"
                     value={this.state.search}
                     onInput= { e=>{ this.setState({search : e.target.value }) }}
+                    onChange={()=>{}}
                     type="text"
                 />
                 <button className="search-btn"><img className="search-icon" src={icon} alt=""/></button>

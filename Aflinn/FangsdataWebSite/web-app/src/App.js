@@ -4,6 +4,7 @@ import NavigationBar from './compoments/NavigationBar';
 import TopOffloads from './compoments/TopOffLoads';
 import Container from './compoments/Container';
 import Boat from './compoments/Boat';
+import BoatDetails from './compoments/BoatDetails';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/" component={ TopOffloads } />
           <Route exact path="/home" render={ () => <Redirect to="/"/>} />
           <Route exact path="/boats" component={ Boat } />
+          <Route exact path="/boats/:boatname" component={ BoatDetails } />
         </Switch>
         {/* <TopOffloads /> */}
       </Container>

@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './Styles/base.css';
+import './Styles/boats.css';
 
 ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
 
