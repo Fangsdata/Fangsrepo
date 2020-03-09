@@ -25,18 +25,12 @@ namespace OffloadWebApi.Models.Dtos
 
         public string BoatNationality { get; set; }
         public string AverageTrips { get; set; }
-        public double Average { get; set; }
+        public double Avrage { get; set; }
 
         public double LargestLanding { get; set; }
 
         public double Smallest { get; set; }
 
         public int Trips { get; set; }
-        
-        // public string FishingGear { get; set; }
-        
-        // public string BoatLength { get; set; }
-        
-        // public string FishName { get; set; }
     }
 }

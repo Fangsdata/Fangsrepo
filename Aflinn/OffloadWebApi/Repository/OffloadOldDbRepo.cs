@@ -40,7 +40,7 @@ namespace OffloadWebApi.Repository
                                 CAST(boat_town_id AS CHAR (20)) as 'Boat town id', 
                                 CAST(boat_state_id AS CHAR (20)) as 'Boat state id', 
                                 CAST(boat_nationality_id AS CHAR (20)) as 'Boat nationality id', 
-                                CAST(boat_length AS CHAR (20)) as 'Boat length', 
+                                CONVERT(CAST(boat_length AS CHAR (20)), FLOAT) as 'Boat length', 
                                 CAST(boat_weight_1969 AS CHAR (20)) as 'Boat weight 1969', 
                                 CAST(boat_weight AS CHAR (20)) as 'Boat weight', 
                                 CAST(boat_built_year AS CHAR (20)) as 'Boat built year', 
@@ -111,7 +111,7 @@ namespace OffloadWebApi.Repository
                     {
                         cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
                     }
-                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
+                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i].ToString() + " AND " + filters.BoatLength[i + 1].ToString();
                     i = i + 1;
                     cmd.CommandText = cmd.CommandText + ") ";
                 }
@@ -180,7 +180,7 @@ namespace OffloadWebApi.Repository
                         boatTownId = reader.GetString(13),
                         boatStateId = reader.GetString(14),
                         boatNationalityId = reader.GetString(15),
-                        boatLength = reader.GetString(16),
+                        boatLength = reader.GetDouble(16),
                         boatWeight1969 = reader.GetString(17),
                         boatWeight = reader.GetString(18),
                         boatBuiltYear = reader.GetString(19),
@@ -204,7 +204,7 @@ namespace OffloadWebApi.Repository
                         fishQuality = reader.GetString(37),
                         landingId = reader.GetString(38),
                         averageTrips = reader.GetString(39),
-                        average = reader.GetDouble(40),
+                        avrage = reader.GetDouble(40),
                     };
                     items.Add(item);
                 }
@@ -240,7 +240,7 @@ namespace OffloadWebApi.Repository
                     BoatNationality = entity[i].boatNationalityId,
 
                     // medal thyngd afla per londun
-                    Average = entity[i].average,
+                    Avrage = entity[i].avrage,
 
                     // medl fjoldi ferda a manudi
                     

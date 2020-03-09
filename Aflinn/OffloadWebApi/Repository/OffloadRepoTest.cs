@@ -32,7 +32,6 @@ namespace OffloadWebApi.Repository
                 BuiltYear = 1992,
                 EnginePower = 1200,
                 FishingGear = "lalaBlabla",
-                FishName = "lalablabla",
             };
         }
 
@@ -125,7 +124,6 @@ namespace OffloadWebApi.Repository
                 EnginePower = 311,
                 Image = "https://photos.marinetraffic.com/ais/showphoto.aspx?shipid=293459&size=thumb600",
                 FishingGear = "Autoline",
-                FishName = "Torsk",
                 Length = 14.99,
                 RegistrationId = "N 0006SF",
                 State = "Rogaland",
@@ -139,8 +137,7 @@ namespace OffloadWebApi.Repository
                 Id = id,
                 Town = "Vikna",
                 State = "Trøndelag",
-               
-                // LandingDate = new DateTime(2019, 1, 1, 7, 47, 0),
+                LandingDate = new DateTime(2019, 1, 1, 7, 47, 0),
                 TotalWeight = 200000,
                 Fish = testFish,
                 MapData = testMapData,
@@ -183,17 +180,10 @@ namespace OffloadWebApi.Repository
                 filters.FishingGear.Add("nót");
             }
 
-            if(filters.FishName == null || filters.FishName.Count == 0)
-            {
-                filters.FishName = new List<string>();
-                filters.FishName.Add("fiskur");
-            }
-
             if (filters.BoatLength == null || filters.BoatLength.Count == 0)
             {
-                filters.BoatLength = new List<string>();
-
-                // það þarf að laga þetta - vss
+                filters.BoatLength = new List<double>();
+                filters.BoatLength.Add(10);
             }
 
             var testFish = new List<FishSimpleDto>();
@@ -205,9 +195,7 @@ namespace OffloadWebApi.Repository
 
             var dummyItem = new TopListDto
             {
-                Average = 500,
-
-                // AverageTrips = '',
+                Avrage = 500,
                 TotalWeight = 5000,
                 Trips = 10,
                 BoatName = "Tommi togari",
@@ -217,10 +205,8 @@ namespace OffloadWebApi.Repository
                 BoatNationality = "Norge",
                 BoatRadioSignalId = "TT-123",
                 BoatRegistrationId = "gk-123",
-
-                // Smallest = 400,
-
-                // LargestLanding = 1000,
+                Smallest = 400,
+                LargestLanding = 1000,
                 Fish = testFish,
                 Id = 40,
             };

@@ -27,7 +27,7 @@ namespace OffloadsWebApi.Controllers
         public IActionResult Get(
             [FromQuery]string count,
             [FromQuery]string[] fishingGear,
-            [FromQuery]string[] boatLength,
+            [FromQuery]double[] boatLength,
             [FromQuery]string[] fishName,
             [FromQuery] string[] landingTown,
             [FromQuery] string[] landingState,
@@ -91,7 +91,7 @@ namespace OffloadsWebApi.Controllers
                 {
                     Count = int.Parse(count),
                     FishingGear = new List<string>(fishingGear),
-                    BoatLength = new List<string>(boatLength),
+                    BoatLength = new List<double>(boatLength),
                     FishName = new List<string>(fishName),
                     LandingState = new List<string>(landingState),
                     LandingTown = new List<string>(landingTown),

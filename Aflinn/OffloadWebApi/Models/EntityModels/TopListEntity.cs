@@ -21,7 +21,7 @@ namespace OffloadWebApi.Models.EntityModels
         public string boatTownId { get; set; }
         public string boatStateId { get; set; }
         public string boatNationalityId { get; set; }
-        public string boatLength { get; set; }
+        public double boatLength { get; set; }
         public string boatWeight1969 { get; set; }
         public string boatWeight { get; set; }
         public string boatBuiltYear { get; set; }
@@ -46,6 +46,6 @@ namespace OffloadWebApi.Models.EntityModels
         public string fishUtilization { get; set; }
         public string landingId { get; set; }
         public string averageTrips { get; set; }
-        public double average { get; set; }
+        public double avrage { get; set; }
     }
 }
