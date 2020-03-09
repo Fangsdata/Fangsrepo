@@ -96,7 +96,7 @@ namespace OffloadWebApi.Test
         {
             var queryInput = new QueryParamsForTopList
             {
-                boatLength = "11m - 14,99m"
+                boatLength = "'11m - 14,99m'"
             };
             var result = _OffloadService.GetOffloads(queryInput);
             Assert.InRange(result[0].BoatLength,11,14.99);
