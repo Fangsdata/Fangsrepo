@@ -5,9 +5,9 @@ import NavLinks from '../NavLinks';
 
 const NavigationBar = () => (
 
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar">
         <SearchBar />
-        <NavLinks />
+        <NavLinks  />
     </nav>
 
 );
