@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.filter-all-filters{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  background-color: #c0cdee;
+  
+}
+.filter-container{
+  align-items: center;
+  justify-content: center;
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+.filter-container:first-child{
+  align-items: center;
+  justify-content: center;
+  flex-basis: 50%;
+  flex-grow: 1; 
+}
+.filter-header{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  background-color: #2b59c3;
+  color: white;
+}

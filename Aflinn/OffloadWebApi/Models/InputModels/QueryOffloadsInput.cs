@@ -12,6 +12,8 @@ namespace OffloadWebApi.Models.InputModels
         #nullable enable
         public List<double>? BoatLength { get; set; }
         #nullable enable
+        public List<string>? FishName { get; set; }
+        #nullable enable
         public List<string>? LandingTown { get; set; }
         #nullable enable
         public List<string>? LandingState { get; set; }

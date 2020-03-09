@@ -7,13 +7,13 @@ class SearchBar extends React.Component {
     render(){
         return(
             <div className="form-group">
-                <input
+               {/* <input
                     placeholder="Search for boats"
                     value={this.state.search}
                     onInput= { e=>{ this.setState({search : e.target.value }) }}
                     type="text"
                     className="form-control"
-                />
+                />*/}
             </div>
         )
     }

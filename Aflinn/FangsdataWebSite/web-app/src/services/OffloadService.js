@@ -9,8 +9,9 @@ async function getDataFromApi( filter ){
     return json;
 }
 
-const getOffloads = async () => {
-        let data =  await getDataFromApi({count : 10});
+const getOffloads = async (filter = {}) => {
+
+        let data =  await getDataFromApi(filter);
         data.forEach(item => {
             if (!('boatImage' in item)){
                 item.boatImage = "http://www.blogsnow.com/wp-content/uploads/2017/01/Boat.jpg" 
