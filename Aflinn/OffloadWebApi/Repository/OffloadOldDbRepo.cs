@@ -27,6 +27,7 @@ namespace OffloadWebApi.Repository
                                 CAST(boat_regestration_id AS CHAR(20)) as 'Línubátar',
 	                            CAST(boat_name AS CHAR(20)) as 'Línubátar nafn' , 
                                 SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg',
+                                CAST(fish_utilization AS CHAR(20)) as 'Fish Utilization',
                                 CAST(document_sales_id AS CHAR (20)) as 'Document sales id', 
                                 CAST(buyer_id AS CHAR (20)) as 'Buyer id', 
                                 CAST(buyer_nationality AS CHAR (20)) as 'Buyer nationality', 
@@ -187,8 +188,8 @@ namespace OffloadWebApi.Repository
                         fishingGearId = reader.GetString(21),
                         fishingGear = reader.GetString(22),
                         longitude = reader.GetString(23),
-                        latitude = reader.GetString(24),
-                        landingDate = DateTime.ParseExact(reader.GetString(25), "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        latitude = reader.GetString(24), 
+                        landingDate = reader.GetDateTime(25),
                         landingTime = reader.GetString(26),
                         landingMonth = reader.GetString(27),
                         fishId = reader.GetString(28),
@@ -242,7 +243,8 @@ namespace OffloadWebApi.Repository
                     Average = entity[i].average,
 
                     // medl fjoldi ferda a manudi
-                    AverageTrips = entity[i].averageTrips,
+                    
+                    // AverageTrips = entity[i].averageTrips,
 
                     // smallest er minnsta londunin
 

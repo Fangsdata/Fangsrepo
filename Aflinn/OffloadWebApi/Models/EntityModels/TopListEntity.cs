@@ -45,7 +45,7 @@ namespace OffloadWebApi.Models.EntityModels
         public string fishQuality { get; set; }
         public string fishUtilization { get; set; }
         public string landingId { get; set; }
-        public double average { get; set; }
         public string averageTrips { get; set; }
+        public double average { get; set; }
     }
 }
