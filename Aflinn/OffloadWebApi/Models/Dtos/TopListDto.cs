@@ -10,7 +10,7 @@ namespace OffloadWebApi.Models.Dtos
         public string Town { get; set; }
 
         public string State { get; set; }
-
+      
         public DateTime LandingDate { get; set; }
 
         public double TotalWeight { get; set; }
@@ -22,6 +22,13 @@ namespace OffloadWebApi.Models.Dtos
         public string BoatRadioSignalId { get; set; }
 
         public string BoatName { get; set; }
+        public string BoatFishingGear { get; set; }
+
+        public double BoatLength { get; set; }
+        
+        public string boatLandingTown { get; set; }
+        
+        public string boatLandingState { get; set; }
 
         public string BoatNationality { get; set; }
         public string AverageTrips { get; set; }

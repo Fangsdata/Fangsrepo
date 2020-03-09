@@ -162,6 +162,14 @@ namespace OffloadWebApi.Repository
                 filters.Year.Add(2020);
             }
 
+            if (filters.BoatLength == null || filters.BoatLength.Count == 0)
+            {
+                filters.BoatLength = new List<double>();
+
+                filters.BoatLength.Add(0d);
+                filters.BoatLength.Add(1000d);
+            }
+
             if (filters.LandingState == null || filters.LandingState.Count == 0)
             {
                 filters.LandingState = new List<string>();
@@ -188,33 +196,44 @@ namespace OffloadWebApi.Repository
 
             var testFish = new List<FishSimpleDto>();
 
-            testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
-            testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
-
-            var dummyItem = new TopListDto
+            if(filters.FishName == null)
             {
-                Avrage = 500,
-                TotalWeight = 5000,
-                Trips = 10,
-                BoatName = "Tommi togari",
-                Town = filters.LandingTown[0],
-                State = filters.LandingState[0],
-                LandingDate = new DateTime(filters.Year[0], filters.Month[0], 1, 7, 47, 0),
-                BoatNationality = "Norge",
-                BoatRadioSignalId = "TT-123",
-                BoatRegistrationId = "gk-123",
-                Smallest = 400,
-                LargestLanding = 1000,
-                Fish = testFish,
-                Id = 40,
-            };
+                testFish.Add(new FishSimpleDto { Type = "Ýsa", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Urriði", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Hafmeyjur", TotalWeight = 500, Avrage = 300 });
+                testFish.Add(new FishSimpleDto { Type = "Steinbítur", TotalWeight = 500, Avrage = 300 });
+            }
+            else
+            {
+                for (int i = 0; i < filters.FishName.Count; i++)
+                {
+                    testFish.Add(new FishSimpleDto { Type = filters.FishName[i], TotalWeight = 500, Avrage = 300 });
+                }
+            }
 
             var dummyData = new List<TopListDto>();
 
             for (int i = 0; i < filters.Count; i++)
             {
+                var dummyItem = new TopListDto
+                {
+                    Avrage = 500,
+                    TotalWeight = 5000 * i,
+                    Trips = 10,
+                    BoatName = "Tommi togari " + filters.FishingGear[i % filters.FishingGear.Count] + "  " + filters.BoatLength[i % filters.BoatLength.Count],
+                    LandingDate = new DateTime(filters.Year[i % filters.Year.Count], filters.Month[i % filters.Month.Count], 2, 7, 47, 0),
+                    BoatNationality = "Norge",
+                    BoatRegistrationId = "gk-123",
+                    Smallest = 400,
+                    LargestLanding = 1000,
+                    Fish = testFish,
+                    Id = 40,
+                };
+                dummyItem.BoatFishingGear = filters.FishingGear[i % filters.FishingGear.Count];
+                dummyItem.boatLandingTown = filters.LandingTown[i % filters.LandingTown.Count];
+                dummyItem.boatLandingState = filters.LandingState[i % filters.LandingState.Count];
+                dummyItem.BoatLength = filters.BoatLength[0];
+                dummyItem.BoatRadioSignalId = i.ToString();
                 dummyData.Add(dummyItem);
             }
 
