@@ -1,6 +1,7 @@
 import React from 'react';
 import FilterCheckBox from '../FilterCheckBox';
 
+
 const FiltersContainer = ({inputEvent, allFilters}) => (
     <div>
       <div className="filter-header">

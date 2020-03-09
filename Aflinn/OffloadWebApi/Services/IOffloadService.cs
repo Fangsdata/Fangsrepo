@@ -7,7 +7,7 @@ namespace OffloadWebApi.Services
 {
     public interface IOffloadService
     {
-        public List<TopListDto> GetOffloads(QueryOffloadsInput filters);
+        public List<TopListDto> GetOffloads(QueryParamsForTopList filters);
 
         public OffloadDetailDto GetOffloadById(int id);
     }
