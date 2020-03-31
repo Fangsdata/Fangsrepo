@@ -21,11 +21,11 @@ namespace OffloadWebApi.Repository
         private async Task<List<TopListEntity>> getFilterResultAsync(QueryOffloadsInput filters)
         {
             using var cmd = _connection.CreateCommand();
+            cmd.CommandTimeout = 90;
             _connection.Open();
             cmd.CommandText = @"SELECT 
-
-                                CAST(boat_regestration_id AS CHAR(20)) as 'Línubátar',
 	                            CAST(boat_name AS CHAR(20)) as 'Línubátar nafn' , 
+                                CAST(boat_regestration_id AS CHAR(20)) as 'Línubátar',
                                 SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) as 'Afl í kg',
                                 CAST(fish_utilization AS CHAR(20)) as 'Fish Utilization',
                                 CAST(document_sales_id AS CHAR (20)) as 'Document sales id', 
@@ -70,7 +70,7 @@ namespace OffloadWebApi.Repository
                                 FROM englishVersion ";
 
                                 // Ef filtering á við fishinggear, s.s. ef fishing gear filtering er til staðar þá fer það hingað.
-            if(filters.FishingGear.Count > 0) 
+            if(filters.FishingGear != null) 
             {
                 cmd.CommandText = cmd.CommandText + "WHERE (fishing_gear = ";
                 for(var i = 0; i < filters.FishingGear.Count; i++)
@@ -85,11 +85,9 @@ namespace OffloadWebApi.Repository
                 cmd.CommandText = cmd.CommandText + ") ";
                 Console.WriteLine(cmd.CommandText);
             }
-            Console.WriteLine("Boatlength count: " + filters.BoatLength.Count);
-            Console.WriteLine("Fishing gear count: " + filters.FishingGear.Count);
 
             // Her fyrir neðan er ef við erum með filteringu á fishinggear og boatlength þá gerist þetta
-            if(filters.FishingGear.Count > 0 && filters.BoatLength.Count > 0)
+            if(filters.FishingGear != null && filters.BoatLength != null)
             {   
                 for(var i = 0; i < filters.BoatLength.Count; i++)
                 {
@@ -102,7 +100,7 @@ namespace OffloadWebApi.Repository
             }
 
             // Hér fyrir neðan ef við erum ekki með neina filteringu á fishing gear en við erum með filteringu á boatlength þá gerist þetta
-            if(filters.FishingGear.Count == 0 && filters.BoatLength.Count > 0)
+            if(filters.FishingGear == null && filters.BoatLength != null)
             {   
                 cmd.CommandText = cmd.CommandText + " WHERE (boat_length BETWEEN ";
                 for(var i = 0; i < filters.BoatLength.Count; i++)
@@ -119,7 +117,7 @@ namespace OffloadWebApi.Repository
             }
 
             // Her fyrir nedan er filtering fyrir fishname
-            if((filters.FishingGear.Count > 0 || filters.BoatLength.Count > 0) && filters.FishName.Count > 0)
+            if((filters.FishingGear != null || filters.BoatLength != null) && filters.FishName != null)
             {
                 cmd.CommandText = cmd.CommandText + " AND (fish_name = ";
                 for(var i = 0; i < filters.FishName.Count; i++)
@@ -133,7 +131,7 @@ namespace OffloadWebApi.Repository
                 cmd.CommandText = cmd.CommandText + ") ";
                 Console.WriteLine(cmd.CommandText);
             }
-            if((filters.FishingGear.Count == 0 && filters.BoatLength.Count == 0) && filters.FishName.Count > 0)
+            if((filters.FishingGear == null && filters.BoatLength == null) && filters.FishName != null)
             {
                 cmd.CommandText = cmd.CommandText + " WHERE (fish_name = ";
                 for(var i = 0; i < filters.FishName.Count; i++)
@@ -189,7 +187,6 @@ namespace OffloadWebApi.Repository
                         fishingGear = reader.GetString(22),
                         longitude = reader.GetString(23),
                         latitude = reader.GetString(24), 
-                        landingDate = reader.GetDateTime(25),
                         landingTime = reader.GetString(26),
                         landingMonth = reader.GetString(27),
                         fishId = reader.GetString(28),
@@ -206,6 +203,15 @@ namespace OffloadWebApi.Repository
                         averageTrips = reader.GetString(39),
                         avrage = reader.GetDouble(40),
                     };
+                    try
+                    {
+                        item.landingDate = reader.GetDateTime(25);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);
+                        Console.WriteLine("----CANT MAPP ITEM----");
+                    }
                     items.Add(item);
                 }
             }
@@ -238,8 +244,8 @@ namespace OffloadWebApi.Repository
                     LandingDate = entity[i].landingDate,
                     BoatRadioSignalId = entity[i].boatRadioSignalId,
                     BoatNationality = entity[i].boatNationalityId,
-
-                    // medal thyngd afla per londun
+                    BoatFishingGear = entity[i].fishingGear,
+                    BoatLength = entity[i].boatLength,
                     Avrage = entity[i].avrage,
 
                     // medl fjoldi ferda a manudi

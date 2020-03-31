@@ -7,9 +7,11 @@ const OffladsList = ({ offloads }) => (
         item = {{
             boatImage: "https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg",
             boatName: "Name",
+            boatFishingGear: "boatFishingGear",
+            boatLength : 'boatLength',
             totalWeight: "totalWeight",
-            largestLanding: "largestLanding",
-            trips: "trips" }} 
+
+            }} 
             index={'#'} 
             />
         

@@ -26,8 +26,9 @@ namespace OffloadsWebApi.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery]QueryParamsForTopList input)
         {
+            Console.WriteLine("in controller");
+            Console.WriteLine(input.boatLength);
             var resp = _OffloadService.GetOffloads(input);
-            
             if (resp != null)
             {
                 return Ok(resp);

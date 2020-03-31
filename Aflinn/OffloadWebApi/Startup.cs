@@ -50,9 +50,8 @@ namespace OffloadWebApi
         }));
             services.AddControllers();
 
-            services.AddScoped<IOffloadRepo, OffloadRepoTest>();
-            
-          // services.AddScoped<IOffloadRepo>(_ => new OffloadOldDbRepo(this.Configuration["ConnectionStrings:DefaultConnection"]));
+            // services.AddScoped<IOffloadRepo, OffloadRepoTest>();
+            services.AddScoped<IOffloadRepo>(_ => new OffloadOldDbRepo(this.Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<IOffloadService, OffloadService>();
             services.AddScoped<IBoatService, BoatService>();
         }

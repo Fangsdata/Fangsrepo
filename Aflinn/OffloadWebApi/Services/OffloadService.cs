@@ -68,21 +68,23 @@ namespace OffloadWebApi.Services
 
         private List<double> parseBoatLength(string boatLength)
         {
+            Console.WriteLine("in servixe");
+            Console.WriteLine(boatLength);
             switch (boatLength)
             {
                 case null:
                     return null;
                 case "":
                     return null;
-                case "Under 11 m":
+                case "'Under 11 m'":
                     return new List<double> { 0d, 11d };
-                case "11m - 14,99m":
+                case "'11m - 14,99m'":
                     return new List<double> { 11d, 14.99d };
-                case "15m - 20,99m":
+                case "'15m - 20,99m'":
                     return new List<double> { 15d, 20.99d };
-                case "21m - 27,99m":
+                case "'21m - 27,99m'":
                     return new List<double> { 21d, 27.99d };
-                case "28 m og over":
+                case "'28 m og over'":
                     return new List<double> { 28d, 10000d };
                 default:
                     var retval = ChangeInputIntoList(boatLength, ",");
@@ -213,8 +215,9 @@ namespace OffloadWebApi.Services
                 };
                 return this._offloadRepo.GetFilteredResults(parsedFilters);
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
                 Console.WriteLine("could not parse input");
                 return null;
             }
