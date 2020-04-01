@@ -222,39 +222,56 @@ namespace OffloadWebApi.Repository
             using var cmd = _connection.CreateCommand();
             cmd.CommandTimeout = 90;
             _connection.Open();
-            cmd.CommandText = @"SELECT * FROM eskoy.englishVersion where boat_radio_signal_id='" + BoatRadioSignalId + "' LIMIt 1;";
+            cmd.CommandText = 
+                @"SELECT
+                    boat_id,
+                    boat_regestration_id,
+                    boat_radio_signal_id,
+                    boat_name,
+                    boat_town_id,
+                    boat_state_id,
+                    boat_length,
+                    boat_weight_1969,
+                    boat_weight,
+                    boat_built_year,
+                    engine_power,
+                    fishing_gear
+                FROM eskoy.englishVersion 
+                where boat_radio_signal_id='" + BoatRadioSignalId + "' LIMIt 1;";
             var res = await this.readboatFromDb(await cmd.ExecuteReaderAsync());
             _connection.Close();
-            return new BoatEntity();
+            return res; 
         }
         private async Task<BoatEntity> readboatFromDb(DbDataReader reader)
         {
             using (reader)
             {
                 await reader.ReadAsync();
+                for(int i = 0; i < reader.FieldCount; i++)
+                {
+                    Console.WriteLine(reader.GetName(i) + "  " + reader.GetString(i) + " " + reader.GetDataTypeName(i));
+                }
                 return new BoatEntity()
                 {
-                    RegistrationId = reader.GetString(8),
-                    RadioSignalId = reader.GetString(9),
-                    Name = reader.GetString(10),
-                    Town = reader.GetString(11),
-                    State = reader.GetString(12),
-                    Length = reader.GetString(14),
-                    Weight = reader.GetString(16),
-                    BuiltYear = reader.GetString(17),
-                    EnginePower = reader.GetString(18),
-                    FishingGear = reader.GetString(10),
+                    RegistrationId = reader.GetString(1),
+                    RadioSignalId = reader.GetString(2),
+                    Name = reader.GetString(3),
+                    Town = reader.GetString(4),
+                    State = reader.GetString(5),
+                    Length = reader.GetString(6),
+                    Weight = reader.GetString(7),
+                    BuiltYear = reader.GetString(8),
+                    EnginePower = reader.GetString(10),
+                    FishingGear = reader.GetString(11),
                 };
             }
             throw new System.NotImplementedException();
         }
         public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
         {
-            Console.WriteLine("hel");
             var result = getBoatFromDb(BoatRadioSignalId);
             result.Wait();
             var entity = result.Result;
-
             var dto = new BoatDto() 
             {
                    RegistrationId = entity.RegistrationId,
@@ -262,7 +279,7 @@ namespace OffloadWebApi.Repository
                    Name = entity.Name,
                    Town = entity.Town,
                    State = entity.State,
-                   
+
                    // Weight = int.Parse(entity.Weight), 
                    // BuiltYear = int.Parse(entity.BuiltYear), 
                    // EnginePower = int.Parse(entity.EnginePower),
