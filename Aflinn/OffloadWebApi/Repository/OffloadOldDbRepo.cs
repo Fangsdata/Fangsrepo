@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using OffloadWebApi.Models.EntityModels;
 using System.Data.Common;
 using System;
-using System.Globalization;
 
 namespace OffloadWebApi.Repository
 {
@@ -218,9 +217,66 @@ namespace OffloadWebApi.Repository
             return items;
         }
 
+        private async Task<BoatEntity> getBoatFromDb(string BoatRadioSignalId)
+        {
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandTimeout = 90;
+            _connection.Open();
+            cmd.CommandText = @"SELECT * FROM eskoy.englishVersion where boat_radio_signal_id='" + BoatRadioSignalId + "' LIMIt 1;";
+            var res = await this.readboatFromDb(await cmd.ExecuteReaderAsync());
+            _connection.Close();
+            return new BoatEntity();
+        }
+        private async Task<BoatEntity> readboatFromDb(DbDataReader reader)
+        {
+            using (reader)
+            {
+                await reader.ReadAsync();
+                return new BoatEntity()
+                {
+                    RegistrationId = reader.GetString(8),
+                    RadioSignalId = reader.GetString(9),
+                    Name = reader.GetString(10),
+                    Town = reader.GetString(11),
+                    State = reader.GetString(12),
+                    Length = reader.GetString(14),
+                    Weight = reader.GetString(16),
+                    BuiltYear = reader.GetString(17),
+                    EnginePower = reader.GetString(18),
+                    FishingGear = reader.GetString(10),
+                };
+            }
+            throw new System.NotImplementedException();
+        }
         public BoatDto GetBoatByRadioSignal(string BoatRadioSignalId)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("hel");
+            var result = getBoatFromDb(BoatRadioSignalId);
+            result.Wait();
+            var entity = result.Result;
+
+            var dto = new BoatDto() 
+            {
+                   RegistrationId = entity.RegistrationId,
+                   RadioSignalId = entity.RadioSignalId,
+                   Name = entity.Name,
+                   Town = entity.Town,
+                   State = entity.State,
+                   
+                   // Weight = int.Parse(entity.Weight), 
+                   // BuiltYear = int.Parse(entity.BuiltYear), 
+                   // EnginePower = int.Parse(entity.EnginePower),
+                   FishingGear = entity.FishingGear,
+            };
+            try
+            {
+                dto.Length = double.Parse(entity.Length); 
+            }
+            catch 
+            {
+                Console.WriteLine("len not found");
+            }
+            return dto; 
         }
 
         public List<TopListDto> GetFilteredResults(QueryOffloadsInput filters)
