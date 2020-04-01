@@ -15,7 +15,8 @@ function App() {
           <Route exact path="/" component={ TopOffloads } />
           <Route exact path="/home" render={ () => <Redirect to="/"/>} />
           <Route exact path="/boats" component={ Boat } />
-          <Route exact path="/boats/:boatname" component={ BoatDetails } />
+          <Route exact path="/boats/:boatname" render={ e => <BoatDetails boatname={e.match.params.boatname}/> } />
+
         </Switch>
         {/* <TopOffloads /> */}
       </Container>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {getBoats} from '../../services/OffloadService';
 
 class BoatDetails extends React.Component{
     state = {
@@ -19,11 +20,18 @@ class BoatDetails extends React.Component{
         }
     };
 
-    componentDidMount() {
-        const { match: { params } } = this.props;
-        fetch(`https://localhost:5000/api/boats/mkv`)
-            .then((res) => res.json())
-            .then((res) => this.setState({boat: res}));
+    constructor(props) {
+        super(props);
+    }
+
+    async componentDidMount() {
+        const {boatname} = this.props;
+        const res = await getBoats(boatname);
+        this.setState({boat: res})
+       // const { match: { params } } = this.props;
+       // fetch(`https://localhost:5000/api/boats/mkv`)
+       //     .then((res) => res.json())
+       //     .then((res) => this.setState({boat: res}));
     }
 
     Capitalize(str){
