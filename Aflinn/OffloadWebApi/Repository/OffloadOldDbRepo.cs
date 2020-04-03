@@ -247,23 +247,28 @@ namespace OffloadWebApi.Repository
             using (reader)
             {
                 await reader.ReadAsync();
-                for(int i = 0; i < reader.FieldCount; i++)
+
+                if(reader.HasRows)
                 {
-                    Console.WriteLine(reader.GetName(i) + "  " + reader.GetString(i) + " " + reader.GetDataTypeName(i));
+                    return new BoatEntity()
+                    {
+                        RegistrationId = reader.GetString(1),
+                        RadioSignalId = reader.GetString(2),
+                        Name = reader.GetString(3),
+                        Town = reader.GetString(4),
+                        State = reader.GetString(5),
+                        Length = reader.GetString(6),
+                        Weight = reader.GetString(7),
+                        weight_small_boat = reader.GetString(8),
+                        BuiltYear = reader.GetString(9),
+                        EnginePower = reader.GetString(10),
+                        FishingGear = reader.GetString(11),
+                    };
                 }
-                return new BoatEntity()
+                else
                 {
-                    RegistrationId = reader.GetString(1),
-                    RadioSignalId = reader.GetString(2),
-                    Name = reader.GetString(3),
-                    Town = reader.GetString(4),
-                    State = reader.GetString(5),
-                    Length = reader.GetString(6),
-                    Weight = reader.GetString(7),
-                    BuiltYear = reader.GetString(8),
-                    EnginePower = reader.GetString(10),
-                    FishingGear = reader.GetString(11),
-                };
+                    return null;
+                }
             }
             throw new System.NotImplementedException();
         }
@@ -272,6 +277,10 @@ namespace OffloadWebApi.Repository
             var result = getBoatFromDb(BoatRadioSignalId);
             result.Wait();
             var entity = result.Result;
+            if(entity == null)
+            {
+                return null;
+            }
             var dto = new BoatDto() 
             {
                    RegistrationId = entity.RegistrationId,
@@ -279,19 +288,52 @@ namespace OffloadWebApi.Repository
                    Name = entity.Name,
                    Town = entity.Town,
                    State = entity.State,
-
-                   // Weight = int.Parse(entity.Weight), 
-                   // BuiltYear = int.Parse(entity.BuiltYear), 
-                   // EnginePower = int.Parse(entity.EnginePower),
                    FishingGear = entity.FishingGear,
             };
             try
             {
                 dto.Length = double.Parse(entity.Length); 
             }
-            catch 
+            catch (System.Exception e) 
             {
-                Console.WriteLine("len not found");
+                Console.WriteLine(e);
+                Console.WriteLine("Length not found or parsed: " + entity.Length);
+            }
+            try
+            {
+                dto.Weight = int.Parse(entity.Weight);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Weight not or parsed: " + entity.Weight);
+            }
+            try
+            {
+                dto.Weight = int.Parse(entity.weight_small_boat);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Weight not or parsed: " + entity.weight_small_boat);
+            }
+            try
+            {
+                dto.BuiltYear = int.Parse(entity.BuiltYear);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("BuiltYear not or parsed: " + entity.BuiltYear);
+            }
+            try
+            {
+                dto.EnginePower = int.Parse(entity.EnginePower);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("EnginePower not or parsed: " + entity.EnginePower);
             }
             return dto; 
         }
@@ -334,7 +376,6 @@ namespace OffloadWebApi.Repository
             }
             return dto;
         }
-
         public OffloadDetailDto GetOffloadById(int id)
         {
             throw new System.NotImplementedException();

@@ -15,6 +15,7 @@ namespace OffloadWebApi.Models.EntityModels
         public string Length { get; set; }
 
         public string Weight { get; set; }
+        public string weight_small_boat { get; set; }
 
         public string BuiltYear { get; set; }
 
