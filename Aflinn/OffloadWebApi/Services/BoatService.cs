@@ -35,6 +35,10 @@ namespace OffloadWebApi.Services
             return mapData;
         }
 
+        private string GetImage(string BoatRadioSignalId)
+        {
+            return "https://upload.wikimedia.org/wikipedia/commons/f/f1/Flag_of_Norway.png";
+        }
         public BoatService(IOffloadRepo offloadRepo)
         {
             this._offloadRepo = offloadRepo;
@@ -46,6 +50,7 @@ namespace OffloadWebApi.Services
             if(boat != null)
             {
                 boat.MapData = GetMapData(BoatRadioSignalId);
+                boat.Image = GetImage(BoatRadioSignalId);
             }
             return boat;
         }

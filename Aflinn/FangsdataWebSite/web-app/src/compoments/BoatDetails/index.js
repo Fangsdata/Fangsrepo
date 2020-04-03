@@ -16,7 +16,7 @@ class BoatDetails extends React.Component{
             enginePower: "",
             fishingGear: "",
             image: "",
-            mapData: "",
+            mapData: []
         }
     };
 
@@ -26,12 +26,13 @@ class BoatDetails extends React.Component{
 
     async componentDidMount() {
         const {boatname} = this.props;
-        const res = await getBoats(boatname);
-        this.setState({boat: res})
-       // const { match: { params } } = this.props;
-       // fetch(`https://localhost:5000/api/boats/mkv`)
-       //     .then((res) => res.json())
-       //     .then((res) => this.setState({boat: res}));
+    //    const { match: { params } } = this.props;
+        fetch(`http://fangsdata-api.herokuapp.com/api/Boats/` + boatname)
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({boat: res})
+                console.log(res)
+            });
     }
 
     Capitalize(str){
@@ -52,6 +53,7 @@ class BoatDetails extends React.Component{
             fishingGear,
             mapData
         } = this.state.boat;
+        console.log(this.state);
         const image = "http://www.blogsnow.com/wp-content/uploads/2017/01/Boat.jpg"
         return (    
         <div className="boat-container">
