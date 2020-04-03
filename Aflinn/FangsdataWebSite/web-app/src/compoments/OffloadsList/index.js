@@ -10,7 +10,6 @@ const OffladsList = ({ offloads }) => (
             boatFishingGear: "boatFishingGear",
             boatLength : 'boatLength',
             totalWeight: "totalWeight",
-
             }} 
             index={'#'} 
             />

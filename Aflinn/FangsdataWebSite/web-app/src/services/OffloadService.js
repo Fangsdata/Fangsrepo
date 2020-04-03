@@ -7,7 +7,7 @@ async function getDataFromApi( filter ) {
     Object.getOwnPropertyNames(filter).forEach(
         (prop)=>{ 
             if(typeof(filter[prop] === 'object')){
-                if(filter[prop].length != 0){
+                if(filter[prop].length !== 0){
                     params += prop + '=';
                     filter[prop].forEach( p => {
                         params += "'" + p + "',";
@@ -40,6 +40,12 @@ const getOffloads = async (filter = {}) => {
             return []
         }
     };
+const getBoats = async (radioSignal = "") => {
+    const resp = await fetch(CONST.offloadApi + "/boats/" + radioSignal);
+    const json = await resp.json();
+    return json;
+};
 export {
-    getOffloads
+    getOffloads,
+    getBoats
 };
