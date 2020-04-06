@@ -380,5 +380,57 @@ namespace OffloadWebApi.Repository
         {
             throw new System.NotImplementedException();
         }
+
+        private async Task<List<OffloadEntity>> getOffloads(string BoatRadioSignalId, int count)
+        {
+            using var cmd = _connection.CreateCommand();
+            _connection.Open();
+            cmd.CommandText = "select * from typpi";
+            var res = await this.readOfflads(await cmd.ExecuteReaderAsync());
+            _connection.Close();
+            return res;
+        }
+
+        private async Task<List<OffloadEntity>> readOfflads(DbDataReader reader)
+        {
+            using (reader)
+            {
+                var offloads = new List<OffloadEntity>();
+                while(await reader.ReadAsync())
+                {
+                    // do stuff populate list
+                    return null;
+                }
+            }
+            throw new System.NotImplementedException();
+        }
+
+        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count)
+        {
+            var result = getOffloads(BoatRadioSignalId, count);
+            result.Wait();
+            var entity = result.Result;
+            if (entity == null)
+            {
+                return null;
+            }
+            var dto = new List<OffloadDto>();
+            for(int i = 0; i < entity.Count; i++)
+            {
+                var item = new OffloadDto
+                {
+                    Id = entity[i].Id,
+                    Town = entity[i].Town,
+                    State = entity[i].State,
+                    LandingDate = entity[i].LandingDate,
+                    TotalWeight = entity[i].TotalWeight,
+                    
+                    // fish ??
+                    // boat ??
+                };
+                dto.Add(item);
+            }
+            return dto;
+        }
     }
 }

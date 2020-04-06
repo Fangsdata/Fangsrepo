@@ -20,7 +20,7 @@ namespace OffloadsWebApi.Controllers
             this._OffloadService = OffloadService;
         }
 
-        // GET: api/values
+        // GET: api/offloads/ queryparamfilters
         // query params : count fishingGear boatLength landingTown
         // landingState month year
         [HttpGet]
@@ -37,11 +37,19 @@ namespace OffloadsWebApi.Controllers
             }
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        // GET api/offloads/details
+        // details on a single offload
+        [HttpGet("details/{offloadId}")]
+        public IActionResult Get(int offloadId)
         {
-            var result = this._OffloadService.GetOffloadById(id);
+            return this.Ok();
+        }
+
+        // GET api/offloads/:radioSignal/:count
+        [HttpGet("{radioSignal}/{count}")]
+        public IActionResult Get(string radioSignal, int count)
+        {
+            var result = this._OffloadService.GetOffloadById(radioSignal, count);
             if (result == null)
             {
                 return this.NotFound();

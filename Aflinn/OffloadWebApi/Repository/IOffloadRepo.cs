@@ -7,10 +7,11 @@ namespace OffloadWebApi.Repository
 {
     public interface IOffloadRepo
     {
-        public OffloadDetailDto GetOffloadById(int id);
-
-        public List<TopListDto> GetFilteredResults(QueryOffloadsInput filters);
+        OffloadDetailDto GetOffloadById(int id);
+        List<TopListDto> GetFilteredResults(QueryOffloadsInput filters);
         #nullable enable
-        public BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
+        BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
+
+        List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count);
     }
 }
