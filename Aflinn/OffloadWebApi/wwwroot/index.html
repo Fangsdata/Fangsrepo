@@ -1,0 +1,728 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Landings Api</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>Landings Api</h1>
+    <div class="app-desc">API that returns and filters landings</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="stefanorn92@gmail.com">stefanorn92@gmail.com</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">BasePath:/stefanoh17ru/Landings_api/1.0.0</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Default">Default</a></h4>
+  <ul>
+  <li><a href="#apiBoatBoatIdGet"><code><span class="http-method">get</span> /api/boat/{boatId}</code></a></li>
+  <li><a href="#apiOffloadsDetailsOffloadIdGet"><code><span class="http-method">get</span> /api/offloads/details/{offloadId}</code></a></li>
+  <li><a href="#apiOffloadsGet"><code><span class="http-method">get</span> /api/offloads</code></a></li>
+  <li><a href="#apiOffloadsRadioSignalCountGet"><code><span class="http-method">get</span> /api/offloads/{radioSignal}/{count}</code></a></li>
+  </ul>
+
+  <h1><a name="Default">Default</a></h1>
+  <div class="method"><a name="apiBoatBoatIdGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/boat/{boatId}</code></pre></div>
+    <div class="method-summary">Get more details about each boat (<span class="nickname">apiBoatBoatIdGet</span>)</div>
+    <div class="method-notes">Get more details about each boat</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">boatId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The id of the boat you are looking for
+example request : http://fangsdata-api.herokuapp.com/api/Boats/JXVM </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#boat">boat</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "Position" : [ {
+    "Latitude" : 1.4658129805029452,
+    "time" : "2000-01-23T04:56:07.000+00:00",
+    "Longitude" : 5.962133916683182
+  }, {
+    "Latitude" : 1.4658129805029452,
+    "time" : "2000-01-23T04:56:07.000+00:00",
+    "Longitude" : 5.962133916683182
+  } ],
+  "Fishing_gear" : "Fishing_gear",
+  "length" : "length",
+  "Built_year" : "Built_year",
+  "Image" : "Image",
+  "Radio_signal_id" : "Radio_signal_id",
+  "Nationality" : "Nationality",
+  "Weight" : "Weight",
+  "Name" : "Name",
+  "State" : "State",
+  "Registration_id" : "Registration_id",
+  "Id" : 0,
+  "Engine_power" : "Engine_power"
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#boat">boat</a>
+    <h4 class="field-label">404</h4>
+    Item Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiOffloadsDetailsOffloadIdGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/offloads/details/{offloadId}</code></pre></div>
+    <div class="method-summary">Get detailed infomation of single Landing (<span class="nickname">apiOffloadsDetailsOffloadIdGet</span>)</div>
+    <div class="method-notes">the id of the offload you are looking for
+example request : https://fangsdata-api.herokuapp.com/api/offloads/details/700010628473</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">offloadId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; the id of the offload you are looking for </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#offload_detail">offload_detail</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "Landing_date" : "2000-01-23T04:56:07.000+00:00",
+  "Town" : "Town",
+  "State" : "State",
+  "fish" : [ {
+    "Condition" : "Condition",
+    "Type" : "Type",
+    "Preservation" : "Preservation",
+    "Landing_methood" : "Landing_methood",
+    "Quality" : "Quality",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Application" : "Application",
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  }, {
+    "Condition" : "Condition",
+    "Type" : "Type",
+    "Preservation" : "Preservation",
+    "Landing_methood" : "Landing_methood",
+    "Quality" : "Quality",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Application" : "Application",
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  } ],
+  "map_data" : [ {
+    "Latitude" : 1.4658129805029452,
+    "time" : "2000-01-23T04:56:07.000+00:00",
+    "Longitude" : 5.962133916683182
+  }, {
+    "Latitude" : 1.4658129805029452,
+    "time" : "2000-01-23T04:56:07.000+00:00",
+    "Longitude" : 5.962133916683182
+  } ],
+  "Total_weight" : 6,
+  "id" : 0,
+  "boat" : {
+    "State" : "State",
+    "Fishing_gear" : "Fishing_gear",
+    "length" : "length",
+    "Registration_id" : "Registration_id",
+    "Id" : 5,
+    "Image" : "Image",
+    "Nationality" : "Nationality",
+    "Name" : "Name"
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#offload_detail">offload_detail</a>
+    <h4 class="field-label">404</h4>
+    Item Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiOffloadsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/offloads</code></pre></div>
+    <div class="method-summary">Gets list of topBoats offload (<span class="nickname">apiOffloadsGet</span>)</div>
+    <div class="method-notes">By passing appropriet query parameters you can filter your result
+for your needs
+example request : https://fangsdata-api.herokuapp.com/api/offloads?fishingGear=%27Teiner%27,%27Juksa/pilkAndre%27&amp;boatLength=%2715m%20-%2020,99m%27&amp;</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">count (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters how many results you whant </div><div class="param">fishingGear (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters of what fishing gear you are looking for. </div><div class="param">boatLength (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters what boat lenth you are looking for. Two numbers From and to. </div><div class="param">landingTown (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters what town the landings took place </div><div class="param">landingState (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters what state the landings took place </div><div class="param">fishType (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter by fish </div><div class="param">month (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters after what month you are looking at. from and to. </div><div class="param">year (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter after year you are looking at. From and to </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#TopOffloads">TopOffloads</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "LandingDate" : "2000-01-23T04:56:07.000+00:00",
+  "LargestLanding" : 3.616076749251911,
+  "BoatName" : "BoatName",
+  "BoatFishingGear" : "BoatFishingGear",
+  "AverageTrips" : "AverageTrips",
+  "Smallest" : 2.027123023002322,
+  "BoatNationality" : "BoatNationality",
+  "TotalWeight" : 6.027456183070403,
+  "boatLandingTown" : "boatLandingTown",
+  "Town" : "Town",
+  "BoatLength" : 7.061401241503109,
+  "State" : "State",
+  "Fish" : {
+    "Condition" : "Condition",
+    "Type" : "Type",
+    "Preservation" : "Preservation",
+    "Landing_methood" : "Landing_methood",
+    "Quality" : "Quality",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Application" : "Application",
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  },
+  "BoatRadioSignalId" : "BoatRadioSignalId",
+  "Id" : 0,
+  "Trips" : 4,
+  "BoatRegistrationId" : "BoatRegistrationId",
+  "Avrage" : 9.301444243932576,
+  "boatLandingState" : "boatLandingState"
+}, {
+  "LandingDate" : "2000-01-23T04:56:07.000+00:00",
+  "LargestLanding" : 3.616076749251911,
+  "BoatName" : "BoatName",
+  "BoatFishingGear" : "BoatFishingGear",
+  "AverageTrips" : "AverageTrips",
+  "Smallest" : 2.027123023002322,
+  "BoatNationality" : "BoatNationality",
+  "TotalWeight" : 6.027456183070403,
+  "boatLandingTown" : "boatLandingTown",
+  "Town" : "Town",
+  "BoatLength" : 7.061401241503109,
+  "State" : "State",
+  "Fish" : {
+    "Condition" : "Condition",
+    "Type" : "Type",
+    "Preservation" : "Preservation",
+    "Landing_methood" : "Landing_methood",
+    "Quality" : "Quality",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Application" : "Application",
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  },
+  "BoatRadioSignalId" : "BoatRadioSignalId",
+  "Id" : 0,
+  "Trips" : 4,
+  "BoatRegistrationId" : "BoatRegistrationId",
+  "Avrage" : 9.301444243932576,
+  "boatLandingState" : "boatLandingState"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">400</h4>
+    bad input parameter
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Item Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiOffloadsRadioSignalCountGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/offloads/{radioSignal}/{count}</code></pre></div>
+    <div class="method-summary">Get multyple offloads (<span class="nickname">apiOffloadsRadioSignalCountGet</span>)</div>
+    <div class="method-notes">Gets infomations about last x offload for a given boat
+example request : https://fangsdata-api.herokuapp.com/api/offloads/LLIQ/100</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">radioSignal (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Radio signal of a boat </div><div class="param">count (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; How many result you whant </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#offload">offload</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "Landing_date" : "2000-01-23T04:56:07.000+00:00",
+  "Town" : "Town",
+  "State" : "State",
+  "fish" : [ {
+    "Type" : "Type",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  }, {
+    "Type" : "Type",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  } ],
+  "Total_weight" : 6,
+  "id" : 0,
+  "boat" : {
+    "State" : "State",
+    "Fishing_gear" : "Fishing_gear",
+    "length" : "length",
+    "Registration_id" : "Registration_id",
+    "Id" : 5,
+    "Image" : "Image",
+    "Nationality" : "Nationality",
+    "Name" : "Name"
+  }
+}, {
+  "Landing_date" : "2000-01-23T04:56:07.000+00:00",
+  "Town" : "Town",
+  "State" : "State",
+  "fish" : [ {
+    "Type" : "Type",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  }, {
+    "Type" : "Type",
+    "Id" : 1,
+    "Brutto_weight" : 5,
+    "Product_weight" : 5,
+    "Fish_weight" : 2
+  } ],
+  "Total_weight" : 6,
+  "id" : 0,
+  "boat" : {
+    "State" : "State",
+    "Fishing_gear" : "Fishing_gear",
+    "length" : "length",
+    "Registration_id" : "Registration_id",
+    "Id" : 5,
+    "Image" : "Image",
+    "Nationality" : "Nationality",
+    "Name" : "Name"
+  }
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">404</h4>
+    Item Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#Map_data"><code>Map_data</code> - </a></li>
+    <li><a href="#TopOffloads"><code>TopOffloads</code> - </a></li>
+    <li><a href="#boat"><code>boat</code> - </a></li>
+    <li><a href="#boat_simple"><code>boat_simple</code> - </a></li>
+    <li><a href="#fish"><code>fish</code> - </a></li>
+    <li><a href="#fish_simple"><code>fish_simple</code> - </a></li>
+    <li><a href="#offload"><code>offload</code> - </a></li>
+    <li><a href="#offload_detail"><code>offload_detail</code> - </a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="Map_data"><code>Map_data</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Latitude </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">Longitude </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">time </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TopOffloads"><code>TopOffloads</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Id </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Town </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">State </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">LandingDate </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">TotalWeight </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">Fish </div><div class="param-desc"><span class="param-type"><a href="#fish">fish</a></span>  </div>
+<div class="param">BoatRegistrationId </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">BoatRadioSignalId </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">BoatName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">BoatFishingGear </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">BoatLength </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">boatLandingTown </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">boatLandingState </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">BoatNationality </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">AverageTrips </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Avrage </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">LargestLanding </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">Smallest </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span>  format: double</div>
+<div class="param">Trips </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="boat"><code>boat</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Id </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Registration_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Radio_signal_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">State </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Nationality </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">length </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Weight </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Built_year </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Engine_power </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Fishing_gear </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Image </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Position </div><div class="param-desc"><span class="param-type"><a href="#Map_data">array[Map_data]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="boat_simple"><code>boat_simple</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Id </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Registration_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">State </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Nationality </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">length </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Fishing_gear (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Image </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="fish"><code>fish</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Id </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Condition </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Preservation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Landing_methood (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Quality </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Application </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Brutto_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Product_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Fish_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="fish_simple"><code>fish_simple</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Id </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Brutto_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Product_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Fish_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="offload"><code>offload</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Town </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">State </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Landing_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">Total_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">fish </div><div class="param-desc"><span class="param-type"><a href="#fish_simple">array[fish_simple]</a></span>  </div>
+<div class="param">boat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boat_simple">boat_simple</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="offload_detail"><code>offload_detail</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">Town </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">State </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">Landing_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">Total_weight </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">fish </div><div class="param-desc"><span class="param-type"><a href="#fish">array[fish]</a></span>  </div>
+<div class="param">map_data </div><div class="param-desc"><span class="param-type"><a href="#Map_data">array[Map_data]</a></span>  </div>
+<div class="param">boat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boat_simple">boat_simple</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
