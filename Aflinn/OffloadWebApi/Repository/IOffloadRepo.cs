@@ -13,5 +13,7 @@ namespace OffloadWebApi.Repository
         BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
 
         List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count);
+
+        OffloadDto GetSingleOffload(string offloadId);
     }
 }

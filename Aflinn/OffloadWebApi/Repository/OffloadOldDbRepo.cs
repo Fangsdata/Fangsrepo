@@ -524,5 +524,164 @@ namespace OffloadWebApi.Repository
             }
             return dto;
         }
+        private async Task<OffloadEntity> getOffload(string OffloadId)
+        {
+            using var cmd = _connection.CreateCommand();
+            _connection.Open();
+            string commandString = string.Format(
+                                    @"SELECT *
+                                    FROM eskoy.englishVersion
+                                    WHERE landing_id='{0}'
+                                    ORDER BY landing_id DESC;",
+                                    OffloadId);
+            cmd.CommandText = commandString;
+            var res = await this.readOffload(await cmd.ExecuteReaderAsync());
+            _connection.Close();
+            return res;
+        }
+        private async Task<OffloadEntity> readOffload(DbDataReader reader)
+        {
+            using (reader)
+            {
+                OffloadEntity offload = null;
+                bool hasInit = false;
+
+                while(await reader.ReadAsync())
+                {
+                    string rowId = reader.GetString(38);
+                    string rowTown = reader.GetString(4);
+                    string rowState = reader.GetString(6);
+                    DateTime rowLandingDate = DateTime.Now;
+                    int totalWeight = 0;
+                    string rowBoatRadioSignal = reader.GetString(9);
+                    int rowBoatId = int.Parse(reader.GetString(7));
+                    string rowRegistrationId = reader.GetString(8);
+                    string rowBoatName = reader.GetString(10);
+                    string rowBoatState = reader.GetString(6);
+                    string rowBoatNat = reader.GetString(13);
+                    double rowBoatLength = 0;
+                    string rowBoatFishingGear = reader.GetString(20);
+                    int rowFishId = int.Parse(reader.GetString(26));
+                    string rowFishType = reader.GetString(27);
+                    string rowFishCondition = reader.GetString(29);
+                    string rowFishPackaging = reader.GetString(33);
+                    string rowFisQuality = reader.GetString(35);
+                    string rowFishPreservation = reader.GetString(31);
+                    string rowFishApplycation = reader.GetString(36);
+                    float rowFishWeight = 0;
+
+                    try
+                    {
+                        rowBoatLength = double.Parse(reader.GetString(15));
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);  
+                        Console.WriteLine("--- Canot parse length for" + reader.GetString(15));  
+                    }
+                    try
+                    {
+                        rowBoatLength = double.Parse(reader.GetString(14));
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);  
+                        Console.WriteLine("--- Canot parse length for" + reader.GetString(14));  
+                    }
+                    try
+                    {
+                        rowFishWeight = float.Parse(reader.GetString(37));
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);  
+                        Console.WriteLine("--- Canot parse weight for" + reader.GetString(37));  
+                    }
+                    if(!hasInit)
+                    {
+                        hasInit = true;
+                        offload = new OffloadEntity
+                        {
+                            Id = rowId,
+                            Town = rowTown,
+                            State = rowState,
+                            LandingDate = rowLandingDate,
+                            TotalWeight = totalWeight,
+                            Fish = new List<FishDto>(),
+                            Boat = new BoatSimpleDto
+                            {
+                                Id = rowBoatId,
+                                Registration_id = rowRegistrationId,
+                                RadioSignalId = rowBoatRadioSignal,
+                                Name = rowBoatName,
+                                State = rowBoatState,
+                                Nationality = rowBoatNat,
+                                Length = rowBoatLength,
+                                FishingGear = rowBoatFishingGear,
+                                Image = string.Empty
+                            }
+                        };
+                        var fish = new FishDto
+                        {
+                            Id = rowFishId,
+                            Type = rowFishType,
+                            Condition = rowFishCondition,
+                            Preservation = rowFishPreservation,
+                            Packaging = rowFishPackaging,
+                            Quality = rowFisQuality,
+                            Application = rowFishApplycation,
+                            Weight = rowFishWeight
+                        };
+                        offload.Fish.Add(fish);
+                    }
+                    else
+                    {
+                        var fish = new FishDto
+                        {
+                            Id = rowFishId,
+                            Type = rowFishType,
+                            Condition = rowFishCondition,
+                            Preservation = rowFishPreservation,
+                            Packaging = rowFishPackaging,
+                            Quality = rowFisQuality,
+                            Application = rowFishApplycation,
+                            Weight = rowFishWeight
+                        };
+                        offload.Fish.Add(fish);
+                    }
+                }
+                float tempTotalWeight = 0f;
+                for(int i = 0; i < offload.Fish.Count; i++)
+                {
+                    tempTotalWeight += offload.Fish[i].Weight;
+                }
+                offload.TotalWeight = tempTotalWeight;
+                return offload;
+            }
+            throw new System.NotImplementedException();
+        }
+        public OffloadDto GetSingleOffload(string offloadId)
+        {
+            var result = getOffload(offloadId);
+            result.Wait();
+            var entity = result.Result;
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var dto = new OffloadDto
+            {
+                Id = entity.Id,
+                Town = entity.Town,
+                State = entity.State,
+                LandingDate = entity.LandingDate,
+                TotalWeight = entity.TotalWeight,
+                Fish = entity.Fish,
+                Boat = entity.Boat
+            };
+
+            return dto;
+        }
     }
 }

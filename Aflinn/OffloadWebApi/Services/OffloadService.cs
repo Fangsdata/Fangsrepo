@@ -227,5 +227,10 @@ namespace OffloadWebApi.Services
         {
             return ChangeInputIntoList(fishType, ",");
         }
+
+        public OffloadDto getOffloadDetails(string offloadId)
+        {
+            return this._offloadRepo.GetSingleOffload(offloadId);
+        }
     }
 }

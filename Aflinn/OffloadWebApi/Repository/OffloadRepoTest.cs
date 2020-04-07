@@ -152,6 +152,11 @@ namespace OffloadWebApi.Repository
             return testData;
         }
 
+        public OffloadDto GetSingleOffload(string offloadId)
+        {
+            throw new NotImplementedException();
+        }
+
         List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
         {
             if (filters.Month == null || filters.Month.Count == 0)

@@ -40,9 +40,15 @@ namespace OffloadsWebApi.Controllers
         // GET api/offloads/details
         // details on a single offload
         [HttpGet("details/{offloadId}")]
-        public IActionResult Get(int offloadId)
+        public IActionResult Get(string offloadId)
         {
-            return this.Ok();
+            var result = this._OffloadService.getOffloadDetails(offloadId);
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
         }
 
         // GET api/offloads/:radioSignal/:count
