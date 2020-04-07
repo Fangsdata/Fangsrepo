@@ -385,7 +385,16 @@ namespace OffloadWebApi.Repository
         {
             using var cmd = _connection.CreateCommand();
             _connection.Open();
-            cmd.CommandText = "select * from typpi";
+            count = 12 * count;
+            string commandString = string.Format(
+                                    @"SELECT *
+                                    FROM eskoy.englishVersion
+                                    WHERE boat_radio_signal_id='{0}'
+                                    ORDER BY landing_id DESC
+                                    LIMIT {1};",
+                                    BoatRadioSignalId,
+                                    count);
+            cmd.CommandText = commandString;
             var res = await this.readOfflads(await cmd.ExecuteReaderAsync());
             _connection.Close();
             return res;
@@ -396,11 +405,92 @@ namespace OffloadWebApi.Repository
             using (reader)
             {
                 var offloads = new List<OffloadEntity>();
+                string lastRowId = string.Empty;
+                bool hasInit = false;
+                OffloadEntity offload = null;
                 while(await reader.ReadAsync())
                 {
-                    // do stuff populate list
-                    return null;
+                    string rowId = reader.GetString(38);
+                    string rowTown = reader.GetString(4);
+                    string rowState = reader.GetString(6);
+                    DateTime rowLandingDate = DateTime.Now;
+                    int totalWeight = 0;
+
+                    int rowFishId = int.Parse(reader.GetString(26));
+                    string rowFishType = reader.GetString(27);
+                    string rowFishCondition = reader.GetString(29);
+                    string rowFishPackaging = reader.GetString(33);
+                    string rowFisQuality = reader.GetString(35);
+                    string rowFishPreservation = reader.GetString(31);
+                    string rowFishApplycation = reader.GetString(36);
+                    float rowFishWeight = 0;
+                    try
+                    {
+                        rowFishWeight = float.Parse(reader.GetString(37));
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);  
+                        Console.WriteLine("--- Canot parse weight for" + reader.GetString(37));  
+                    }
+
+                    if(lastRowId != rowId && 
+                        offloads != null &&
+                        hasInit)
+                    {
+                        float tempTotalWeight = 0f;
+                        for(int i = 0; i < offload.Fish.Count; i++)
+                        {
+                            tempTotalWeight += offload.Fish[i].Weight;
+                        }
+                        offload.TotalWeight = tempTotalWeight;
+                        offloads.Add(offload);
+                        offload = null;
+                        hasInit = false;
+                    }
+                    lastRowId = rowId;
+                    if(!hasInit)
+                    {
+                        hasInit = true;
+                        offload = new OffloadEntity
+                        {
+                            Id = rowId,
+                            Town = rowTown,
+                            State = rowState,
+                            LandingDate = rowLandingDate,
+                            TotalWeight = totalWeight,
+                            Fish = new List<FishDto>()
+                        };
+                        var fish = new FishDto
+                        {
+                            Id = rowFishId,
+                            Type = rowFishType,
+                            Condition = rowFishCondition,
+                            Preservation = rowFishPreservation,
+                            Packaging = rowFishPackaging,
+                            Quality = rowFisQuality,
+                            Application = rowFishApplycation,
+                            Weight = rowFishWeight
+                        };
+                        offload.Fish.Add(fish);
+                    }
+                    else
+                    {
+                        var fish = new FishDto
+                        {
+                            Id = rowFishId,
+                            Type = rowFishType,
+                            Condition = rowFishCondition,
+                            Preservation = rowFishPreservation,
+                            Packaging = rowFishPackaging,
+                            Quality = rowFisQuality,
+                            Application = rowFishApplycation,
+                            Weight = rowFishWeight
+                        };
+                        offload.Fish.Add(fish);
+                    }
                 }
+                return offloads;
             }
             throw new System.NotImplementedException();
         }
@@ -415,7 +505,11 @@ namespace OffloadWebApi.Repository
                 return null;
             }
             var dto = new List<OffloadDto>();
-            for(int i = 0; i < entity.Count; i++)
+            if(count > entity.Count)
+            {
+                count = entity.Count;
+            }
+            for(int i = 0; i < count; i++)
             {
                 var item = new OffloadDto
                 {
@@ -424,9 +518,7 @@ namespace OffloadWebApi.Repository
                     State = entity[i].State,
                     LandingDate = entity[i].LandingDate,
                     TotalWeight = entity[i].TotalWeight,
-                    
-                    // fish ??
-                    // boat ??
+                    Fish = entity[i].Fish
                 };
                 dto.Add(item);
             }
