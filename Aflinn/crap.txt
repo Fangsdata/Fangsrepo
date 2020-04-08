@@ -1,0 +1,39 @@
+wNo : 0 , RowName : document_sales_id , RowValue : 19.02.2016
+RowNo : 1 , RowName : buyer_id , RowValue : 943704430
+RowNo : 2 , RowName : buyer_nationality , RowValue : NOR
+RowNo : 3 , RowName : landing_town_id , RowValue : 1504
+RowNo : 4 , RowName : landing_town , RowValue : ÅLESUND
+RowNo : 5 , RowName : landing_state_id , RowValue : 15
+RowNo : 6 , RowName : landing_state , RowValue : Møre og Romsdal
+RowNo : 7 , RowName : boat_id , RowValue : 2001014364
+RowNo : 8 , RowName : boat_regestration_id , RowValue : M 0009HØ
+RowNo : 9 , RowName : boat_radio_signal_id , RowValue : LLIQ
+RowNo : 10 , RowName : boat_name , RowValue : REMØYBUEN
+RowNo : 11 , RowName : boat_town_id , RowValue : 1515
+RowNo : 12 , RowName : boat_state_id , RowValue : 15
+RowNo : 13 , RowName : boat_nationality_id , RowValue : NOR
+RowNo : 14 , RowName : boat_length , RowValue : 24,1
+RowNo : 15 , RowName : boat_weight_1969 , RowValue : 
+RowNo : 16 , RowName : boat_weight , RowValue : 161
+RowNo : 17 , RowName : boat_built_year , RowValue : 2001
+RowNo : 18 , RowName : engine_power , RowValue : 640
+RowNo : 19 , RowName : fishing_gear_id , RowValue : 20
+RowNo : 20 , RowName : fishing_gear , RowValue : Udefinert garn
+RowNo : 21 , RowName : Longitude , RowValue : 5,59752
+RowNo : 22 , RowName : Latitude , RowValue : 62,21811
+RowNo : 23 , RowName : landing_date , RowValue : 19.02.2016
+RowNo : 24 , RowName : landing_time , RowValue : 1729
+RowNo : 25 , RowName : landing_month , RowValue : 02
+RowNo : 26 , RowName : fish_id , RowValue : 0202001
+RowNo : 27 , RowName : fish_name , RowValue : Hyse
+RowNo : 28 , RowName : fish_condition_id , RowValue : 210
+RowNo : 29 , RowName : fish_condition , RowValue : Sløyd med hode
+RowNo : 30 , RowName : fish_preservation_method_id , RowValue : 09
+RowNo : 31 , RowName : fish_preservation_method , RowValue : Iset
+RowNo : 32 , RowName : packaging_id , RowValue : 99
+RowNo : 33 , RowName : packaging , RowValue : Uspesifisert
+RowNo : 34 , RowName : fish_quality_id , RowValue : 20
+RowNo : 35 , RowName : fish_quality , RowValue : A
+RowNo : 36 , RowName : fish_utilization , RowValue : Fersk (konsum)
+RowNo : 37 , RowName : fish_weight , RowValue : 323,8
+RowNo : 38 , RowName : landing_id , RowValue : 600000141634

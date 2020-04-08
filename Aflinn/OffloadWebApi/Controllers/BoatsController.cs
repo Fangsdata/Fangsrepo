@@ -23,7 +23,6 @@ namespace OffloadWebApi.Controllers
         [HttpGet("{BoatRadioSignalId}")]
         public IActionResult Get(string BoatRadioSignalId)
         {
-            Console.WriteLine("ctrl");
             var result = this._IBoatService.GetBoat(BoatRadioSignalId);
             if (result == null)
             {

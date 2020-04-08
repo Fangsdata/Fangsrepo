@@ -35,6 +35,11 @@ namespace OffloadWebApi.Repository
             };
         }
 
+        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
         public OffloadDetailDto? GetOffloadById(int id)
         {
             if (id != 1)
@@ -145,6 +150,11 @@ namespace OffloadWebApi.Repository
             };
 
             return testData;
+        }
+
+        public OffloadDto GetSingleOffload(string offloadId)
+        {
+            throw new NotImplementedException();
         }
 
         List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)

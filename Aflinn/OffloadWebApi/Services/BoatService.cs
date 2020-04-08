@@ -19,18 +19,28 @@ namespace OffloadWebApi.Services
             WebResponse response = request.GetResponse();
 
             List<MapDataDto> mapData = new List<MapDataDto>();
+
             using (Stream dataStream = response.GetResponseStream())
             {
-                StreamReader reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
-                dynamic json = JObject.Parse(responseFromServer);
-                MapDataDto item = new MapDataDto
+                try
                 {
-                    Latitude = json.data.latitude,
-                    Longitude = json.data.longitude,
-                };
-                mapData.Add(item);
+                    StreamReader reader = new StreamReader(dataStream);
+                    string responseFromServer = reader.ReadToEnd();
+                    dynamic json = JObject.Parse(responseFromServer);
+                    MapDataDto item = new MapDataDto
+                    {
+                        Latitude = json.data.latitude,
+                        Longitude = json.data.longitude,
+                    };
+                    mapData.Add(item);
+                }
+                catch(System.Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("---- Could not parse map data");
+                }
             }
+
             response.Close(); 
             return mapData;
         }

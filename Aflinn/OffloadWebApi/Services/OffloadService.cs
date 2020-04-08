@@ -17,9 +17,9 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
-        public OffloadDetailDto GetOffloadById(int id)
+        public List<OffloadDto> GetOffloadById(string radioSignal, int count)
         {
-            return this._offloadRepo.GetOffloadById(id);
+            return this._offloadRepo.GetLastOffloadsFromBoat(radioSignal, count);
         }
 
         private int ParseCount(string count)
@@ -226,6 +226,11 @@ namespace OffloadWebApi.Services
         private List<string> ParseFishName(string fishType)
         {
             return ChangeInputIntoList(fishType, ",");
+        }
+
+        public OffloadDto getOffloadDetails(string offloadId)
+        {
+            return this._offloadRepo.GetSingleOffload(offloadId);
         }
     }
 }

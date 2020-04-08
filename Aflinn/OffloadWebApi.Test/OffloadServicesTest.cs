@@ -18,16 +18,6 @@ namespace OffloadWebApi.Test
             this._OffloadService = new OffloadService(testRepo);
         }
         [Fact]
-        public void CheckIfGetOffloadByIdReturns()
-        {
-            var result = _OffloadService.GetOffloadById(1);
-            Assert.NotNull(result);
-
-            var result2 = _OffloadService.GetOffloadById(33);
-
-            Assert.Null(result2);
-        }
-        [Fact]
         public void GetOffloadsTestInputCount()
         {
             var queryInput = new QueryParamsForTopList

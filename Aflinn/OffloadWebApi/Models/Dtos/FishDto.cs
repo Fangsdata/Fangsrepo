@@ -16,6 +16,6 @@
 
         public string Application { get; set; }
 
-        public int Weight { get; set; }
+        public float Weight { get; set; }
     }
 }
