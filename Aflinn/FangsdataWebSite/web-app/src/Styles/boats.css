@@ -40,3 +40,12 @@
     float: right;
     font-size: 0.6em;
 }
+
+.leaflet-container {
+    height: 15rem;
+    width: 15rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin: 40px;
+    margin-left: auto;
+}

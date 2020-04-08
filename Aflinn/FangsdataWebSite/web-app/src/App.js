@@ -5,6 +5,8 @@ import TopOffloads from './compoments/TopOffLoads';
 import Container from './compoments/Container';
 import Boat from './compoments/Boat';
 import BoatDetails from './compoments/BoatDetails';
+import VesselMap from './compoments/Map';
+
 
 function App() {
   return (
