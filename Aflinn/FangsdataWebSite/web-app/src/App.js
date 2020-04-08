@@ -5,6 +5,7 @@ import TopOffloads from './compoments/TopOffLoads';
 import Container from './compoments/Container';
 import Boat from './compoments/Boat';
 import BoatDetails from './compoments/BoatDetails';
+import OffloadDetails from './compoments/OffloadDetails'; 
 
 function App() {
   return (
@@ -16,9 +17,8 @@ function App() {
           <Route exact path="/home" render={ () => <Redirect to="/"/>} />
           <Route exact path="/boats" component={ Boat } />
           <Route exact path="/boats/:boatname" render={ e => <BoatDetails boatname={e.match.params.boatname}/> } />
-
+          <Route exact path="/offloads/:offloadId" render={ e => <OffloadDetails offloadId={e.match.params.offloadId}/> } />
         </Switch>
-        {/* <TopOffloads /> */}
       </Container>
     </div>
   );
