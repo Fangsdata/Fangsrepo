@@ -5,7 +5,12 @@ import TopOffloads from './compoments/TopOffLoads';
 import Container from './compoments/Container';
 import Boat from './compoments/Boat';
 import BoatDetails from './compoments/BoatDetails';
+<<<<<<< HEAD
 import OffloadDetails from './compoments/OffloadDetails'; 
+=======
+import VesselMap from './compoments/Map';
+
+>>>>>>> master
 
 function App() {
   return (
