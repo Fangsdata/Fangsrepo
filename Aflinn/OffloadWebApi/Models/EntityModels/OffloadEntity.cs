@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using OffloadWebApi.Models.Dtos;
 
-namespace OffloadWebApi.Models.Dtos
+namespace OffloadWebApi.Models.EntityModels
 {
-    public class OffloadDto
+    public class OffloadEntity
     {
         public string Id { get; set; }
 
@@ -17,6 +18,6 @@ namespace OffloadWebApi.Models.Dtos
 
         public List<FishDto> Fish { get; set; }
 
-        public BoatSimpleDto Boat { get; set; }
+        public BoatSimpleDto Boat { get; set; }    
     }
 }

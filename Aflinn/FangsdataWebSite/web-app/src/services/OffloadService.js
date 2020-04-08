@@ -1,26 +1,51 @@
 import CONST from '../Constants';
 
-async function getDataFromApi( filter ){
-    const url = new URL( CONST.offloadApi + "/offloads"),
-        params = filter
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key])) ;
+async function getDataFromApi( filter ) {
+    
+    let url = CONST.offloadApi + '/offloads?';
+    let params = ''; 
+    Object.getOwnPropertyNames(filter).forEach(
+        (prop)=>{ 
+            if(typeof(filter[prop] === 'object')){
+                if(filter[prop].length !== 0){
+                    params += prop + '=';
+                    filter[prop].forEach( p => {
+                        params += "'" + p + "',";
+                    });
+                    params = params.substring(0, params.length - 1);
+                }
+                params += '&'; 
+            }
+        }
+    )
+    params = params.substring(0, params.length - 1);
+
+    url = url + params;
     const resp = await fetch(url);
     const json = await resp.json();
     return json;
 }
 
 const getOffloads = async (filter = {}) => {
-
         let data =  await getDataFromApi(filter);
-        data.forEach(item => {
-            if (!('boatImage' in item)){
-                item.boatImage = "http://www.blogsnow.com/wp-content/uploads/2017/01/Boat.jpg" 
-            } 
-        });
-        return data;
+        if(data.status !== 400){
+            data.forEach(item => {
+                if (!('boatImage' in item)){
+                    item.boatImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/RMS_Titanic_4.jpg/2560px-RMS_Titanic_4.jpg" 
+                } 
+            });
+            return data;
+        }
+        else{
+            return []
+        }
     };
-
-
+const getBoats = async (radioSignal = "") => {
+    const resp = await fetch(CONST.offloadApi + "/boats/" + radioSignal);
+    const json = await resp.json();
+    return json;
+};
 export {
-    getOffloads
+    getOffloads,
+    getBoats
 };

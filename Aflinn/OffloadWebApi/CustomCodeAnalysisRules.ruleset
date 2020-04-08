@@ -119,6 +119,12 @@
     <Rule Id="SA1313" Action="None" /> <!--Your comment-->
     <Rule Id="SA1210" Action="None" /> <!--Your comment-->
     <Rule Id="SA0001" Action="None" /> <!--Your comment-->
+
+    <Rule Id="SA1300" Action="None" /> <!--Your comment-->
+    <Rule Id="SA1000" Action="None" /> <!--Your comment-->
+    <Rule Id="SA1201" Action="None" /> <!--Your comment-->
+    <Rule Id="SA1202" Action="None" /> <!--Your comment-->
+    <Rule Id="SA1208" Action="None" /> <!--Your comment-->
  
   </Rules>
 </RuleSet>
