@@ -1,5 +1,6 @@
 import React from 'react';
 import VesselMap from '../Map'
+import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
 
 class BoatDetails extends React.Component{
@@ -17,7 +18,10 @@ class BoatDetails extends React.Component{
             enginePower: "",
             fishingGear: "",
             image: "",
-            mapData: []
+            mapData: [{
+                latitude: 0,
+                longitude: 0
+            }]
         }
     };
 
@@ -32,7 +36,7 @@ class BoatDetails extends React.Component{
             .then((res) => res.json())
             .then((res) => {
                 this.setState({boat: res})
-                console.log(res)
+                // console.log(res)
             });
     }
 
@@ -52,10 +56,9 @@ class BoatDetails extends React.Component{
             builtYear,
             // enginePower,
             fishingGear,
+            image,
             mapData
         } = this.state.boat;
-        console.log(this.state);
-        const image = "http://www.blogsnow.com/wp-content/uploads/2017/01/Boat.jpg"
         return (    
         <div className="boat-container">
             <img src={image} className="boat-img" alt="boat"></img>
@@ -69,9 +72,10 @@ class BoatDetails extends React.Component{
                 {/* <p className="boat-details">Engine size: { enginePower }</p> */}
                 <p className="boat-details">Fishing gear: { fishingGear }</p>
                 <br></br>
-                <p className="boat-details">Latitude / Longitude: <br></br>64.49491° / -24.0298°{ mapData }</p>
+                <p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
             </div>
-            <VesselMap lat={64.49491} lng={-24.0298} />
+            <VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
+            <LandingsTable boatname={this.props}></LandingsTable>
         </div>
 
         );
