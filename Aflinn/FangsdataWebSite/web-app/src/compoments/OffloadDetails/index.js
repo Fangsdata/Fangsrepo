@@ -10,7 +10,7 @@ const OffloadDetails = ({offloadId}) =>
             labels: ["NON"],
             datasets: [{
             label: "My First dataset",
-            borderColor: ['#2B59C3' ],
+            backgroundColor: ['#2B59C3' ],
             data: [1],
             }]
         }
@@ -47,18 +47,24 @@ const OffloadDetails = ({offloadId}) =>
                 }
         }
     ); 
-    
+    const generateColors = (size) => {
+        let colorExample = [ '#2B59C3','#B7DFB3', '#DCB8B8', '#DCD8B8' ];
+        let retData = [];
+        for (let i = 0; i < size; i++) {
+            retData.push( colorExample[i % colorExample.length] );
+        }
+        return retData;
+    }
     const CreatePieChartDataset = (data) => {
+        
         let pieData = {
             labels: data.map((data)=> data.label),
             datasets:[{
                 label: "fish dataset",
-                borderColor: '#2B59C3',
+                backgroundColor: generateColors(data.length),
                 data: data.map((data)=>data.value)
             }]
         }
-        console.log(pieData);
-        console.log(chartData);
         setChartData(pieData); 
     }
 
@@ -102,6 +108,7 @@ const OffloadDetails = ({offloadId}) =>
                 </div>
                 {
                     offloadDetail.fish.map((fish) => (
+                        
                         <div className="fish-container-item" key={fish.id}>
                             <p>{fish.type}</p>
                             <p>{fish.condition}</p>
@@ -111,6 +118,13 @@ const OffloadDetails = ({offloadId}) =>
                         </div>
                     ))
                 }
+                <div className="fish-container-item">
+                    <p>Total</p>
+                    <p> - </p>
+                    <p> - </p>
+                    <p> - </p>
+                    <p>{offloadDetail.totalWeight} kg</p>
+                </div>
             </div>
             <div className="pie-chart">
                 <Pie data={chartData} legend={{display:false}} redraw></Pie>
