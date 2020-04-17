@@ -18,6 +18,8 @@ namespace OffloadWebApi.Models.EntityModels
 
         public List<FishDto> Fish { get; set; }
 
-        public BoatSimpleDto Boat { get; set; }    
+        public BoatSimpleDto Boat { get; set; }
+        
+        public List<MapDataDto> MapData { get; set; }  
     }
 }
