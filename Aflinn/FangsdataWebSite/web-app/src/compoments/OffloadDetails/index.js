@@ -44,7 +44,14 @@ const OffloadDetails = ({offloadId}) =>
                 "length": 0,
                 "fishingGear": "stuff",
                 "image": ""
+                },
+            "mapData": [
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "time": "2020-04-17T11:11:54.653718+00:00"
                 }
+            ]
         }
     ); 
     const generateColors = (size) => {
@@ -94,8 +101,8 @@ const OffloadDetails = ({offloadId}) =>
             </div>
             <div className="map-container">
                 <Map
-                    lat={66.33}
-                    lng={-18.666}
+                    lat={offloadDetail.mapData[0].latitude}
+                    lng={offloadDetail.mapData[0].longitude}
                 />
             </div>
             <div className="fish-container">
