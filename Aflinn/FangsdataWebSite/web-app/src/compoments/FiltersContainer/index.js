@@ -1,5 +1,8 @@
 import React,{useState} from 'react';
 import FilterCheckBox from '../FilterCheckBox';
+import down_arrow from "./arrow_drop_down-24px.svg";
+import up_arrow from "./arrow_drop_up-24px.svg";
+import filter_icon from "./filter_list-24px.svg";
 
 
 const FiltersContainer = ({inputEvent, allFilters}) => {
@@ -8,16 +11,27 @@ const FiltersContainer = ({inputEvent, allFilters}) => {
 
    return (
    <div>
-      <div className="filter-header" onClick={()=> setShowFilters(!showFilters)}>
+      <div className="f-header">
       {showFilters
-      ? <><p className="filter-container">Filter by</p>
-         {allFilters.map(header => <p className="filter-container">{header.group}</p>)}</>
-      : <><p>Show filters</p></>
+      ? <><p className="f-container-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Filter by: <img className="arrow-icon" src={up_arrow} alt=""/></p>
+         { showFilters
+         ?       <div className="filter-all-filters">
+                  {allFilters.map(header => <p className="f-container">{header.group}</p>)}
+                   { allFilters.map((item) => { 
+                     return (<FilterCheckBox 
+                        key={item.group} 
+                        items={item.data} 
+                        group={item.group} 
+                        inputEvent={inputEvent}/>) })}
+                  </div>
+         : <></>  }</>
+      : <><p className="f-header-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Show filters <img className="arrow-icon" src={down_arrow} alt=""/></p></>
       }
          
       </div>
-      { showFilters
+      {/* { showFilters
          ?       <div className="filter-all-filters">
+                  {allFilters.map(header => <p className="filter-container">{header.group}</p>)}
                   <div className="filter-container"></div>
                    { allFilters.map((item) => { 
                      return (<FilterCheckBox 
@@ -26,7 +40,7 @@ const FiltersContainer = ({inputEvent, allFilters}) => {
                         group={item.group} 
                         inputEvent={inputEvent}/>) })}
                   </div>
-         : <></>  }
+         : <></>  } */}
     </div>
  )};
 

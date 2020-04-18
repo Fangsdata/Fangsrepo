@@ -2,7 +2,8 @@ import React from 'react';
 import OffladsListItem from '../OffladsListItem';
 
 const OffladsList = ({ offloads }) => (
-    <div>
+    <div className="offload-table">
+        <div className="offload-header">Top Offloads</div>
         <OffladsListItem 
         item = {{
             boatImage: "https://www.publicdomainpictures.net/pictures/30000/velka/plain-white-background.jpg",

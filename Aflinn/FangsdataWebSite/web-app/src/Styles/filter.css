@@ -1,0 +1,94 @@
+
+.f-header {
+    margin-top: 2rem;
+    border: solid gray 1px;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.f-header-title {
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-basis: 100%;
+}
+
+.f-header-title:hover {
+    text-decoration: underline;
+}
+
+.f-container-title {
+    width: 100%;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-basis: 100%;
+}
+
+.f-container-title:hover {
+    text-decoration: underline;
+}
+
+/* .f-container{
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+} */
+
+/* .f-container:first-child{
+    align-items: center;
+    justify-content: center;
+    flex-basis: 50%;
+    flex-grow: 1; 
+} */
+
+.f-container{
+    font-weight: 500;
+    flex-basis: 33%;
+    justify-content: center;
+  }
+
+.filter-all-filters{
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  margin-left: 3rem;
+  
+}
+.filter-container {
+  align-items: center;
+  justify-content: center;
+  flex-basis: 33%;
+  flex-grow: 1;
+}
+
+.arrow-icon {
+    float: right;
+}
+
+.filter-icon {
+    margin-right: 0.5rem;
+}
+
+.check-item, label:hover {
+    text-decoration: underline;
+}
+
+.checkbox {
+    cursor: pointer;
+}
+
+.filter-label {
+    cursor: pointer;
+}
+/* .filter-container:first-child{
+  align-items: center;
+  justify-content: center;
+  flex-basis: 50%;
+  flex-grow: 1; 
+} */
