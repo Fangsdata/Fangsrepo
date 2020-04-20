@@ -1,37 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class LandingsTable extends React.Component {
     state = {
-        landings: [{
+        landings: [/*{
             town: "",
             state: "",
             landingDate: "",
-            totalWeight: 0
-        },
-        {
-            town: "",
-            state: "",
-            landingDate: "",
-            totalWeight: 0
-        },
-        {
-            town: "",
-            state: "",
-            landingDate: "",
-            totalWeight: 0
-        },
-        {
-            town: "",
-            state: "",
-            landingDate: "",
-            totalWeight: 0
-        },
-        {
-            town: "",
-            state: "",
-            landingDate: "",
-            totalWeight: 0
-        }]
+            totalWeight: 0,
+            id: ""
+        }*/]
     };
 
     constructor(props) {
@@ -61,41 +39,15 @@ class LandingsTable extends React.Component {
             <td>State</td>
             <td>Total weitght</td>
         </tr>
-        <tr>
-            <td>1. </td>
-            <td>{this.state.landings[0].landingDate}</td>
-            <td>{this.state.landings[0].town}</td>
-            <td>{this.state.landings[0].state}</td>
-            <td>{this.state.landings[0].totalWeight} kg.</td>
-        </tr>
-        <tr>
-            <td>2. </td>
-            <td>{this.state.landings[1].landingDate}</td>
-            <td>{this.state.landings[1].town}</td>
-            <td>{this.state.landings[1].state}</td>
-            <td>{this.state.landings[1].totalWeight} kg.</td>
-        </tr>
-        <tr>
-            <td>3. </td>
-            <td>{this.state.landings[2].landingDate}</td>
-            <td>{this.state.landings[2].town}</td>
-            <td>{this.state.landings[2].state}</td>
-            <td>{this.state.landings[2].totalWeight} kg.</td>
-        </tr>
-        <tr>
-            <td>4. </td>
-            <td>{this.state.landings[3].landingDate}</td>
-            <td>{this.state.landings[3].town}</td>
-            <td>{this.state.landings[3].state}</td>
-            <td>{this.state.landings[3].totalWeight} kg.</td>
-        </tr>
-        <tr>
-            <td>5. </td>
-            <td>{this.state.landings[4].landingDate}</td>
-            <td>{this.state.landings[4].town}</td>
-            <td>{this.state.landings[4].state}</td>
-            <td>{this.state.landings[4].totalWeight} kg.</td>
-        </tr>
+        {this.state.landings.map((landing, i)=>(
+            <tr>
+                <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{landing.landingDate}</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{landing.town}</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{landing.totalWeight} kg.</Link></td>
+            </tr>
+        ))}
 
     </table>
     );
