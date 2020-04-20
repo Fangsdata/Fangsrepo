@@ -18,5 +18,7 @@ namespace OffloadWebApi.Models.Dtos
         public List<FishDto> Fish { get; set; }
 
         public BoatSimpleDto Boat { get; set; }
+
+        public List<MapDataDto> MapData { get; set; }
     }
 }

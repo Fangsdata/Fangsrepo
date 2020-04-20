@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OffloadWebApi.Models.EntityModels;
 using System.Data.Common;
 using System;
-
+using System.Globalization;
 namespace OffloadWebApi.Repository
 {
     public class OffloadOldDbRepo : IOffloadRepo 
@@ -16,7 +16,19 @@ namespace OffloadWebApi.Repository
         {
             _connection = new MySqlConnection(connectionString);
         } 
-
+        private double parseStrToDouble(string input)
+        {
+            try
+            {
+               return double.Parse(input.Replace(',', '.'), CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception e) 
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("--- could not parse " + input);
+            }
+            return 0;
+        }
         private async Task<List<TopListEntity>> getFilterResultAsync(QueryOffloadsInput filters)
         {
             using var cmd = _connection.CreateCommand();
@@ -290,15 +302,7 @@ namespace OffloadWebApi.Repository
                    State = entity.State,
                    FishingGear = entity.FishingGear,
             };
-            try
-            {
-                dto.Length = double.Parse(entity.Length); 
-            }
-            catch (System.Exception e) 
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Length not found or parsed: " + entity.Length);
-            }
+            dto.Length = parseStrToDouble(entity.Length);
             try
             {
                 dto.Weight = int.Parse(entity.Weight);
@@ -570,23 +574,13 @@ namespace OffloadWebApi.Repository
                     string rowFishApplycation = reader.GetString(36);
                     float rowFishWeight = 0;
 
-                    try
+                    double rowLatitude = parseStrToDouble(reader.GetString(22));
+                    double rowLongitude = parseStrToDouble(reader.GetString(21));
+
+                    rowBoatLength = parseStrToDouble(reader.GetString(15));
+                    if(rowBoatLength == 0)
                     {
-                        rowBoatLength = double.Parse(reader.GetString(15));
-                    }
-                    catch (System.Exception e)
-                    {
-                        Console.WriteLine(e);  
-                        Console.WriteLine("--- Canot parse length for" + reader.GetString(15));  
-                    }
-                    try
-                    {
-                        rowBoatLength = double.Parse(reader.GetString(14));
-                    }
-                    catch (System.Exception e)
-                    {
-                        Console.WriteLine(e);  
-                        Console.WriteLine("--- Canot parse length for" + reader.GetString(14));  
+                        rowBoatLength = parseStrToDouble(reader.GetString(14));
                     }
                     try
                     {
@@ -597,6 +591,7 @@ namespace OffloadWebApi.Repository
                         Console.WriteLine(e);  
                         Console.WriteLine("--- Canot parse weight for" + reader.GetString(37));  
                     }
+
                     if(!hasInit)
                     {
                         hasInit = true;
@@ -619,8 +614,17 @@ namespace OffloadWebApi.Repository
                                 Length = rowBoatLength,
                                 FishingGear = rowBoatFishingGear,
                                 Image = string.Empty
-                            }
+                            },
+                            MapData = new List<MapDataDto>()
                         };
+                        var mapEntry = new MapDataDto
+                        {
+                            Longitude = rowLongitude,
+                            Latitude = rowLatitude,
+                            Time = rowLandingDate
+                        };
+                        offload.MapData.Add(mapEntry);
+
                         var fish = new FishDto
                         {
                             Id = rowFishId,
@@ -678,7 +682,8 @@ namespace OffloadWebApi.Repository
                 LandingDate = entity.LandingDate,
                 TotalWeight = entity.TotalWeight,
                 Fish = entity.Fish,
-                Boat = entity.Boat
+                Boat = entity.Boat,
+                MapData = entity.MapData
             };
 
             return dto;
