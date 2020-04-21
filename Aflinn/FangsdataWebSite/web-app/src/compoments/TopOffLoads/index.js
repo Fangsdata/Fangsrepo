@@ -19,7 +19,7 @@ class TopOffLoads extends React.Component {
             fishName:[],
             month:[],
             year:[],  
-            state:[],
+            landingState:[],
         },
         allFilters: {
             fishingGear: [ { title:'Not', checkState:false, value:'Not' },
@@ -74,7 +74,7 @@ class TopOffLoads extends React.Component {
                    { title:'2002', checkState:false, value:'2002'}, 
                    { title:'2001', checkState:false, value:'2001'},
                    { title:'2000', checkState:false, value:'2000'} ],
-            state:[ { title: 'Finnmark', checkState:false, value:'Finnmark'},
+            landingState:[ { title: 'Finnmark', checkState:false, value:'Finnmark'},
                    { title: 'Nordland', checkState:false, value:'Nordland'},
                    { title: 'Nord-Trøndelag', checkState:false, value:'Nord-Trøndelag'},
                    { title: 'Møre og Romsdal', checkState:false, value:'"Møre og Romsdal"'},
