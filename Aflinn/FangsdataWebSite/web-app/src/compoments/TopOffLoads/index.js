@@ -21,25 +21,31 @@ class TopOffLoads extends React.Component {
             year:[],  
             state:[],*/
         },
-        allFilters: [{
-            group:"fishingGear",
-            data:['Settegarn','Reketrål','Teiner','Juksa/pilkAndre', 'liner','Snurrevad','Bunntrål','Autoline']
-        },{
-            group:"boatLength",
-            data:['under 11m', '11m - 14,99m', '15m - 20,99m', '21m - 27,99m', '28m og over']
-        },{
-            group:"fishName",
-            data:['Sild, norsk vårgytende','Sei','Tobis og annen sil','Andre skalldyr, bløtdyr og pigghuder', 'Annen torskefisk', 'Hyse','Annen flatfisk, bunnfisk og dypvannsfisk','Makrell','Sild, annen','Annen pelagisk fisk', 'Vassild og strømsild', 'Kolmule','Øyepål', /*'Mesopelagisk fisk','Haifisk','Skater og annen bruskfisk','Torsk','Havbrisling', 'Dypvannsreke','Uer','Leppefisk','Blåkveite','Steinbiter','Snøkrabbe','Tunfisk og tunfisklignende arter','Taskekrabbe','Lodde','Kongekrabbe, han','Kongekrabbe, annen','Kystbrisling','Brunalger','Andre makroalger','Raudåte','Antarktisk krill',*/] 
-        }]
+        allFilters: {
+            fishingGear:[ { title:'Settegarn', checkState:false, value:'Settegarn' },
+                   { title:'Reketrål', checkState:false, value:'Reketrål' }],
+            boatLength: [ { title:'under 11m',value:'under 11m', checkState:false },
+                   { title: '11m - 14,99m',value:'11m - 14,99m', checkState:false },
+                   { title: '15m - 20,99m',value:'15m - 20,99m',  checkState:false },
+                   { title: '21m - 27,99m', value:'21m - 27,99m', checkState:false },
+                   { title: '28m og over', value:'28m og over', checkState:false }],
+            fishName: [{ title:'Sild, norsk vårgytende', value:'Sild, norsk vårgytende',checkState:false },
+                  { title:'Sei',value:'sei', checkState:false }]
+        }
     }
 
     async inputEvent(event){    
         const target = event.target;
-        const {filter} = this.state;
+        const {filter, allFilters } = this.state;
+        let index = allFilters[target.name].findIndex((value)=> value.title == target.id );
+        if(index != -1){
+            allFilters[target.name][index].checkState = !allFilters[target.name][index].checkState;
+            this.setState(allFilters);
+        }
         if(target.checked){
             let currState = filter[target.name];
             currState.push(target.value);
-            filter[target.name] = currState; 
+            filter[target.name] = currState;
             this.setState(filter);
             this.setState({ offLoads : await getOffloads( filter )});
         }

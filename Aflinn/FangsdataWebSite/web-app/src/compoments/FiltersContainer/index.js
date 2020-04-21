@@ -16,13 +16,14 @@ const FiltersContainer = ({inputEvent, allFilters}) => {
       ? <><p className="f-container-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Filter by: <img className="arrow-icon" src={up_arrow} alt=""/></p>
          { showFilters
          ?       <div className="filter-all-filters">
-                  {allFilters.map(header => <p className="f-container">{header.group}</p>)}
-                   { allFilters.map((item) => { 
-                     return (<FilterCheckBox 
-                        key={item.group} 
-                        items={item.data} 
-                        group={item.group} 
-                        inputEvent={inputEvent}/>) })}
+                  { Object.keys(allFilters).map(header => <p className="f-container">{header}</p>)}
+                   { Object.keys(allFilters).map((item) => {
+                     return (<FilterCheckBox
+                        key={item} 
+                        items={allFilters[item]} 
+                        group={item} 
+                        inputEvent={inputEvent}
+                        />) })}
                   </div>
          : <></>  }</>
       : <><p className="f-header-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Show filters <img className="arrow-icon" src={down_arrow} alt=""/></p></>
