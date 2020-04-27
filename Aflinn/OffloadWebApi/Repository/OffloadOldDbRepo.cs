@@ -28,9 +28,56 @@ namespace OffloadWebApi.Repository
                 Console.WriteLine("--- could not parse " + input);
             }
             return 0;
+        }       
+
+        private string AddFilter<T>(List<T> filters, bool firstFilter, string filterName, bool commas = true)
+        {
+            string retStr = string.Empty;
+            bool firstItem = true;
+            for(int i = 0; i < filters.Count; i++)
+            {
+                if(firstItem)
+                {
+                    firstItem = false;
+                    if(firstFilter)
+                    {
+                        retStr += "WHERE (" + filterName + " = '" + filters[i] + "'";
+                    }
+                    else
+                    {
+                        retStr += " And (" + filterName + " = '" + filters[i] + "'";
+                    }
+                }
+                else
+                {
+                    retStr += " OR " + filterName + " = '" + filters[i] + "'";
+                }
+            }
+            retStr += ")";
+            if(!commas)
+            {
+                Console.WriteLine(retStr);
+                retStr = retStr.Replace("'", string.Empty);
+                Console.WriteLine(retStr);
+            }
+            return retStr;
         }
         private async Task<List<TopListEntity>> getFilterResultAsync(QueryOffloadsInput filters)
         {
+            if(filters.Month != null)
+            {
+                for(int i = 0; i < filters.Month.Count; i++)
+                {
+                    Console.WriteLine(filters.Month[i]);
+                }     
+            }
+            if(filters.Year != null)
+            {
+                for(int i = 0; i < filters.Year.Count; i++)
+                {
+                    Console.WriteLine(filters.Year[i]);
+                }
+            }
             using var cmd = _connection.CreateCommand();
             cmd.CommandTimeout = 90;
             _connection.Open();
@@ -81,82 +128,39 @@ namespace OffloadWebApi.Repository
                                 FROM englishVersion ";
 
                                 // Ef filtering á við fishinggear, s.s. ef fishing gear filtering er til staðar þá fer það hingað.
-            if(filters.FishingGear != null) 
+            bool firstFilter = true;
+
+            if(filters.BoatLength != null)
+            {  
+                firstFilter = false;
+                string lenStr = string.Format(" WHERE (boat_length BETWEEN {0} AND {1})", filters.BoatLength[0], filters.BoatLength[1]);
+                cmd.CommandText = cmd.CommandText + lenStr;
+            }
+            if(filters.Month != null)
             {
-                cmd.CommandText = cmd.CommandText + "WHERE (fishing_gear = ";
-                for(var i = 0; i < filters.FishingGear.Count; i++)
-                {
-                    cmd.CommandText = cmd.CommandText + filters.FishingGear[i];
-                    Console.WriteLine(filters.FishingGear[i]);
-                    if((i + 1) < filters.FishingGear.Count)
-                    {
-                        cmd.CommandText = cmd.CommandText + " OR fishing_gear = ";
-                    }
-                }
-                cmd.CommandText = cmd.CommandText + ") ";
-                Console.WriteLine(cmd.CommandText);
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.Month, firstFilter, "landing_month", false);
+                firstFilter = false;
             }
-
-            // Her fyrir neðan er ef við erum með filteringu á fishinggear og boatlength þá gerist þetta
-            if(filters.FishingGear != null && filters.BoatLength != null)
-            {   
-                for(var i = 0; i < filters.BoatLength.Count; i++)
-                {
-                    cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
-                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i] + " AND " + filters.BoatLength[i + 1];
-                    i = i + 1;
-                    cmd.CommandText = cmd.CommandText + ") ";
-                }
-                Console.WriteLine(cmd.CommandText);
-            }
-
-            // Hér fyrir neðan ef við erum ekki með neina filteringu á fishing gear en við erum með filteringu á boatlength þá gerist þetta
-            if(filters.FishingGear == null && filters.BoatLength != null)
-            {   
-                cmd.CommandText = cmd.CommandText + " WHERE (boat_length BETWEEN ";
-                for(var i = 0; i < filters.BoatLength.Count; i++)
-                {
-                    if(i >= 2)
-                    {
-                        cmd.CommandText = cmd.CommandText + " AND (boat_length BETWEEN ";
-                    }
-                    cmd.CommandText = cmd.CommandText + filters.BoatLength[i].ToString() + " AND " + filters.BoatLength[i + 1].ToString();
-                    i = i + 1;
-                    cmd.CommandText = cmd.CommandText + ") ";
-                }
-                Console.WriteLine(cmd.CommandText);
-            }
-
-            // Her fyrir nedan er filtering fyrir fishname
-            if((filters.FishingGear != null || filters.BoatLength != null) && filters.FishName != null)
+            if(filters.FishingGear != null)
             {
-                cmd.CommandText = cmd.CommandText + " AND (fish_name = ";
-                for(var i = 0; i < filters.FishName.Count; i++)
-                { 
-                    cmd.CommandText = cmd.CommandText + filters.FishName[i];
-                    if((i + 1) < filters.FishName.Count)
-                    {
-                        cmd.CommandText = cmd.CommandText + " AND fishing_gear = ";
-                    }
-                }
-                cmd.CommandText = cmd.CommandText + ") ";
-                Console.WriteLine(cmd.CommandText);
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.FishingGear, firstFilter, "fishing_gear");
+                firstFilter = false;
             }
-            if((filters.FishingGear == null && filters.BoatLength == null) && filters.FishName != null)
+            if(filters.FishName != null)
             {
-                cmd.CommandText = cmd.CommandText + " WHERE (fish_name = ";
-                for(var i = 0; i < filters.FishName.Count; i++)
-                { 
-                    cmd.CommandText = cmd.CommandText + filters.FishName[i];
-                    if((i + 1) < filters.FishName.Count)
-                    {
-                        cmd.CommandText = cmd.CommandText + " AND fishing_gear = ";
-                    }
-                }
-                cmd.CommandText = cmd.CommandText + ") ";
-                Console.WriteLine(cmd.CommandText);
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.FishName, firstFilter, "fish_name");
+                firstFilter = false;
             }
-
+            if(filters.Year != null)
+            {
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.Year, firstFilter, "fish_name");
+                firstFilter = false;
+            }
+            if(filters.LandingState != null)
+            {
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.LandingState, firstFilter, "landing_state");
+                firstFilter = false; 
+            }
             cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
 
                                 // ....where ... fishing_gear = 'Autoline' OR fishing_gear = 'Andreline' OR fishing_gear = 'Juksa/pilk' OR fishing_gear = 'Flyteline'
@@ -164,6 +168,7 @@ namespace OffloadWebApi.Repository
             _connection.Close();
             return res;
         }
+
         private async Task<List<TopListEntity>> ReadAllAsync(DbDataReader reader)
         {
             var items = new List<TopListEntity>();

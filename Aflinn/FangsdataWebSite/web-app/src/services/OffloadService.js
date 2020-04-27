@@ -10,7 +10,7 @@ async function getDataFromApi( filter ) {
                 if(filter[prop].length !== 0){
                     params += prop + '=';
                     filter[prop].forEach( p => {
-                        params += "'" + p + "',";
+                        params += "" + p + ",";
                     });
                     params = params.substring(0, params.length - 1);
                 }
