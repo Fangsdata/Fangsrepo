@@ -1,13 +1,17 @@
 .navbar {
     height: 4rem;
     border-bottom: 2px solid #6F6B6B;
-    position: relative;
+    position: fixed;
+    width: 100%;
+    top: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
+    justify-content: space-evenly;
+    padding: 0;
+    background-color: white;
 }
+
 
 .searchbar {
     width: 50rem;
@@ -18,6 +22,7 @@
     border-radius: 30px;;
     border: 0.1em solid #2B59C3;
     font-size: 1rem;
+    margin-top: -1.5rem;
 }
 
 .search-inp {
@@ -47,7 +52,16 @@
     filter: invert(27%) sepia(90%) saturate(1200%) hue-rotate(203deg) brightness(95%) contrast(96%);
 }
 
-.navlinks {
-    float: left;
-    font-size: 0.7rem;
+.logo {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-top: 1rem;
+}
+
+.none {
+    width: 4.5rem;
+}
+
+.container {
+    padding-top: 5rem;
 }
