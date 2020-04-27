@@ -151,15 +151,26 @@ namespace OffloadWebApi.Repository
                 cmd.CommandText = cmd.CommandText + AddFilter(filters.FishName, firstFilter, "fish_name");
                 firstFilter = false;
             }
-            if(filters.Year != null)
-            {
-                cmd.CommandText = cmd.CommandText + AddFilter(filters.Year, firstFilter, "fish_name");
-                firstFilter = false;
-            }
             if(filters.LandingState != null)
             {
                 cmd.CommandText = cmd.CommandText + AddFilter(filters.LandingState, firstFilter, "landing_state");
                 firstFilter = false; 
+            }
+            if(filters.Year != null)
+            {
+                bool is2016 = false;
+                for(int i = 0; i < filters.Year.Count; i++)
+                {
+                    if (filters.Year[i] == 2016)
+                    {
+                        is2016 = true;
+                    }
+                } 
+                if(!is2016)
+                {            
+                    _connection.Close();
+                    return new List<TopListEntity>();
+                }
             }
             cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
 
