@@ -64,5 +64,19 @@ namespace OffloadWebApi.Services
             }
             return boat;
         }
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        {
+            var boats = SearchForBoat(boatSearchTerm); 
+            if (boats == null)
+            {
+                return null;
+            }
+
+            foreach(var boat in boats)
+            {
+                boat.Image = GetImage(boat.RadioSignalId);
+            }
+            return boats;
+        }
     }
 }

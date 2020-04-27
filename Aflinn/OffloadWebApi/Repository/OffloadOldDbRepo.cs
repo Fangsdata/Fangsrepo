@@ -704,5 +704,10 @@ namespace OffloadWebApi.Repository
 
             return dto;
         }
+        #nullable enable
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        {
+            return null;
+        }
     }
 }
