@@ -68,8 +68,6 @@ namespace OffloadWebApi.Services
 
         private List<double> parseBoatLength(string boatLength)
         {
-            Console.WriteLine("in servixe");
-            Console.WriteLine(boatLength);
             switch (boatLength)
             {
                 case null:
@@ -115,6 +113,7 @@ namespace OffloadWebApi.Services
             {
                 return null;
             }
+            month = month.Replace("'", string.Empty);
             var listMonth = ChangeInputIntoList(month, ",");
             var intListMonth = new List<int>();
             for(int i = 0; i < listMonth.Count; i++)
