@@ -68,7 +68,7 @@ namespace OffloadWebApi.Services
 
         private List<double> parseBoatLength(string boatLength)
         {
-            boatLength = boatLength.Replace("'", string.Empty);
+           // boatLength = boatLength.Replace("'", string.Empty);
             switch (boatLength)
             {
                 case null:

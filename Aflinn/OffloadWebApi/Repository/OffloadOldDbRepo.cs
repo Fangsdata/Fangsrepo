@@ -156,6 +156,11 @@ namespace OffloadWebApi.Repository
                 cmd.CommandText = cmd.CommandText + AddFilter(filters.Year, firstFilter, "fish_name");
                 firstFilter = false;
             }
+            if(filters.LandingState != null)
+            {
+                cmd.CommandText = cmd.CommandText + AddFilter(filters.LandingState, firstFilter, "landing_state");
+                firstFilter = false; 
+            }
             cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
 
                                 // ....where ... fishing_gear = 'Autoline' OR fishing_gear = 'Andreline' OR fishing_gear = 'Juksa/pilk' OR fishing_gear = 'Flyteline'
