@@ -7,7 +7,7 @@ import Container from './compoments/Container';
 import BoatDetails from './compoments/BoatDetails';
 import Contact from './compoments/Contact';
 import About from './compoments/About';
-
+import OffloadDetails from './compoments/OffloadDetails'; 
 
 function App() {
   return (
@@ -20,9 +20,8 @@ function App() {
           <Route exact path="/contact" component={ Contact } />
           <Route exact path="/about" component={ About } />
           <Route exact path="/boats/:boatname" render={ e => <BoatDetails boatname={e.match.params.boatname}/> } />
-
+          <Route exact path="/offloads/:offloadId" render={ e => <OffloadDetails offloadId={e.match.params.offloadId}/> } />
         </Switch>
-        {/* <TopOffloads /> */}
       </Container>
     </div>
   );
