@@ -9,6 +9,7 @@ import './Styles/base.css';
 import './Styles/boats.css';
 import './Styles/offloads.css';
 import './Styles/filter.css';
+import './Styles/hamburger.css';
 
 ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
 
