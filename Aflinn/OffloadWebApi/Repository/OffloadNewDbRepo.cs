@@ -65,10 +65,10 @@ namespace OffloadWebApi.Repository
                 {
                     boat.RegistrationId = reader.GetString(0);
                     boat.RadioSignalId = reader.GetString(1);
-                    boat.Name = reader.GetString(3);
-                    boat.Town = reader.GetString(4);
-                    boat.State = reader.GetString(5);
-                    boat.Nationality = reader.GetString(6);
+                    boat.Name = reader.GetString(2);
+                    boat.Town = reader.GetString(3);
+                    boat.State = reader.GetString(4);
+                    boat.Nationality = reader.GetString(5);
                     boat.Length = reader.GetDouble(6);
                     boat.Weight = GetBoatWeight(reader.GetInt16(7), reader.GetInt16(8));
                     boat.BuiltYear = reader.GetInt16(9);
