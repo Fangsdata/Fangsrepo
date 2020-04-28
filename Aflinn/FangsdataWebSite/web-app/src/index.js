@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './Styles/base.css';
+import './Styles/navbar.css';
 import './Styles/boats.css';
 import './Styles/offloads.css';
 import './Styles/filter.css';
