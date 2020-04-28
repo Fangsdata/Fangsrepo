@@ -7,7 +7,7 @@ using OffloadWebApi.Models.Dtos;
 using OffloadWebApi.Models.InputModels;
 using OffloadWebApi.Services;
 
-namespace OffloadsWebApi.Controllers
+namespace OffloadWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

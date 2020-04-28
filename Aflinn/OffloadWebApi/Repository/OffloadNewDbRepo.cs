@@ -35,8 +35,9 @@ namespace OffloadWebApi.Repository
             var boat = new BoatDto();
             var cmd = _connection.CreateCommand();
             _connection.Open();
-            string sqlCommand = string.Format(
-                                                 @"SELECT 
+
+            cmd.CommandText = string.Format(
+                                                @"SELECT 
 	                                                Aflinn_Landings.`Registreringsmerke (seddel)`,
 	                                                Aflinn_Boats.`Radiokallesignal (seddel)` ,
                                                     Aflinn_Landings.`Fartøynavn`,
@@ -55,8 +56,6 @@ namespace OffloadWebApi.Repository
                                                 WHERE Aflinn_Boats.`Radiokallesignal (seddel)` = '{0}'
                                                 ORDER BY Aflinn_Landings.`Landingsdato` DESC
                                                 LIMIT 1   ", BoatRadioSignalId);
-            cmd.CommandText = sqlCommand;
-
             var reader = cmd.ExecuteReader();
             
             using(reader)
