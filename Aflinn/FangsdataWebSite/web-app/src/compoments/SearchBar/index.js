@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
 import CONST from "../../Constants";
-import './index.css';
 
 var timeOut;
 const SearchBar = () => {
@@ -55,13 +54,14 @@ const SearchBar = () => {
                                     name={boat.name}
                                     RadioSignal={boat.radioSignalId}
                                     />) }
+        <div className="result-bottom"></div>
        </div>
     : <></>
     }
     </>)
 }
 const QuickSearchItem = ({name, RadioSignal}) => (
-    <div>
+    <div className="search-result">
         <Link to={"/boats/" + RadioSignal}>{name} </Link>
     </div>
 )
