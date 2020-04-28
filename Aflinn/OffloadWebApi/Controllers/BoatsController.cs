@@ -11,7 +11,7 @@ namespace OffloadWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BoatsController : Controller
+    public class BoatsController : ControllerBase
     {
         private IBoatService _IBoatService;
 

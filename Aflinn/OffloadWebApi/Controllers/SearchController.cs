@@ -11,7 +11,7 @@ namespace OffloadWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SearchController : Controller
+    public class SearchController : ControllerBase
     {
         private IBoatService _IBoatService;
         public SearchController(IBoatService boatService)
@@ -19,7 +19,7 @@ namespace OffloadWebApi.Controllers
             this._IBoatService = boatService;
         }
 
-        [HttpGet("/boats/{boatSearchTerm}")]
+        [HttpGet("boats/{boatSearchTerm}")]
         public IActionResult Get(string boatSearchTerm)
         {
             var result = this._IBoatService.SearchForBoat(boatSearchTerm);

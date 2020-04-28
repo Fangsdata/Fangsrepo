@@ -704,10 +704,58 @@ namespace OffloadWebApi.Repository
 
             return dto;
         }
+
+        private async Task<List<BoatSimpleDto>> GetSearchForBoat(string boatSearchTerm)
+        {
+            using var cmd = _connection.CreateCommand();
+            _connection.Open();
+            string commandString = string.Format(
+                                    @"SELECT * 
+                                    FROM eskoy.englishVersion
+                                    WHERE boat_name LIKE '%{0}%'
+                                    OR boat_radio_signal_id LIKE '%{0}%'
+                                    OR boat_regestration_id LIKE '%{0}%'
+                                    LIMIT 100",
+                                    boatSearchTerm);
+            cmd.CommandText = commandString;
+            var res = await this.readBoatSearch(await cmd.ExecuteReaderAsync());
+            _connection.Close();
+            return res; 
+        }
+        private async Task<List<BoatSimpleDto>> readBoatSearch(DbDataReader reader)
+        {
+            var boats = new List<BoatSimpleDto>();
+            using (reader)
+            {
+                while(await reader.ReadAsync())
+                {
+                    var rowLen = parseStrToDouble(reader.GetString(15));
+                    if (rowLen == 0)
+                    {
+                        rowLen = parseStrToDouble(reader.GetString(14));
+                    }
+                    boats.Add(new BoatSimpleDto
+                    {
+                        Registration_id = reader.GetString(8),
+                        RadioSignalId = reader.GetString(9),
+                        Name = reader.GetString(10),
+                        State = reader.GetString(12),
+                        Nationality = reader.GetString(13),
+                        Town = reader.GetString(11),
+                        Length = rowLen,
+                        FishingGear = reader.GetString(20)
+                    });
+                }
+            }
+            return boats;
+        }
+
         #nullable enable
         public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
         {
-            return null;
+            var result = GetSearchForBoat(boatSearchTerm);
+            result.Wait();
+            return result.Result;
         }
     }
 }
