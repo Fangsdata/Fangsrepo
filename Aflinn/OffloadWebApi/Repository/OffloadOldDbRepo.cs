@@ -710,12 +710,14 @@ namespace OffloadWebApi.Repository
             using var cmd = _connection.CreateCommand();
             _connection.Open();
             string commandString = string.Format(
-                                    @"SELECT * 
+                                    @"SELECT boat_regestration_id, boat_radio_signal_id, 
+                                             boat_name, boat_state_id, boat_nationality_id, 
+                                             boat_town_id,boat_length, fishing_gear
                                     FROM eskoy.englishVersion
                                     WHERE boat_name LIKE '%{0}%'
                                     OR boat_radio_signal_id LIKE '%{0}%'
                                     OR boat_regestration_id LIKE '%{0}%'
-                                    LIMIT 100",
+                                    LIMIT 15",
                                     boatSearchTerm);
             cmd.CommandText = commandString;
             var res = await this.readBoatSearch(await cmd.ExecuteReaderAsync());
@@ -729,21 +731,16 @@ namespace OffloadWebApi.Repository
             {
                 while(await reader.ReadAsync())
                 {
-                    var rowLen = parseStrToDouble(reader.GetString(15));
-                    if (rowLen == 0)
-                    {
-                        rowLen = parseStrToDouble(reader.GetString(14));
-                    }
                     boats.Add(new BoatSimpleDto
                     {
-                        Registration_id = reader.GetString(8),
-                        RadioSignalId = reader.GetString(9),
-                        Name = reader.GetString(10),
-                        State = reader.GetString(12),
-                        Nationality = reader.GetString(13),
-                        Town = reader.GetString(11),
-                        Length = rowLen,
-                        FishingGear = reader.GetString(20)
+                        Registration_id = reader.GetString(0),
+                        RadioSignalId = reader.GetString(1),
+                        Name = reader.GetString(2),
+                        State = reader.GetString(3),
+                        Nationality = reader.GetString(4),
+                        Town = reader.GetString(5),
+                        Length = parseStrToDouble(reader.GetString(6)),
+                        FishingGear = reader.GetString(7)
                     });
                 }
             }
