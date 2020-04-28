@@ -3,6 +3,8 @@ import {getOffloads} from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 import FilterContainer from '../FiltersContainer';
 
+var filterTimeOut;
+
 class TopOffLoads extends React.Component {
 
     async componentDidMount(){
@@ -108,7 +110,12 @@ class TopOffLoads extends React.Component {
             currState.push(target.value);
             filter[target.name] = currState;
             this.setState(filter);
-            this.setState({ offLoads : await getOffloads( filter )});
+            
+            clearTimeout(filterTimeOut);
+            filterTimeOut = setTimeout( async ()=> {
+                this.setState({ offLoads : await getOffloads( filter )});
+            }, 1000);
+
         }
         else{
             let currState = filter[target.name];
@@ -116,7 +123,11 @@ class TopOffLoads extends React.Component {
             currState.splice(itemIndex,1);
             filter[target.name] = currState; 
             this.setState(filter);
-            this.setState({ offLoads : await getOffloads( filter )}); 
+            
+            clearTimeout(filterTimeOut);
+            filterTimeOut = setTimeout( async ()=> {
+                this.setState({ offLoads : await getOffloads( filter )});
+            }, 1000);        
         }
 
     }

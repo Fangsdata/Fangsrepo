@@ -11,7 +11,7 @@ namespace OffloadsWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OffloadsController : Controller
+    public class OffloadsController : ControllerBase
     {
         private IOffloadService _OffloadService;
 

@@ -11,24 +11,22 @@ namespace OffloadWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BoatsController : ControllerBase
+    public class SearchController : ControllerBase
     {
         private IBoatService _IBoatService;
-
-        public BoatsController(IBoatService boatService)
+        public SearchController(IBoatService boatService)
         {
             this._IBoatService = boatService;
         }
 
-        [HttpGet("{BoatRadioSignalId}")]
-        public IActionResult Get(string BoatRadioSignalId)
+        [HttpGet("boats/{boatSearchTerm}")]
+        public IActionResult Get(string boatSearchTerm)
         {
-            var result = this._IBoatService.GetBoat(BoatRadioSignalId);
-            if (result == null)
+            var result = this._IBoatService.SearchForBoat(boatSearchTerm);
+            if(result == null)
             {
                 return this.NotFound();
             }
-
             return this.Ok(result);
         }
     }

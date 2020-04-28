@@ -14,6 +14,8 @@
 
         public string Nationality { get; set; }
 
+        public string Town { get; set; }
+
         public double Length { get; set; }
 
         public string FishingGear { get; set; }

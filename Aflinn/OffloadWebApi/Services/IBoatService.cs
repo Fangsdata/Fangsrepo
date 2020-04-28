@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
 
 namespace OffloadWebApi.Services
@@ -6,5 +7,6 @@ namespace OffloadWebApi.Services
     {
         #nullable enable
         BoatDto? GetBoat(string BoatRadioSignalId);
+        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm);
     }
 }

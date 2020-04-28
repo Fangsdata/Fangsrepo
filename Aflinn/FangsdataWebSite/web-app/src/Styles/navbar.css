@@ -57,3 +57,28 @@
     height: 4.5rem;
     margin-top: 1rem;
 }
+
+.quick-search{
+    background-color: white;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    margin-top: 31.6rem;
+    width: 48.3rem;
+    border: 0.1rem solid royalblue;
+    border-radius: 0 0 20px 20px;
+    margin-left: 2.3rem;
+}
+
+.search-result {
+    padding: 0.2rem;
+    padding-left: 1.5rem;
+}
+
+.search-result:hover {
+    background-color: lightgray;
+}
+
+.result-bottom {
+    height: 1rem;
+}
