@@ -22,7 +22,6 @@ class LandingsTable extends React.Component {
             .then((res2) => res2.json())
             .then((res2) => {
                 this.setState({landings: res2})
-                console.log(res2)
             });
     }
 
@@ -39,15 +38,16 @@ class LandingsTable extends React.Component {
             <td>State</td>
             <td>Total weitght</td>
         </tr>
-        {this.state.landings.map((landing, i)=>(
+        {true
+         ? this.state.landings.map((landing, i)=>(
             <tr>
                 <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.landingDate}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.town}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.totalWeight} kg.</Link></td>
-            </tr>
-        ))}
+            </tr>))
+          :<></>}
 
     </table>
     );
