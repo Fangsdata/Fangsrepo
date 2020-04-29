@@ -65,7 +65,7 @@
     flex-direction: column;
     margin-top: 1.8rem;
     width: 50rem;
-    border: 0.1rem solid royalblue;
+    border: 0.1rem solid #2B59C3;
     border-radius: 0 0 15px 15px;
     border-top: none;
 }
