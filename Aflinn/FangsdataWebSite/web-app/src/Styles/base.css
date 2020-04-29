@@ -99,8 +99,6 @@
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
-    animation: loading 0s 30s forwards;
-    visibility: visible;
 }
 .loader:before,
 .loader:after {
@@ -150,8 +148,4 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
-}
-
-@keyframes loading {
-    to   { visibility: hidden; }
 }
