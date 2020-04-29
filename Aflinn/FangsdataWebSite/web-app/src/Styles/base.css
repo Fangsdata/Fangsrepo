@@ -78,6 +78,9 @@
     filter: invert(27%) sepia(90%) saturate(1200%) hue-rotate(203deg) brightness(95%) contrast(96%);
 }
 
+.loader-container {
+    flex-basis: 100%;
+}
 
 .loader,
 .loader:before,

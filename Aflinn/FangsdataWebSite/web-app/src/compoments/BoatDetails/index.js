@@ -77,7 +77,7 @@ class BoatDetails extends React.Component{
                     }
                 </div>
             </> 
-            :<div className="loader"></div>
+            :<div className="loader-container"><div className="loader"></div></div>
             }
             { mapData[0] !== undefined
                 ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
