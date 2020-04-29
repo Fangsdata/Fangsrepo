@@ -141,6 +141,14 @@ class TopOffLoads extends React.Component {
             <OffloadsList 
                 offloads={ this.state.offLoads }
             />
+            { this.state.offLoads.length < 1
+                ?   <>
+                    <div className="loader">Loading...</div>
+                    <div className="timeout-error"><div className="cross">X  </div>Loading time out error!</div>
+                    </>
+                : <></>
+            }
+
         </div>);
     }
 }

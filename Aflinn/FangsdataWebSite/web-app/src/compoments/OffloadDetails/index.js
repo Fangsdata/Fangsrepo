@@ -17,42 +17,42 @@ const OffloadDetails = ({offloadId}) =>
     )
     const [ offloadDetail, setOffloadDetails ] = useState(
         {
-            "id": "",
-            "town": "Landing town",
-            "state": "landing state",
-            "landingDate": "2020-04-08T20:36:53.2402989+00:00",
+          /*   "id": "",
+            "town": "",
+            "state": "",
+            "landingDate": "",
             "totalWeight": 0,
             "fish": [
                 {
                     "id": 0,
-                    "type": "Torsk",
-                    "condition": "Rund",
-                    "preservation": "Fersk/ukonservert",
-                    "packaging": "Uspesifisert",
-                    "quality": "A",
-                    "application": "Fersk (konsum)",
+                    "type": "",
+                    "condition": "",
+                    "preservation": "",
+                    "packaging": "",
+                    "quality": "",
+                    "application": "",
                     "weight": 0
                 }
             ],
             "boat": {
                 "id": 0,
-                "registration_id": "boat reg",
-                "radioSignalId": "boat radio signal",
-                "name": "boat name",
-                "state": "Finnmark",
-                "nationality": "nat",
+                "registration_id": "",
+                "radioSignalId": "",
+                "name": "",
+                "state": "",
+                "nationality": "",
                 "length": 0,
-                "fishingGear": "stuff",
+                "fishingGear": "",
                 "image": ""
                 },
             "mapData": [
                 {
                     "latitude": 0,
                     "longitude": 0,
-                    "time": "2020-04-17T11:11:54.653718+00:00"
+                    "time": ""
                 }
             ]
-        }
+        */}
     ); 
     const generateColors = (size) => {
         let colorExample = [ '#2B59C3','#B7DFB3', '#DCB8B8', '#DCD8B8' ];
@@ -90,52 +90,57 @@ const OffloadDetails = ({offloadId}) =>
     },[]);
 
     return (
-        <div className="offload-details-container">
-            <div className="landing-info-container">
-                <h1>{offloadDetail.town.toLocaleLowerCase()} in {offloadDetail.state}</h1>
-                <p>Boat : {offloadDetail.boat.name} - {offloadDetail.boat.registration_id}</p> 
-                <p>Fishing gear : {offloadDetail.boat.fishingGear}</p>
-                <p>Landing date : {offloadDetail.landingDate}</p>
-                <p>Packaging : {offloadDetail.fish[0].packaging}</p>
-                <p>Preservation : {offloadDetail.fish[0].preservation}</p>
-            </div>
-            <div className="map-container">
-                <Map
-                    lat={offloadDetail.mapData[0].latitude}
-                    lng={offloadDetail.mapData[0].longitude}
-                />
-            </div>
-            <div className="fish-container">
-                <div className="fish-container-item">
-                    <p>Type</p>
-                    <p>Condition</p>
-                    <p>Quality</p>
-                    <p>Application</p>
-                    <p>Weight</p>
+        <div className="boat-container">
+        { Object.keys(offloadDetail).length != 0 
+        ? <>
+                <div className="landing-info-container">
+                    <h1>{offloadDetail.town.toLocaleLowerCase()} in {offloadDetail.state}</h1>
+                    <p>Boat : {offloadDetail.boat.name} - {offloadDetail.boat.registration_id}</p> 
+                    <p>Fishing gear : {offloadDetail.boat.fishingGear}</p>
+                    <p>Landing date : {offloadDetail.landingDate}</p>
+                    <p>Packaging : {offloadDetail.fish[0].packaging}</p>
+                    <p>Preservation : {offloadDetail.fish[0].preservation}</p>
                 </div>
-                {
-                    offloadDetail.fish.map((fish) => (
-                        
-                        <div className="fish-container-item" key={fish.id}>
-                            <p>{fish.type}</p>
-                            <p>{fish.condition}</p>
-                            <p>{fish.quality}</p>
-                            <p>{fish.application}</p>
-                            <p>{fish.weight} kg</p>
-                        </div>
-                    ))
-                }
-                <div className="fish-container-item">
-                    <p>Total</p>
-                    <p> - </p>
-                    <p> - </p>
-                    <p> - </p>
-                    <p>{offloadDetail.totalWeight} kg</p>
+                <div className="map-container">
+                    <Map
+                        lat={offloadDetail.mapData[0].latitude}
+                        lng={offloadDetail.mapData[0].longitude}
+                    />
                 </div>
-            </div>
-            <div className="pie-chart">
-                <Pie data={chartData} legend={{display:false}} redraw></Pie>
-            </div>
+                <div className="fish-container">
+                    <div className="fish-container-item"><p>Offload details</p></div>
+                    <div className="fish-container-item">
+                        <p>Type</p>
+                        <p>Condition</p>
+                        <p>Quality</p>
+                        <p>Application</p>
+                        <p>Weight</p>
+                    </div>
+                    {
+                        offloadDetail.fish.map((fish) => (
+                            
+                            <div className="fish-container-item" key={fish.id}>
+                                <p>{fish.type}</p>
+                                <p>{fish.condition}</p>
+                                <p>{fish.quality}</p>
+                                <p>{fish.application}</p>
+                                <p>{fish.weight} kg</p>
+                            </div>
+                        ))
+                    }
+                    <div className="fish-container-item">
+                        <p>Total</p>
+                        <p> - </p>
+                        <p> - </p>
+                        <p> - </p>
+                        <p>{offloadDetail.totalWeight} kg</p>
+                    </div>
+                </div>
+                <div className="pie-chart">
+                    <Pie data={chartData} legend={{display:true}} redraw   width={300} height={400}></Pie>
+                </div>
+            </>
+        : <div className="loader"></div>}
         </div>
     )
 }
