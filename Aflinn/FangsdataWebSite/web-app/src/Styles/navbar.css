@@ -63,11 +63,10 @@
     display: flex;
     position: absolute;
     flex-direction: column;
-    margin-top: 31.6rem;
+    margin-top: 1.8rem;
     width: 48.3rem;
     border: 0.1rem solid royalblue;
     border-radius: 0 0 20px 20px;
-    margin-left: 2.3rem;
 }
 
 .search-result {

@@ -47,17 +47,17 @@ const SearchBar = () => {
         className="search-btn"
         onClick={() => StartSearch()}>
         <img className="search-icon" src={icon} alt=""/></button>
-    </div>
-    {foundBoats.length != 0
-    ?   <div className="quick-search"> 
-        { foundBoats.map((boat)=> <QuickSearchItem 
-                                    name={boat.name}
-                                    RadioSignal={boat.radioSignalId}
-                                    />) }
-        <div className="result-bottom"></div>
+        {foundBoats.length != 0
+        ?   <div className="quick-search"> 
+            { foundBoats.map((boat)=> <QuickSearchItem 
+                                        name={boat.name}
+                                        RadioSignal={boat.radioSignalId}
+                                        />) }
+            <div className="result-bottom"></div>
        </div>
     : <></>
     }
+    </div>
     </>)
 }
 const QuickSearchItem = ({name, RadioSignal}) => (
