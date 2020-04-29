@@ -4,17 +4,33 @@
 }
 
 .fish-container {
-    width: 65%;
+    width: 60%;
+    margin: 40px;
 }
-
+.pie-chart{
+    margin-top: 40px;
+}
 .fish-container-item {
     display: flex;
     flex-direction: row;
 }
+.landing-info-container{
+    margin: 40px;
+}
 
 .fish-container > .fish-container-item:first-child {
     background-color: #2B59C3;
+    align-content: center;
 }
+.fish-container > .fish-container-item:first-child > p {
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    text-align: center;
+    font-weight: 400;
+    align-self: center;
+}
+
 .fish-container > .fish-container-item {
     background-color: white;
 }
