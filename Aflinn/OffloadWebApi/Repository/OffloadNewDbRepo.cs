@@ -159,6 +159,7 @@ namespace OffloadWebApi.Repository
                 LEFT JOIN Aflinn_Fish_preservation ON Aflinn_Landings.`Konserveringsmåte (kode)` = Aflinn_Fish_preservation.`Konserveringsmåte (kode)`
                 LEFT JOIN Aflinn_Packaging ON Aflinn_Landings.`Landingsmåte (kode)` = Aflinn_Packaging.`Landingsmåte (kode)`
                 LEFT JOIN Aflinn_Fish_quality ON Aflinn_Landings.`Kvalitet (kode)` = Aflinn_Fish_quality.`Kvalitet (kode)`
+                LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
                 WHERE Aflinn_Landings.`Dokumentnummer` = {0}", offloadId);
             var reader = cmd.ExecuteReader();
             using(reader)
