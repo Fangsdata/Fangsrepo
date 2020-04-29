@@ -68,7 +68,7 @@
 
 .landing-table tr:hover {background-color: #ddd;}
 
-.landing-table th {
+.landing-table-header {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;

@@ -26,20 +26,21 @@ class LandingsTable extends React.Component {
     }
 
   render() {
+      const {landings} = this.state;
     return (
         <table className="landing-table">
         <tr>
-            <th colSpan="5">Most recent landings</th>
+            <th className="landing-table-header" colSpan="5">Most recent landings</th>
         </tr>
-        <tr>
+        <tr >
             <td></td>
             <td>Date</td>
             <td>Town</td>
             <td>State</td>
             <td>Total weitght</td>
         </tr>
-        {false
-         ? this.state.landings.map((landing, i)=>(
+        { landings.length !== 0
+         ? landings.map((landing, i)=>(
             <tr>
                 <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.landingDate}</Link></td>
@@ -47,7 +48,7 @@ class LandingsTable extends React.Component {
                 <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.totalWeight} kg.</Link></td>
             </tr>))
-          :<div className="loader"></div>}
+          :<th colSpan="5"><div className="loader"></div></th>}
 
     </table>
     );
