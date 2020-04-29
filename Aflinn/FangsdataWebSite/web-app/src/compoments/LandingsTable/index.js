@@ -38,7 +38,7 @@ class LandingsTable extends React.Component {
             <td>State</td>
             <td>Total weitght</td>
         </tr>
-        {true
+        {false
          ? this.state.landings.map((landing, i)=>(
             <tr>
                 <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
@@ -47,7 +47,7 @@ class LandingsTable extends React.Component {
                 <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.totalWeight} kg.</Link></td>
             </tr>))
-          :<></>}
+          :<div className="loader"></div>}
 
     </table>
     );
