@@ -162,6 +162,16 @@ namespace OffloadWebApi.Repository
             throw new NotImplementedException();
         }
 
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo)
+        {
+            throw new NotImplementedException();
+        }
+
         List<TopListDto> IOffloadRepo.GetFilteredResults(QueryOffloadsInput filters)
         {
             if (filters.Month == null || filters.Month.Count == 0)

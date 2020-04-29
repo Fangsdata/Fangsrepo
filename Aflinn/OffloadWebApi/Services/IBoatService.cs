@@ -7,6 +7,6 @@ namespace OffloadWebApi.Services
     {
         #nullable enable
         BoatDto? GetBoat(string BoatRadioSignalId);
-        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm);
+        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo);
     }
 }

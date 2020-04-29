@@ -22,7 +22,17 @@ namespace OffloadWebApi.Controllers
         [HttpGet("boats/{boatSearchTerm}")]
         public IActionResult Get(string boatSearchTerm)
         {
-            var result = this._IBoatService.SearchForBoat(boatSearchTerm);
+            var result = this._IBoatService.SearchForBoat(boatSearchTerm, 10, 1);
+            if(result == null)
+            {
+                return this.NotFound();
+            }
+            return this.Ok(result);
+        }
+        [HttpGet("boats/{boatSearchTerm}/{count}/{pageNo}")]
+        public IActionResult Get(string boatSearchTerm, int count, int pageNo)
+        {
+            var result = this._IBoatService.SearchForBoat(boatSearchTerm, count, pageNo);
             if(result == null)
             {
                 return this.NotFound();

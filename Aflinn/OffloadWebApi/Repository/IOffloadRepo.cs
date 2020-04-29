@@ -7,7 +7,6 @@ namespace OffloadWebApi.Repository
 {
     public interface IOffloadRepo
     {
-        OffloadDetailDto GetOffloadById(int id);
         List<TopListDto> GetFilteredResults(QueryOffloadsInput filters);
         #nullable enable
         BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
@@ -16,6 +15,6 @@ namespace OffloadWebApi.Repository
 
         OffloadDto GetSingleOffload(string offloadId);
 
-        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm);
+        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo);
     }
 }

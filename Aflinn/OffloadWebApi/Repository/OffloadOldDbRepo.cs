@@ -396,10 +396,6 @@ namespace OffloadWebApi.Repository
             }
             return dto;
         }
-        public OffloadDetailDto GetOffloadById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
 
         private async Task<List<OffloadEntity>> getOffloads(string BoatRadioSignalId, int count)
         {
@@ -748,7 +744,7 @@ namespace OffloadWebApi.Repository
         }
 
         #nullable enable
-        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo)
         {
             var result = GetSearchForBoat(boatSearchTerm);
             result.Wait();

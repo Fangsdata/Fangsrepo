@@ -64,9 +64,9 @@ namespace OffloadWebApi.Services
             }
             return boat;
         }
-        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo)
         {
-            var boats = _offloadRepo.SearchForBoat(boatSearchTerm); 
+            var boats = _offloadRepo.SearchForBoat(boatSearchTerm, count, pageNo); 
             if (boats == null)
             {
                 return null;
