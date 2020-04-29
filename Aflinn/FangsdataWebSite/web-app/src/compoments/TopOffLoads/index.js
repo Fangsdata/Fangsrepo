@@ -141,6 +141,7 @@ class TopOffLoads extends React.Component {
             <OffloadsList 
                 offloads={ this.state.offLoads }
             />
+            <div className="loader">Loading...</div>
         </div>);
     }
 }
