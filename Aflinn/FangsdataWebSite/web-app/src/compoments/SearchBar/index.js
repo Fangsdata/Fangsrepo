@@ -9,6 +9,7 @@ const SearchBar = () => {
     const [search, updateSearch] = useState("");
     const [isTimedOut, setTimedOut] = useState(false);
     const [foundBoats, setFoundBoats] = useState([]); 
+    const [isSearchfield, setSearchfield] = useState(false);
 
     const StartSearch = () => {}
 
@@ -19,16 +20,18 @@ const SearchBar = () => {
             .then((res) => res.json())
             .then((res) => {
                 setFoundBoats(res);
+                setSearchfield(true);
             });
         }
         else{
             setFoundBoats([]);
+            setSearchfield(false);
         }
     }
 
     return (
     <>
-    <div className="searchbar">
+    <div className={ `searchbar ${isSearchfield ? 'open' : ''}` }>
         <input className="search-inp"
             placeholder="Search for boats"
             value={search}
@@ -52,6 +55,7 @@ const SearchBar = () => {
         <img className="search-icon" src={icon} alt=""/></button>
         {foundBoats.length != 0
         ?   <div className="quick-search"> 
+            <div className="line"></div>
             { foundBoats.map((boat)=> <QuickSearchItem 
                                         name={boat.name}
                                         RadioSignal={boat.radioSignalId}
@@ -64,8 +68,8 @@ const SearchBar = () => {
     </>)
 }
 const QuickSearchItem = ({name, RadioSignal}) => (
-    <div className="search-result">
-        <Link to={"/boats/" + RadioSignal}>{name} </Link>
-    </div>
+    <Link to={"/boats/" + RadioSignal}><div className="search-result">
+        {name} 
+    </div></Link>
 )
 export default SearchBar;
