@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
 import CONST from "../../Constants";
@@ -7,7 +7,6 @@ var timeOut;
 const SearchBar = () => {
 
     const [search, updateSearch] = useState("");
-    const [isTimedOut, setTimedOut] = useState(false);
     const [foundBoats, setFoundBoats] = useState([]); 
 
     const StartSearch = () => {}
@@ -28,7 +27,7 @@ const SearchBar = () => {
 
     return (
     <>
-    <div className="searchbar">
+    <div className={ `searchbar ${foundBoats.length != 0 ? 'open' : ''}` }>
         <input className="search-inp"
             placeholder="Search for boats"
             value={search}
@@ -50,22 +49,23 @@ const SearchBar = () => {
         className="search-btn"
         onClick={() => StartSearch()}>
         <img className="search-icon" src={icon} alt=""/></button>
-    </div>
-    {foundBoats.length != 0
-    ?   <div className="quick-search"> 
-        { foundBoats.map((boat)=> <QuickSearchItem 
-                                    name={boat.name}
-                                    RadioSignal={boat.radioSignalId}
-                                    />) }
-        <div className="result-bottom"></div>
-       </div>
-    : <></>
+        { foundBoats.length != 0
+       ?   <div className="quick-search"> 
+           <div className="line"></div>
+           { foundBoats.map((boat)=> <QuickSearchItem 
+                                        name={boat.name}
+                                        RadioSignal={boat.radioSignalId}
+                                        />) }
+            <div className="result-bottom"></div>
+        </div>
+        : <></>
     }
+    </div>
     </>)
 }
 const QuickSearchItem = ({name, RadioSignal}) => (
-    <div className="search-result">
-        <Link to={"/boats/" + RadioSignal}>{name} </Link>
-    </div>
+    <Link to={"/boats/" + RadioSignal}><div className="search-result">
+        {name} 
+    </div></Link>
 )
 export default SearchBar;

@@ -19,7 +19,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    border-radius: 30px;;
+    border-radius: 15px;;
     border: 0.1em solid #2B59C3;
     font-size: 1rem;
     margin-top: -1.5rem;
@@ -63,16 +63,17 @@
     display: flex;
     position: absolute;
     flex-direction: column;
-    margin-top: 31.6rem;
-    width: 48.3rem;
-    border: 0.1rem solid royalblue;
-    border-radius: 0 0 20px 20px;
-    margin-left: 2.3rem;
+    margin-top: 1.8rem;
+    width: 50rem;
+    border: 0.1rem solid #2B59C3;
+    border-radius: 0 0 15px 15px;
+    border-top: none;
 }
 
 .search-result {
     padding: 0.2rem;
     padding-left: 1.5rem;
+    color: black;
 }
 
 .search-result:hover {
@@ -81,4 +82,15 @@
 
 .result-bottom {
     height: 1rem;
+}
+
+.searchbar.open {
+    border-radius: 15px 15px 0 0;
+    border-bottom: none;
+}
+
+.line {
+    border-top: 1px solid #e8eaed;
+    margin: 0 20px 0 14px;
+    padding-bottom: 0.5rem;
 }
