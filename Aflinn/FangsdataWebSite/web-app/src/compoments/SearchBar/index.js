@@ -14,12 +14,15 @@ const SearchBar = () => {
 
     const UpdateQuickSearch = (searchTerm)=> {
         console.log(searchTerm);
-        if(searchTerm.length > 1){
+        if(searchTerm.length > 2){
             fetch(CONST.offloadApi + '/search/boats/' + searchTerm)
             .then((res) => res.json())
             .then((res) => {
                 setFoundBoats(res);
             });
+        }
+        else{
+            setFoundBoats([]);
         }
     }
 
