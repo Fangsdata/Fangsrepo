@@ -18,10 +18,7 @@ class BoatDetails extends React.Component{
             enginePower: "",
             fishingGear: "",
             image: "",
-            mapData: [{
-                latitude: 0,
-                longitude: 0
-            }]
+            mapData: []
         }
     };
 
@@ -72,9 +69,15 @@ class BoatDetails extends React.Component{
                 {/* <p className="boat-details">Engine size: { enginePower }</p> */}
                 <p className="boat-details">Fishing gear: { fishingGear }</p>
                 <br></br>
-                <p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                { mapData[0] !== undefined
+                    ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                    :<></>
+                }
             </div>
-            <VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
+            { mapData[0] !== undefined
+            ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
+            :<></>
+            }
             <LandingsTable boatname={this.props}></LandingsTable>
         </div>
 
