@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
 import CONST from "../../Constants";
@@ -7,9 +7,7 @@ var timeOut;
 const SearchBar = () => {
 
     const [search, updateSearch] = useState("");
-    const [isTimedOut, setTimedOut] = useState(false);
     const [foundBoats, setFoundBoats] = useState([]); 
-    const [isSearchfield, setSearchfield] = useState(false);
 
     const StartSearch = () => {}
 
@@ -20,18 +18,16 @@ const SearchBar = () => {
             .then((res) => res.json())
             .then((res) => {
                 setFoundBoats(res);
-                setSearchfield(true);
             });
         }
         else{
             setFoundBoats([]);
-            setSearchfield(false);
         }
     }
 
     return (
     <>
-    <div className={ `searchbar ${isSearchfield ? 'open' : ''}` }>
+    <div className={ `searchbar ${foundBoats.length != 0 ? 'open' : ''}` }>
         <input className="search-inp"
             placeholder="Search for boats"
             value={search}
@@ -53,16 +49,16 @@ const SearchBar = () => {
         className="search-btn"
         onClick={() => StartSearch()}>
         <img className="search-icon" src={icon} alt=""/></button>
-        {foundBoats.length != 0
-        ?   <div className="quick-search"> 
-            <div className="line"></div>
-            { foundBoats.map((boat)=> <QuickSearchItem 
+        { foundBoats.length != 0
+       ?   <div className="quick-search"> 
+           <div className="line"></div>
+           { foundBoats.map((boat)=> <QuickSearchItem 
                                         name={boat.name}
                                         RadioSignal={boat.radioSignalId}
                                         />) }
             <div className="result-bottom"></div>
-       </div>
-    : <></>
+        </div>
+        : <></>
     }
     </div>
     </>)
