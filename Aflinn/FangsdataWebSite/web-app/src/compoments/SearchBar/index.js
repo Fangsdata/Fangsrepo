@@ -53,8 +53,9 @@ const SearchBar = () => {
        ?   <div className="quick-search"> 
            <div className="line"></div>
            { foundBoats.map((boat)=> <QuickSearchItem 
-                                        name={boat.name}
+                                        searchItemTitle={boat.name + " - " + boat.registration_id}
                                         RadioSignal={boat.radioSignalId}
+                                        ClickedEvent={ () =>{ updateSearch(""); setFoundBoats([])}}
                                         />) }
             <div className="result-bottom"></div>
         </div>
@@ -63,9 +64,11 @@ const SearchBar = () => {
     </div>
     </>)
 }
-const QuickSearchItem = ({name, RadioSignal}) => (
-    <Link to={"/boats/" + RadioSignal}><div className="search-result">
-        {name} 
-    </div></Link>
+const QuickSearchItem = ({searchItemTitle, RadioSignal, ClickedEvent}) => (
+    <Link to={"/boats/" + RadioSignal} onClick={() => {ClickedEvent()}}>
+        <div className="search-result">
+            {searchItemTitle} 
+        </div>
+    </Link>
 )
 export default SearchBar;
