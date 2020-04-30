@@ -3,7 +3,7 @@ import Map from '../Map';
 import {Pie} from 'react-chartjs-2';
 import './index.css';
 
-const OffloadDetails = ({offloadId}) => 
+const OffloadDetails = ({offloadId, landingTown, landingState, boatName, boatRegistration, boatFishingGear, boatLandingDate, lat, lon, totalWeight}) => 
 {
     const [chartData, setChartData] = useState(
           {
@@ -17,7 +17,7 @@ const OffloadDetails = ({offloadId}) =>
     )
     const [ offloadDetail, setOffloadDetails ] = useState(
         {
-          /*   "id": "",
+          /*"id": "",
             "town": "",
             "state": "",
             "landingDate": "",
@@ -94,17 +94,17 @@ const OffloadDetails = ({offloadId}) =>
         { Object.keys(offloadDetail).length != 0 
         ? <>
                 <div className="landing-info-container">
-                    <h1>{offloadDetail.town.toLocaleLowerCase()} in {offloadDetail.state}</h1>
-                    <p>Boat : {offloadDetail.boat.name} - {offloadDetail.boat.registration_id}</p> 
-                    <p>Fishing gear : {offloadDetail.boat.fishingGear}</p>
-                    <p>Landing date : {offloadDetail.landingDate}</p>
-                    <p>Packaging : {offloadDetail.fish[0].packaging}</p>
-                    <p>Preservation : {offloadDetail.fish[0].preservation}</p>
+                    <h1>{landingTown.toLocaleLowerCase()} in {landingState}</h1>
+                    <p>Boat : {boatName} - {boatRegistration}</p> 
+                    <p>Fishing gear : {boatFishingGear}</p>
+                    <p>Landing date : {boatLandingDate}</p>
+                   {/* <p>Packaging : {offloadDetail.fish[0].packaging}</p>
+                    <p>Preservation : {offloadDetail.fish[0].preservation}</p> */}
                 </div>
                 <div className="map-container">
                     <Map
-                        lat={offloadDetail.mapData[0].latitude}
-                        lng={offloadDetail.mapData[0].longitude}
+                        lat={lat}
+                        lng={lon}
                     />
                 </div>
                 <table className="landing-table detail">
@@ -135,7 +135,7 @@ const OffloadDetails = ({offloadId}) =>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
-                        <td>{offloadDetail.totalWeight} kg</td>
+                        <td>{totalWeight} kg</td>
                     </tr>
                 </table>
                 <div className="pie-chart">
