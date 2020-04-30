@@ -75,7 +75,6 @@
     max-width: 100%;
 }
 
-
 .offload-group {
     flex: 0 0 16.666667%;
     max-width: 16.666667%;
@@ -87,22 +86,3 @@ a:hover .offload-group {
     display: inline-block;
     text-decoration: none !important;
 }
-
-.timeout-error {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    animation: loaderror 0s 5s forwards;
-    visibility: hidden;
-    margin: -10rem;
-}
-
-@keyframes loaderror {
-    to   { visibility: visible; }
-  }
-
-  .cross {
-      color: red;
-      font-weight: 800;
-      padding-right: 0.5rem;
-  }
