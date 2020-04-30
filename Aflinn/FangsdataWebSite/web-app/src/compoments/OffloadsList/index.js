@@ -14,7 +14,7 @@ const OffladsList = ({ offloads }) => (
             }} 
             index={'#'} 
             />
-        
+            
         { offloads.map((item, index) => <OffladsListItem 
             key = {item.boatRadioSignalId} item = {item} index={index+1} />)}
     </div>
