@@ -25,9 +25,7 @@ class LandingsTable extends React.Component {
             .then((res2) => res2.json())
             .then((res2) => {
                 this.setState({landings: res2});
-                console.log("in landing table");
-                console.log(res2[0].boat);
-                boatDetailsForOffloads(res2[0].boat);
+                this.props.boatDetailsForOffloads(res2[0].boat);
             });
     }
 

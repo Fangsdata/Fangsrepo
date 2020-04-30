@@ -14,6 +14,7 @@ import './Styles/hamburger.css';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import boatReducer from './reducers/BoatReducer';
+import './Styles/landings.css';
 
 ReactDOM.render(
     <Provider

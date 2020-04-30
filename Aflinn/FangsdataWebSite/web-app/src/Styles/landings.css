@@ -1,0 +1,17 @@
+.pie-chart{
+    width: 20rem;
+}
+
+.landing-info-container{
+    margin: 40px;
+}
+
+.detail {
+    width: 65% !important;
+    margin: 0 !important;
+}
+
+.landing {
+    justify-content: space-around;
+}
+
