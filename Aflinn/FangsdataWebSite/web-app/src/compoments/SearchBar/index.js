@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
-import CONST from "../../Constants";
+import {OFFLOADAPI} from "../../Constants";
 
 var timeOut;
 const SearchBar = () => {
@@ -14,7 +14,7 @@ const SearchBar = () => {
     const UpdateQuickSearch = (searchTerm)=> {
         console.log(searchTerm);
         if(searchTerm.length > 2){
-            fetch(CONST.offloadApi + '/search/boats/' + searchTerm)
+            fetch(OFFLOADAPI + '/search/boats/' + searchTerm)
             .then((res) => res.json())
             .then((res) => {
                 setFoundBoats(res);
@@ -53,8 +53,11 @@ const SearchBar = () => {
        ?   <div className="quick-search"> 
            <div className="line"></div>
            { foundBoats.map((boat)=> <QuickSearchItem 
-                                        name={boat.name}
+                                        searchItemTitle={boat.name + " - " + boat.registration_id}
                                         RadioSignal={boat.radioSignalId}
+                                        ClickedEvent={ () =>{ 
+                                            updateSearch("")
+                                            setFoundBoats([]);}}
                                         />) }
             <div className="result-bottom"></div>
         </div>
@@ -63,9 +66,11 @@ const SearchBar = () => {
     </div>
     </>)
 }
-const QuickSearchItem = ({name, RadioSignal}) => (
-    <Link to={"/boats/" + RadioSignal}><div className="search-result">
-        {name} 
-    </div></Link>
+const QuickSearchItem = ({searchItemTitle, RadioSignal, ClickedEvent}) => (
+    <Link to={"/boats/" + RadioSignal} onClick={() => {ClickedEvent()}}>
+        <div className="search-result">
+            {searchItemTitle} 
+        </div>
+    </Link>
 )
 export default SearchBar;
