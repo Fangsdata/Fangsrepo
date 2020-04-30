@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { boatDetailsForOffloads } from '../../actions/boatAction';
+
 
 class LandingsTable extends React.Component {
     state = {
@@ -21,7 +24,10 @@ class LandingsTable extends React.Component {
         fetch(`https://fangsdata-api.herokuapp.com/api/offloads/` + boatname + "/5")
             .then((res2) => res2.json())
             .then((res2) => {
-                this.setState({landings: res2})
+                this.setState({landings: res2});
+                console.log("in landing table");
+                console.log(res2[0].boat);
+                boatDetailsForOffloads(res2[0].boat);
             });
     }
 
@@ -55,4 +61,4 @@ class LandingsTable extends React.Component {
   }
 }
 
-export default LandingsTable;
+export default connect(null,{boatDetailsForOffloads})(LandingsTable);
