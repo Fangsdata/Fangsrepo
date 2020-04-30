@@ -61,8 +61,8 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
                     <p>Boat : {ReduxOffload.name}</p> 
                     <p>Fishing gear : {ReduxOffload.fishingGear}</p>
                     <p>Landing date : {offloadDetail.landingDate}</p>
-                   { <p>Packaging : {offloadDetail.fish[0].packaging}</p>
-                    <p>Preservation : {offloadDetail.fish[0].preservation}</p> }
+                    <p>Packaging : {offloadDetail.fish[0].packaging}</p>
+                    <p>Preservation : {offloadDetail.fish[0].preservation}</p>
                 </div>
                 <div className="map-container">
                     <Map
