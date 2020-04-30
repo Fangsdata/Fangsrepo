@@ -90,7 +90,7 @@ const OffloadDetails = ({offloadId, landingTown, landingState, boatName, boatReg
     },[]);
 
     return (
-        <div className="boat-container">
+        <div className="boat-container landing">
         { Object.keys(offloadDetail).length != 0 
         ? <>
                 <div className="landing-info-container">
@@ -107,37 +107,39 @@ const OffloadDetails = ({offloadId, landingTown, landingState, boatName, boatReg
                         lng={lon}
                     />
                 </div>
-                <div className="fish-container">
-                    <div className="fish-container-item"><p>Offload details</p></div>
-                    <div className="fish-container-item">
-                        <p>Type</p>
-                        <p>Condition</p>
-                        <p>Quality</p>
-                        <p>Application</p>
-                        <p>Weight</p>
-                    </div>
+                <table className="landing-table detail">
+                    <tr>
+                        <th className="landing-table-header" colSpan="5">Offload details</th>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>Condition</td>
+                        <td>Quality</td>
+                        <td>Application</td>
+                        <td>Weight</td>
+                    </tr>
                     {
                         offloadDetail.fish.map((fish) => (
                             
-                            <div className="fish-container-item" key={fish.id}>
-                                <p>{fish.type}</p>
-                                <p>{fish.condition}</p>
-                                <p>{fish.quality}</p>
-                                <p>{fish.application}</p>
-                                <p>{fish.weight} kg</p>
-                            </div>
+                            <tr key={fish.id}>
+                                <td>{fish.type}</td>
+                                <td>{fish.condition}</td>
+                                <td>{fish.quality}</td>
+                                <td>{fish.application}</td>
+                                <td>{fish.weight} kg</td>
+                            </tr>
                         ))
                     }
-                    <div className="fish-container-item">
-                        <p>Total</p>
-                        <p> - </p>
-                        <p> - </p>
-                        <p> - </p>
-                        <p>{totalWeight} kg</p>
-                    </div>
-                </div>
+                    <tr>
+                        <td>Total</td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td>{totalWeight} kg</td>
+                    </tr>
+                </table>
                 <div className="pie-chart">
-                    <Pie data={chartData} legend={{display:true}} redraw   width={300} height={400}></Pie>
+                    <Pie data={chartData} legend={{display:true}} redraw   width={200} height={300}></Pie>
                 </div>
             </>
         : <div className="loader"></div>}
