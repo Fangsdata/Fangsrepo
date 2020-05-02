@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { boatDetailsForOffloads } from '../../actions/boatAction';
-
 
 class LandingsTable extends React.Component {
     state = {
@@ -25,7 +22,6 @@ class LandingsTable extends React.Component {
             .then((res2) => res2.json())
             .then((res2) => {
                 this.setState({landings: res2});
-                this.props.boatDetailsForOffloads(res2[0].boat);
             });
     }
 
@@ -59,4 +55,4 @@ class LandingsTable extends React.Component {
   }
 }
 
-export default connect(null,{boatDetailsForOffloads})(LandingsTable);
+export default LandingsTable;
