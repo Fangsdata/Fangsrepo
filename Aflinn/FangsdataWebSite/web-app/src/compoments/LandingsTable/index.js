@@ -21,7 +21,7 @@ class LandingsTable extends React.Component {
         fetch(`https://fangsdata-api.herokuapp.com/api/offloads/` + boatname + "/5")
             .then((res2) => res2.json())
             .then((res2) => {
-                this.setState({landings: res2})
+                this.setState({landings: res2});
             });
     }
 

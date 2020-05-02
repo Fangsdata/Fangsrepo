@@ -2,6 +2,7 @@ import React from 'react';
 import VesselMap from '../Map'
 import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
+import { connect } from 'react-redux';
 
 class BoatDetails extends React.Component{
     state = {
@@ -27,13 +28,18 @@ class BoatDetails extends React.Component{
     }
 
     async componentDidMount() {
-        const {boatname} = this.props;
-    //    const { match: { params } } = this.props;
+        const {boatname, BoatStore} = this.props;
+        if(Object.keys(BoatStore).length !== 0)
+        {
+            console.log(BoatStore);
+            BoatStore.mapData = [];
+            this.setState({boat: BoatStore});
+        }
         fetch(`http://fangsdata-api.herokuapp.com/api/Boats/` + boatname)
             .then((res) => res.json())
             .then((res) => {
-                this.setState({boat: res})
-                // console.log(res)
+                this.setState({boat: res});
+                console.log(this.state);
             });
     }
 
@@ -89,4 +95,8 @@ class BoatDetails extends React.Component{
         );
     };
 }
-export default BoatDetails;
+
+const mapStateToProp = reduxStoreState => {
+    return {BoatStore: reduxStoreState};
+};
+export default connect(mapStateToProp)(BoatDetails);
