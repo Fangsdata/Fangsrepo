@@ -2,8 +2,9 @@ import React,{useEffect, useState} from 'react';
 import Map from '../Map';
 import {Pie} from 'react-chartjs-2';
 import './index.css';
+import { connect } from 'react-redux';
 
-const OffloadDetails = ({offloadId}) => 
+const OffloadDetails = ({offloadId, ReduxOffload}) => 
 {
     const [chartData, setChartData] = useState(
           {
@@ -15,45 +16,7 @@ const OffloadDetails = ({offloadId}) =>
             }]
         }
     )
-    const [ offloadDetail, setOffloadDetails ] = useState(
-        {
-            "id": "",
-            "town": "Landing town",
-            "state": "landing state",
-            "landingDate": "2020-04-08T20:36:53.2402989+00:00",
-            "totalWeight": 0,
-            "fish": [
-                {
-                    "id": 0,
-                    "type": "Torsk",
-                    "condition": "Rund",
-                    "preservation": "Fersk/ukonservert",
-                    "packaging": "Uspesifisert",
-                    "quality": "A",
-                    "application": "Fersk (konsum)",
-                    "weight": 0
-                }
-            ],
-            "boat": {
-                "id": 0,
-                "registration_id": "boat reg",
-                "radioSignalId": "boat radio signal",
-                "name": "boat name",
-                "state": "Finnmark",
-                "nationality": "nat",
-                "length": 0,
-                "fishingGear": "stuff",
-                "image": ""
-                },
-            "mapData": [
-                {
-                    "latitude": 0,
-                    "longitude": 0,
-                    "time": "2020-04-17T11:11:54.653718+00:00"
-                }
-            ]
-        }
-    ); 
+    const [ offloadDetail, setOffloadDetails ] = useState({}); 
     const generateColors = (size) => {
         let colorExample = [ '#2B59C3','#B7DFB3', '#DCB8B8', '#DCD8B8' ];
         let retData = [];
@@ -90,53 +53,63 @@ const OffloadDetails = ({offloadId}) =>
     },[]);
 
     return (
-        <div className="offload-details-container">
-            <div className="landing-info-container">
-                <h1>{offloadDetail.town.toLocaleLowerCase()} in {offloadDetail.state}</h1>
-                <p>Boat : {offloadDetail.boat.name} - {offloadDetail.boat.registration_id}</p> 
-                <p>Fishing gear : {offloadDetail.boat.fishingGear}</p>
-                <p>Landing date : {offloadDetail.landingDate}</p>
-                <p>Packaging : {offloadDetail.fish[0].packaging}</p>
-                <p>Preservation : {offloadDetail.fish[0].preservation}</p>
-            </div>
-            <div className="map-container">
-                <Map
-                    lat={offloadDetail.mapData[0].latitude}
-                    lng={offloadDetail.mapData[0].longitude}
-                />
-            </div>
-            <div className="fish-container">
-                <div className="fish-container-item">
-                    <p>Type</p>
-                    <p>Condition</p>
-                    <p>Quality</p>
-                    <p>Application</p>
-                    <p>Weight</p>
+        <div className="boat-container landing">
+        { Object.keys(offloadDetail).length != 0 
+        ? <>
+                <div className="landing-info-container">
+                    <h1>{/*landingTown.toLocaleLowerCase()} in {landingState*/}</h1>
+                    <p>Boat : {ReduxOffload.name}</p> 
+                    <p>Fishing gear : {ReduxOffload.fishingGear}</p>
+                    <p>Landing date : {offloadDetail.landingDate}</p>
+                    <p>Packaging : {offloadDetail.fish[0].packaging}</p>
+                    <p>Preservation : {offloadDetail.fish[0].preservation}</p>
                 </div>
-                {
-                    offloadDetail.fish.map((fish) => (
-                        
-                        <div className="fish-container-item" key={fish.id}>
-                            <p>{fish.type}</p>
-                            <p>{fish.condition}</p>
-                            <p>{fish.quality}</p>
-                            <p>{fish.application}</p>
-                            <p>{fish.weight} kg</p>
-                        </div>
-                    ))
-                }
-                <div className="fish-container-item">
-                    <p>Total</p>
-                    <p> - </p>
-                    <p> - </p>
-                    <p> - </p>
-                    <p>{offloadDetail.totalWeight} kg</p>
+                <div className="map-container">
+                    <Map
+                        lat={offloadDetail.mapData[0].latitude}
+                        lng={offloadDetail.mapData[0].longitude}
+                    />
                 </div>
-            </div>
-            <div className="pie-chart">
-                <Pie data={chartData} legend={{display:false}} redraw></Pie>
-            </div>
+                <table className="landing-table detail">
+                    <tr>
+                        <th className="landing-table-header" colSpan="5">Offload details</th>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>Condition</td>
+                        <td>Quality</td>
+                        <td>Application</td>
+                        <td>Weight</td>
+                    </tr>
+                    {
+                        offloadDetail.fish.map((fish) => (
+                            
+                            <tr key={fish.id}>
+                                <td>{fish.type}</td>
+                                <td>{fish.condition}</td>
+                                <td>{fish.quality}</td>
+                                <td>{fish.application}</td>
+                                <td>{fish.weight} kg</td>
+                            </tr>
+                        ))
+                    }
+                    <tr>
+                        <td>Total</td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td>{offloadDetail.totalWeight} kg</td>
+                    </tr>
+                </table>
+                <div className="pie-chart">
+                    <Pie data={chartData} legend={{display:true}} redraw   width={200} height={300}></Pie>
+                </div>
+            </>
+        : <div className="loader"></div>}
         </div>
     )
 }
-export default OffloadDetails;
+const mapStateToProp = reduxStoreState => {
+    return {ReduxOffload: reduxStoreState};
+};
+export default connect(mapStateToProp)(OffloadDetails);

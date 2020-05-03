@@ -29,6 +29,7 @@
     margin: 40px;
     float: right;
     margin-left: auto;
+    z-index: 1;
 }
 
 .map {
@@ -47,7 +48,6 @@
     width: 15rem;
     border: 1px solid black;
     border-radius: 1rem;
-    margin: 40px;
     margin-left: auto;
 }
 
@@ -64,11 +64,21 @@
     padding: 8px;
   }
 
-.landing-table tr:nth-child(odd){background-color: #f2f2f2;}
+.landing-table tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
 
-.landing-table tr:hover {background-color: #ddd;}
+.landing-table tr:hover {
+    background-color: #ddd;
+}
 
-.landing-table th {
+.landing-table tr:nth-child(2){
+    font-weight: 600;
+    pointer-events: none;
+    cursor: default;
+}
+
+.landing-table-header {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;

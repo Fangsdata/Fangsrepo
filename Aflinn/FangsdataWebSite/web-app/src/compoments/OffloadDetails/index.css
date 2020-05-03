@@ -1,28 +1,2 @@
-.offload-details-container {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.fish-container {
-    width: 65%;
-}
 
-.fish-container-item {
-    display: flex;
-    flex-direction: row;
-}
-
-.fish-container > .fish-container-item:first-child {
-    background-color: #2B59C3;
-}
-.fish-container > .fish-container-item {
-    background-color: white;
-}
-.fish-container > .fish-container-item:nth-child(2n) {
-    background-color: lightgray;
-}
-
-.fish-container-item > p {
-    width: 20%;
-    margin: 0;
-}

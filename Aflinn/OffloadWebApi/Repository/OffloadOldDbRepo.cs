@@ -525,7 +525,14 @@ namespace OffloadWebApi.Repository
                     State = entity[i].State,
                     LandingDate = entity[i].LandingDate,
                     TotalWeight = entity[i].TotalWeight,
-                    Fish = entity[i].Fish
+                    Fish = entity[i].Fish,
+                    Boat = new BoatSimpleDto 
+                    {
+                        Name = "Bátur",
+                        Registration_id = "blabla",
+                        RadioSignalId = "LLIQ",
+                        FishingGear = "búbu"
+                    }
                 };
                 dto.Add(item);
             }

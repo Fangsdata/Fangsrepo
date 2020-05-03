@@ -1,8 +1,8 @@
-import CONST from '../Constants';
+import {OFFLOADAPI} from '../Constants';
 
 async function getDataFromApi( filter ) {
     
-    let url = CONST.offloadApi + '/offloads?';
+    let url = OFFLOADAPI + '/offloads?';
     let params = ''; 
     Object.getOwnPropertyNames(filter).forEach(
         (prop)=>{ 
@@ -41,7 +41,7 @@ const getOffloads = async (filter = {}) => {
         }
     };
 const getBoats = async (radioSignal = "") => {
-    const resp = await fetch(CONST.offloadApi + "/boats/" + radioSignal);
+    const resp = await fetch(OFFLOADAPI + "/boats/" + radioSignal);
     const json = await resp.json();
     return json;
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import VesselMap from '../Map'
 import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
+import { connect } from 'react-redux';
 
 class BoatDetails extends React.Component{
     state = {
@@ -18,10 +19,7 @@ class BoatDetails extends React.Component{
             enginePower: "",
             fishingGear: "",
             image: "",
-            mapData: [/*{
-                latitude: 0,
-                longitude: 0
-            }*/]
+            mapData: []
         }
     };
 
@@ -30,13 +28,18 @@ class BoatDetails extends React.Component{
     }
 
     async componentDidMount() {
-        const {boatname} = this.props;
-    //    const { match: { params } } = this.props;
+        const {boatname, BoatStore} = this.props;
+        if(Object.keys(BoatStore).length !== 0)
+        {
+            console.log(BoatStore);
+            BoatStore.mapData = [];
+            this.setState({boat: BoatStore});
+        }
         fetch(`http://fangsdata-api.herokuapp.com/api/Boats/` + boatname)
             .then((res) => res.json())
             .then((res) => {
-                this.setState({boat: res})
-                // console.log(res)
+                this.setState({boat: res});
+                console.log(this.state);
             });
     }
 
@@ -57,30 +60,34 @@ class BoatDetails extends React.Component{
             // enginePower,
             fishingGear,
             image,
-            mapData
+            mapData,
+            radioSignalId
         } = this.state.boat;
         return (    
         <div className="boat-container">
-            <img src={image} className="boat-img" alt="boat">{console.log(this.state)}</img>
-            <div className="boat-info">
-                <h3>{this.Capitalize(name)}</h3>
-                <p className="boat-details">Length: { length } m</p>
-                {/* <p className="boat-details">Weight: { weight }</p> */}
-                <p className="boat-details">Year Built: { builtYear }</p>
-                {/* <p className="boat-details">State: { state }</p> */}
-                <p className="boat-details">Town: { town }</p>
-                {/* <p className="boat-details">Engine size: { enginePower }</p> */}
-                <p className="boat-details">Fishing gear: { fishingGear }</p>
-                <br></br>
-                { mapData != undefined && mapData.length != 0
-                ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+            {radioSignalId !== ""
+            ?<><img src={image} className="boat-img" alt="boat"></img>
+                <div className="boat-info">
+                    <h3>{this.Capitalize(name)}</h3>
+                    <p className="boat-details">Length: { length } m</p>
+                    {/* <p className="boat-details">Weight: { weight }</p> */}
+                    <p className="boat-details">Year Built: { builtYear }</p>
+                    {/* <p className="boat-details">State: { state }</p> */}
+                    <p className="boat-details">Town: { town }</p>
+                    {/* <p className="boat-details">Engine size: { enginePower }</p> */}
+                    <p className="boat-details">Fishing gear: { fishingGear }</p>
+                    <br></br>
+                    { mapData[0] !== undefined
+                        ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                        :<></>
+                    }
+                </div>
+            </> 
+            :<div className="loader-container"><div className="loader"></div></div>
+            }
+            { mapData[0] !== undefined
+                ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
                 :<></>
-                }
-                
-            </div>
-            { mapData != undefined && mapData.length != 0
-            ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
-            :<></>
             }
             <LandingsTable boatname={this.props}></LandingsTable>
         </div>
@@ -88,4 +95,8 @@ class BoatDetails extends React.Component{
         );
     };
 }
-export default BoatDetails;
+
+const mapStateToProp = reduxStoreState => {
+    return {BoatStore: reduxStoreState};
+};
+export default connect(mapStateToProp)(BoatDetails);
