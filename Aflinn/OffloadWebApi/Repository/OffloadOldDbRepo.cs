@@ -172,6 +172,7 @@ namespace OffloadWebApi.Repository
                     return new List<TopListEntity>();
                 }
             }
+            
             cmd.CommandText = cmd.CommandText + " GROUP BY CAST(boat_regestration_id AS CHAR(20)), CAST(boat_name AS CHAR(20)) ORDER BY SUM(CONVERT(CAST(fish_weight as CHAR(20)), UNSIGNED)) DESC LIMIT " + filters.Count + ";";
 
                                 // ....where ... fishing_gear = 'Autoline' OR fishing_gear = 'Andreline' OR fishing_gear = 'Juksa/pilk' OR fishing_gear = 'Flyteline'
@@ -370,7 +371,6 @@ namespace OffloadWebApi.Repository
             {
                 dto.Add(new TopListDto()
                 {
-                    // ID!!!???
                     BoatName = entity[i].boatName,
                     TotalWeight = entity[i].totalWeight,
                     BoatRegistrationId = entity[i].registrationId,
@@ -382,16 +382,6 @@ namespace OffloadWebApi.Repository
                     BoatFishingGear = entity[i].fishingGear,
                     BoatLength = entity[i].boatLength,
                     Avrage = entity[i].avrage,
-
-                    // medl fjoldi ferda a manudi
-                    
-                    // AverageTrips = entity[i].averageTrips,
-
-                    // smallest er minnsta londunin
-
-                    // largest landing er bara staersta
-
-                    // trips er fjoldi landana
                 });
             }
             return dto;
@@ -440,6 +430,7 @@ namespace OffloadWebApi.Repository
                     string rowFishPreservation = reader.GetString(31);
                     string rowFishApplycation = reader.GetString(36);
                     float rowFishWeight = 0;
+
                     try
                     {
                         rowFishWeight = float.Parse(reader.GetString(37));
@@ -749,6 +740,11 @@ namespace OffloadWebApi.Repository
             var result = GetSearchForBoat(boatSearchTerm);
             result.Wait();
             return result.Result;
+        }
+
+        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset)
+        {
+            throw new NotImplementedException();
         }
     }
 }

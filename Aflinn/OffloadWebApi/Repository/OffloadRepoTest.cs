@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using OffloadWebApi.Models.Dtos;
 using OffloadWebApi.Models.InputModels;
@@ -36,6 +36,11 @@ namespace OffloadWebApi.Repository
         }
 
         public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset)
         {
             throw new NotImplementedException();
         }
@@ -265,4 +270,4 @@ namespace OffloadWebApi.Repository
             return dummyData;
         }
     }
-}
+}*/

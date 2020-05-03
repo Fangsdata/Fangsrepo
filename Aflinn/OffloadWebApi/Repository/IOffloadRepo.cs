@@ -11,10 +11,10 @@ namespace OffloadWebApi.Repository
         #nullable enable
         BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
 
-        List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count);
+        List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset);
 
         OffloadDto GetSingleOffload(string offloadId);
 
-        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo);
+        List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int Offset);
     }
 }

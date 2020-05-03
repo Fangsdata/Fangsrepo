@@ -17,9 +17,14 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
-        public List<OffloadDto> GetOffloadById(string radioSignal, int count)
+        public List<OffloadDto> GetOffloadById(string radioSignal, int count, int pageNr)
         {
-            return this._offloadRepo.GetLastOffloadsFromBoat(radioSignal, count);
+            int offset = (pageNr - 1) * count;
+            if(offset < 0)
+            {
+                offset = 0;
+            }
+            return this._offloadRepo.GetLastOffloadsFromBoat(radioSignal, count, offset);
         }
 
         private int ParseCount(string count)
@@ -198,6 +203,58 @@ namespace OffloadWebApi.Services
             return iListYear;
         }
 
+        private string parseDate(string month, string year, string day = "01")
+        {
+            return string.Format("{1}-{0}-{2}", year, month, day);
+        }
+        private string ParseFromDate(List<int> month, List<int> year)
+        {
+            string m = string.Empty;
+            string y = string.Empty;
+            if(month.Count >= 1)
+            {
+                m = month[0].ToString();
+            }
+            else
+            {
+                m = DateTime.Today.Month.ToString();
+            }
+
+            if(year.Count >= 1)
+            {
+                y = year[0].ToString();
+            }
+            else
+            {
+                y = DateTime.Today.Year.ToString();
+            }
+
+            return parseDate(m, y);
+        }
+        private string ParseToDate(List<int> month, List<int> year)
+        {
+            string m = string.Empty;
+            string y = string.Empty;
+            if(month.Count >= 2)
+            {
+                m = month[1].ToString();
+            }
+            else
+            {
+                m = DateTime.Today.Month.ToString();
+            }
+
+            if(year.Count >= 2)
+            {
+                y = year[1].ToString();
+            }
+            else
+            {
+                y = DateTime.Today.Year.ToString();
+            }
+
+            return parseDate(m, y, DateTime.Today.Day.ToString()); 
+        }
         List<TopListDto> IOffloadService.GetOffloads(QueryParamsForTopList filters)
         {
             try
@@ -211,8 +268,11 @@ namespace OffloadWebApi.Services
                     LandingState = ParseLandingState(filters.landingState),
                     Month = ParseMonth(filters.month),
                     Year = ParseYear(filters.year),
-                    FishName = ParseFishName(filters.fishType)
+                    FishName = ParseFishName(filters.fishType),
+                    fromDate = ParseFromDate(ParseMonth(filters.month), ParseYear(filters.year)),
+                    toDate = ParseToDate(ParseMonth(filters.month), ParseYear(filters.year)),
                 };
+                
                 return this._offloadRepo.GetFilteredResults(parsedFilters);
             }
             catch(Exception e)

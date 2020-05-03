@@ -21,5 +21,11 @@ namespace OffloadWebApi.Models.InputModels
         public List<int>? Month { get; set; }
         #nullable enable
         public List<int>? Year { get; set; }
+        
+        #nullable enable
+        public string? fromDate { get; set; }
+
+        #nullable enable
+        public string? toDate { get; set; }
     }
 }

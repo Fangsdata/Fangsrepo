@@ -55,7 +55,19 @@ namespace OffloadWebApi.Controllers
         [HttpGet("{radioSignal}/{count}")]
         public IActionResult Get(string radioSignal, int count)
         {
-            var result = this._OffloadService.GetOffloadById(radioSignal, count);
+            var result = this._OffloadService.GetOffloadById(radioSignal, count, 1);
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
+
+        [HttpGet("{radioSignal}/{count}/{pageNo}")]
+        public IActionResult Get(string radioSignal, int count, int pageNo)
+        {
+            var result = this._OffloadService.GetOffloadById(radioSignal, count, pageNo);
             if (result == null)
             {
                 return this.NotFound();
