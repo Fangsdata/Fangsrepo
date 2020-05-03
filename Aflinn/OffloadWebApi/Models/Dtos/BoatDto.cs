@@ -15,6 +15,7 @@ namespace OffloadWebApi.Models.Dtos
         public string State { get; set; }
 
         public string Town { get; set; }
+        public string Nationality { get; set; }
 
         public double Length { get; set; }
 
@@ -26,8 +27,6 @@ namespace OffloadWebApi.Models.Dtos
 
         public string FishingGear { get; set; }
         
-        public string FishName { get; set; }
-
         public string Image { get; set; }
 
         public List<MapDataDto> MapData { get; set; }

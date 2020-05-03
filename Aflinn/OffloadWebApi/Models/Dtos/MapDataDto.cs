@@ -8,6 +8,6 @@ namespace OffloadWebApi.Models.Dtos
 
         public double Longitude { get; set; }
 
-        public DateTime Time { get; set; }
+        public DateTime? Time { get; set; }
     }
 }

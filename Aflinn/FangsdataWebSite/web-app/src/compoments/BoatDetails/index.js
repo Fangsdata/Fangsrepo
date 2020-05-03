@@ -39,7 +39,6 @@ class BoatDetails extends React.Component{
             .then((res) => res.json())
             .then((res) => {
                 this.setState({boat: res});
-                console.log(this.state);
             });
     }
 
@@ -63,6 +62,15 @@ class BoatDetails extends React.Component{
             mapData,
             radioSignalId
         } = this.state.boat;
+        let mapDataFUCKYOUJAVASCRIPT = mapData;
+        if(mapData == undefined){
+            mapDataFUCKYOUJAVASCRIPT = [];
+        }
+        if(mapData == null){
+            mapDataFUCKYOUJAVASCRIPT = [];
+ 
+        }
+        console.log(mapData);
         return (    
         <div className="boat-container">
             {radioSignalId !== ""
@@ -77,15 +85,15 @@ class BoatDetails extends React.Component{
                     {/* <p className="boat-details">Engine size: { enginePower }</p> */}
                     <p className="boat-details">Fishing gear: { fishingGear }</p>
                     <br></br>
-                    { mapData[0] !== undefined
-                        ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                    { mapDataFUCKYOUJAVASCRIPT.length !== 0 
+                        ?<p className="boat-details">Latitude / Longitude: <br>{console.log()}</br>{mapData[0].latitude} / {mapData[0].longitude}</p>
                         :<></>
                     }
                 </div>
             </> 
             :<div className="loader-container"><div className="loader"></div></div>
             }
-            { mapData[0] !== undefined
+            { mapDataFUCKYOUJAVASCRIPT.length !== 0 
                 ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
                 :<></>
             }

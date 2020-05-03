@@ -14,7 +14,8 @@ namespace OffloadWebApi.Test
         public BoatServicesTest()
         {
             var testRepo = new OffloadRepoTest();
-            this._boatService = new BoatService(testRepo);
+            var mapService = new MapService();
+            this._boatService = new BoatService(testRepo, mapService);
         }
         [Fact]
         public void CheckIfGetBoatReturnsBoatt(){
