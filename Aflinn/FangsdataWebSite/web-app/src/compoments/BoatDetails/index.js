@@ -18,10 +18,10 @@ class BoatDetails extends React.Component{
             enginePower: "",
             fishingGear: "",
             image: "",
-            mapData: [{
+            mapData: [/*{
                 latitude: 0,
                 longitude: 0
-            }]
+            }*/]
         }
     };
 
@@ -61,7 +61,7 @@ class BoatDetails extends React.Component{
         } = this.state.boat;
         return (    
         <div className="boat-container">
-            <img src={image} className="boat-img" alt="boat"></img>
+            <img src={image} className="boat-img" alt="boat">{console.log(this.state)}</img>
             <div className="boat-info">
                 <h3>{this.Capitalize(name)}</h3>
                 <p className="boat-details">Length: { length } m</p>
@@ -72,9 +72,16 @@ class BoatDetails extends React.Component{
                 {/* <p className="boat-details">Engine size: { enginePower }</p> */}
                 <p className="boat-details">Fishing gear: { fishingGear }</p>
                 <br></br>
-                <p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                { mapData != undefined && mapData.length != 0
+                ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                :<></>
+                }
+                
             </div>
-            <VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
+            { mapData != undefined && mapData.length != 0
+            ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
+            :<></>
+            }
             <LandingsTable boatname={this.props}></LandingsTable>
         </div>
 

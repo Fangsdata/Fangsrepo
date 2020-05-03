@@ -90,7 +90,7 @@ namespace OffloadWebApi.Repository
             };
         }
        
-        private TopListDto genTopListDto(int id = -1, string town = "", string state = "", DateTime? landingDate = null, double totalWeight = 0.0d, List<FishSimpleDto> fish = null, string boatRegistrationId = "", string boatRadioSignalId = "", string boatName = "", string boatFishingGear = "", double BoatLength = 0.0d, string boatLandingTown = "", string boatLandingState = "", string boatNationoality = "", double avrageTrips = 0.0d, double largestLanding = 0.0d, double smallest = 0.0d, int trips = 0)
+        private TopListDto genTopListDto(int id = -1, string town = "", string state = "", DateTime? landingDate = null, double totalWeight = 0.0d, List<FishSimpleDto> fish = null, string boatRegistrationId = "", string boatRadioSignalId = "", string boatName = "", string boatFishingGear = "", double boatLength = 0.0d, string boatLandingTown = "", string boatLandingState = "", string boatNationoality = "", double avrageTrips = 0.0d, double largestLanding = 0.0d, double smallest = 0.0d, int trips = 0)
         {
             return new TopListDto
             {
@@ -104,7 +104,7 @@ namespace OffloadWebApi.Repository
                 BoatRadioSignalId = boatRadioSignalId,
                 BoatName = boatName, 
                 BoatFishingGear = boatFishingGear,
-                BoatLength = BoatLength,
+                BoatLength = boatLength,
                 boatLandingTown = boatLandingTown,
                 boatLandingState = boatLandingState,
                 BoatNationality = boatNationoality,
@@ -124,7 +124,7 @@ namespace OffloadWebApi.Repository
                 if(firstItem)
                 {
                     firstItem = false;
-                    retStr += " And (" + filterName + " = '" + filters[i] + "'";
+                    retStr += "AND ( " + filterName + " = '" + filters[i] + "'";
                 }
                 else
                 {
@@ -200,41 +200,74 @@ namespace OffloadWebApi.Repository
             var filteredResults = new List<TopListDto>();
             var cmd = _connection.CreateCommand();
             _connection.Open();
-            cmd.CommandText = string.Format("SELECT * from");
 
-            var reader = cmd.ExecuteReader();
-
-            string fromDate = string.Format("2020-03-01");
-            string toDate = string.Format("2020-04-01");
-            cmd.CommandText += string.Format(" WHERE {0}{1}", filters.fromDate, filters.toDate);
-
+            string boatLength = string.Empty;
+            string fishingGear = string.Empty;
+            string fishName = string.Empty;
+            string landingState = string.Empty;
             if(filters.BoatLength != null)
             {
-                string lenStr = string.Format("AND (boat_length BETWEEN {0} AND {1})", filters.BoatLength[0], filters.BoatLength[1]);
-                cmd.CommandText = cmd.CommandText + lenStr;
+                boatLength = string.Format("AND Aflinn_Boats.`Største lengde` BETWEEN {0} AND {1}", filters.BoatLength[0].ToString(), filters.BoatLength[1].ToString());
             }
             if(filters.FishingGear != null)
             {
-                cmd.CommandText = cmd.CommandText + AddFilter(filters.FishingGear, "fishing_gear");
+                fishingGear = AddFilter(filters.FishingGear, "Aflinn_Fishing_gear.`Redskap - gruppe`");
             }
             if(filters.FishName != null)
             {
-                cmd.CommandText = cmd.CommandText + AddFilter(filters.FishName, "fish_name");
+                fishName = AddFilter(filters.FishName, "Aflinn_Fish.`Art - hovedgruppe`");
             }
             if(filters.LandingState != null)
             {
-                cmd.CommandText = cmd.CommandText + AddFilter(filters.LandingState, "landing_state");
+                landingState = AddFilter(filters.LandingState, "Aflinn_Landing_state.`Landingsfylke`");
             }
             
+            cmd.CommandText = string.Format(
+                @"SELECT
+                    Aflinn_Landings.`Fartøynavn`, 
+                    Aflinn_Fishing_gear.`Redskap`, 
+                    Aflinn_Boats.`Største lengde`, 
+                    SUM(Aflinn_Landings.`Rundvekt`) AS Rundvekt,
+                    Aflinn_Boats.`Radiokallesignal (seddel)`
+                    FROM Aflinn_Landings
+                    LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)` 
+                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
+                    LEFT JOIN Aflinn_Fish ON Aflinn_Landings.`Art (kode)` = Aflinn_Fish.`Art (kode)`
+                    LEFT JOIN Aflinn_Landing_state ON Aflinn_Landings.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
+                    LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND  Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
+                    WHERE Aflinn_Landings_id_date.`Landingsdato` BETWEEN CAST('{0}' AS DATE) AND CAST('{1}' AS DATE)
+                    {2}
+                    {3}
+                    {4}
+                    {5}
+                    GROUP BY Aflinn_Landings.`Fartøynavn`
+                    ORDER BY SUM(Aflinn_Landings.`Rundvekt`) DESC
+                    LIMIT {6}
+                    OFFSET 0",
+                filters.fromDate,
+                filters.toDate,
+                boatLength,
+                fishingGear,
+                fishName,
+                landingState,
+                filters.Count); 
+            Console.WriteLine(cmd.CommandText);
+            var reader = cmd.ExecuteReader();
+
             using(reader)
             {
                 while(reader.Read())
                 {
-                    var topListDto = genTopListDto();
+                    var topListDto = genTopListDto(
+                        boatName: reader.GetString(0),
+                        boatFishingGear: reader.GetString(1),
+                        boatLength: reader.GetDouble(2),
+                        totalWeight: reader.GetDouble(3),
+                        boatRadioSignalId: reader.GetString(4));
                     filteredResults.Add(topListDto);
                 }
             }
-
+            _connection.Close();
             return filteredResults;
         }
 
@@ -400,7 +433,15 @@ namespace OffloadWebApi.Repository
             var cmd = _connection.CreateCommand();
             _connection.Open();
             cmd.CommandText = string.Format(
-                @"  SELECT 
+                @"SELECT boat_regestration_id, boat_radio_signal_id, 
+                                             boat_name, boat_state_id, boat_nationality_id, 
+                                             boat_town_id,boat_length, fishing_gear
+                                    FROM eskoy.englishVersion
+                                    WHERE boat_name LIKE '%{0}%'
+                                    OR boat_radio_signal_id LIKE '%{0}%'
+                                    OR boat_regestration_id LIKE '%{0}%'
+                                    LIMIT {1}",
+                /*@"  SELECT 
                     Aflinn_Boats.`Registreringsmerke (seddel)`,
                     Aflinn_Boats.`Radiokallesignal (seddel)`,
                     Aflinn_Landings.`Fartøynavn`,
@@ -419,10 +460,9 @@ namespace OffloadWebApi.Repository
                     GROUP BY Aflinn_Boats.`Registreringsmerke (seddel)`
                     limit {1}
                     offset {2}
-                    ",
+                    ",*/
                 boatSearchTerm,
-                count,
-                Offset);
+                count);
             var reader = cmd.ExecuteReader();
 
             using(reader)
@@ -436,7 +476,7 @@ namespace OffloadWebApi.Repository
                         state: reader.GetString(3),
                         nationality: reader.GetString(4),
                         town: reader.GetString(5),
-                        length: reader.GetDouble(6),
+                        /*length: reader.GetDouble(6),*/
                         fishingGear: reader.GetString(7));
                     searchedBoats.Add(boat);
                 }
