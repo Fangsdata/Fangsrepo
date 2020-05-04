@@ -11,47 +11,16 @@ namespace OffloadWebApi.Services
     public class BoatService : IBoatService
     {
         private IOffloadRepo _offloadRepo;
-
-        private List<MapDataDto> GetMapData(string BoatRadioSignalId)
-        {
-            WebRequest request = WebRequest.Create("https://fangsdata-location-api.herokuapp.com/LastPosition/" + BoatRadioSignalId);
-            request.Credentials = CredentialCache.DefaultCredentials;
-            WebResponse response = request.GetResponse();
-
-            List<MapDataDto> mapData = new List<MapDataDto>();
-
-            using (Stream dataStream = response.GetResponseStream())
-            {
-                try
-                {
-                    StreamReader reader = new StreamReader(dataStream);
-                    string responseFromServer = reader.ReadToEnd();
-                    dynamic json = JObject.Parse(responseFromServer);
-                    MapDataDto item = new MapDataDto
-                    {
-                        Latitude = json.data.latitude,
-                        Longitude = json.data.longitude,
-                    };
-                    mapData.Add(item);
-                }
-                catch(System.Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("---- Could not parse map data");
-                }
-            }
-
-            response.Close(); 
-            return mapData;
-        }
+        private IMapService _mapService;
 
         private string GetImage(string BoatRadioSignalId)
         {
             return "https://upload.wikimedia.org/wikipedia/commons/f/f1/Flag_of_Norway.png";
         }
-        public BoatService(IOffloadRepo offloadRepo)
+        public BoatService(IOffloadRepo offloadRepo, IMapService mapService)
         {
             this._offloadRepo = offloadRepo;
+            this._mapService = mapService;
         }
         #nullable enable
         public BoatDto? GetBoat(string BoatRadioSignalId)
@@ -59,14 +28,19 @@ namespace OffloadWebApi.Services
             var boat = this._offloadRepo.GetBoatByRadioSignal(BoatRadioSignalId);
             if(boat != null)
             {
-                boat.MapData = GetMapData(BoatRadioSignalId);
+                boat.MapData = _mapService.GetMapDataByRadioSignal(BoatRadioSignalId);
                 boat.Image = GetImage(BoatRadioSignalId);
             }
             return boat;
         }
-        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo)
         {
-            var boats = _offloadRepo.SearchForBoat(boatSearchTerm); 
+            int offset = (pageNo - 1) * count;
+            if(offset < 0)
+            {
+                offset = 0;
+            }
+            var boats = _offloadRepo.SearchForBoat(boatSearchTerm, count, offset); 
             if (boats == null)
             {
                 return null;

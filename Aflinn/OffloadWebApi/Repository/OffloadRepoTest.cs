@@ -40,6 +40,11 @@ namespace OffloadWebApi.Repository
             throw new NotImplementedException();
         }
 
+        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset)
+        {
+            throw new NotImplementedException();
+        }
+
         public OffloadDetailDto? GetOffloadById(int id)
         {
             if (id != 1)
@@ -158,6 +163,16 @@ namespace OffloadWebApi.Repository
         }
 
         public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BoatSimpleDto>? SearchForBoat(string boatSearchTerm, int count, int pageNo)
         {
             throw new NotImplementedException();
         }

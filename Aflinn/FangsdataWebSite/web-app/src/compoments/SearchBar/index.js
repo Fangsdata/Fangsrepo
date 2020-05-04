@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
-import CONST from "../../Constants";
+import {OFFLOADAPI} from "../../Constants";
+import { connect } from 'react-redux';
+import { StoredBoatDetails } from '../../actions/boatAction';
 
 var timeOut;
-const SearchBar = () => {
+const SearchBar = ({StoredBoatDetails}) => {
 
     const [search, updateSearch] = useState("");
     const [foundBoats, setFoundBoats] = useState([]); 
@@ -12,9 +14,8 @@ const SearchBar = () => {
     const StartSearch = () => {}
 
     const UpdateQuickSearch = (searchTerm)=> {
-        console.log(searchTerm);
         if(searchTerm.length > 2){
-            fetch(CONST.offloadApi + '/search/boats/' + searchTerm)
+            fetch(OFFLOADAPI + '/search/boats/' + searchTerm)
             .then((res) => res.json())
             .then((res) => {
                 setFoundBoats(res);
@@ -55,7 +56,11 @@ const SearchBar = () => {
            { foundBoats.map((boat)=> <QuickSearchItem 
                                         searchItemTitle={boat.name + " - " + boat.registration_id}
                                         RadioSignal={boat.radioSignalId}
-                                        ClickedEvent={ () =>{ updateSearch(""); setFoundBoats([])}}
+                                        ClickedEvent={ (selectedItem) =>{
+                                            let item = foundBoats.find(b => b.radioSignalId === selectedItem);
+                                            StoredBoatDetails(item);
+                                            updateSearch("");
+                                            setFoundBoats([]);}}
                                         />) }
             <div className="result-bottom"></div>
         </div>
@@ -65,10 +70,10 @@ const SearchBar = () => {
     </>)
 }
 const QuickSearchItem = ({searchItemTitle, RadioSignal, ClickedEvent}) => (
-    <Link to={"/boats/" + RadioSignal} onClick={() => {ClickedEvent()}}>
+    <Link to={"/boats/" + RadioSignal} onClick={() => {ClickedEvent(RadioSignal)}}>
         <div className="search-result">
             {searchItemTitle} 
         </div>
     </Link>
 )
-export default SearchBar;
+export default connect(null,{StoredBoatDetails})(SearchBar);

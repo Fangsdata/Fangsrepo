@@ -9,7 +9,7 @@ namespace OffloadWebApi.Services
     {
         List<TopListDto> GetOffloads(QueryParamsForTopList filters);
 
-        List<OffloadDto> GetOffloadById(string radioSignal, int count);
+        List<OffloadDto> GetOffloadById(string radioSignal, int count, int pageNr);
 
         OffloadDto getOffloadDetails(string offloadId);
     }

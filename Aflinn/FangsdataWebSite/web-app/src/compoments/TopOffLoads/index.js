@@ -43,7 +43,7 @@ class TopOffLoads extends React.Component {
                   { title:'Bruskfisk (haifisk, skater, rokker og havmus)',value:'Bruskfisk (haifisk, skater, rokker og havmus)', checkState:false },
                   { title:'Skalldyr, bløtdyr og pigghuder',value:'Skalldyr, bløtdyr og pigghuder', checkState:false },
                   { title:'Makroalger (tang og tare)',value:'Makroalger (tang og tare)', checkState:false }],
-            month:[ { title:'Januar', checkState:false, value:'januar'}, 
+            /*month:[ { title:'Januar', checkState:false, value:'januar'}, 
                     { title:'Februar', checkState:false, value:'februar'},
                     { title:'March', checkState:false, value:'mars'},
                     { title:'April', checkState:false, value:'april'}, 
@@ -75,7 +75,7 @@ class TopOffLoads extends React.Component {
                    { title:'2003', checkState:false, value:'2003'},
                    { title:'2002', checkState:false, value:'2002'}, 
                    { title:'2001', checkState:false, value:'2001'},
-                   { title:'2000', checkState:false, value:'2000'} ],
+                   { title:'2000', checkState:false, value:'2000'} ],*/
             landingState:[ { title: 'Finnmark', checkState:false, value:'Finnmark'},
                    { title: 'Nordland', checkState:false, value:'Nordland'},
                    { title: 'Nord-Trøndelag', checkState:false, value:'Nord-Trøndelag'},
@@ -131,12 +131,23 @@ class TopOffLoads extends React.Component {
         }
 
     }
-
+    async updateDate(start,end){
+        if(start.getTime() <= end.getTime()){
+            let months = [start.getMonth() + 1, end.getMonth() + 1];
+            let years = [start.getFullYear(), end.getFullYear()];
+            let filter = this.state.filter;
+            filter.month = months;
+            filter.year = years;
+            this.setState({ filter });
+            this.setState({ offLoads : await getOffloads( filter )});
+        }
+    }
     render(){
         return (
         <div>
             <FilterContainer 
             inputEvent={(e)=>this.inputEvent(e)}
+            updateDate={(start, end)=>this.updateDate(start,end)}
             allFilters={this.state.allFilters}/>
             <OffloadsList 
                 offloads={ this.state.offLoads }

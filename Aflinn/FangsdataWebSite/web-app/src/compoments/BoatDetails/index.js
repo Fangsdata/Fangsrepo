@@ -2,6 +2,7 @@ import React from 'react';
 import VesselMap from '../Map'
 import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
+import { connect } from 'react-redux';
 
 class BoatDetails extends React.Component{
     state = {
@@ -27,13 +28,17 @@ class BoatDetails extends React.Component{
     }
 
     async componentDidMount() {
-        const {boatname} = this.props;
-    //    const { match: { params } } = this.props;
+        const {boatname, BoatStore} = this.props;
+        if(Object.keys(BoatStore).length !== 0)
+        {
+            console.log(BoatStore);
+            BoatStore.mapData = [];
+            this.setState({boat: BoatStore});
+        }
         fetch(`http://fangsdata-api.herokuapp.com/api/Boats/` + boatname)
             .then((res) => res.json())
             .then((res) => {
-                this.setState({boat: res})
-                // console.log(res)
+                this.setState({boat: res});
             });
     }
 
@@ -57,6 +62,15 @@ class BoatDetails extends React.Component{
             mapData,
             radioSignalId
         } = this.state.boat;
+        let mapDataFUCKYOUJAVASCRIPT = mapData;
+        if(mapData == undefined){
+            mapDataFUCKYOUJAVASCRIPT = [];
+        }
+        if(mapData == null){
+            mapDataFUCKYOUJAVASCRIPT = [];
+ 
+        }
+        console.log(mapData);
         return (    
         <div className="boat-container">
             {radioSignalId !== ""
@@ -71,15 +85,15 @@ class BoatDetails extends React.Component{
                     {/* <p className="boat-details">Engine size: { enginePower }</p> */}
                     <p className="boat-details">Fishing gear: { fishingGear }</p>
                     <br></br>
-                    { mapData[0] !== undefined
-                        ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                    { mapDataFUCKYOUJAVASCRIPT.length !== 0 
+                        ?<p className="boat-details">Latitude / Longitude: <br>{console.log()}</br>{mapData[0].latitude} / {mapData[0].longitude}</p>
                         :<></>
                     }
                 </div>
             </> 
             :<div className="loader-container"><div className="loader"></div></div>
             }
-            { mapData[0] !== undefined
+            { mapDataFUCKYOUJAVASCRIPT.length !== 0 
                 ?<VesselMap lat={mapData[0].latitude} lng={mapData[0].longitude} />
                 :<></>
             }
@@ -89,4 +103,8 @@ class BoatDetails extends React.Component{
         );
     };
 }
-export default BoatDetails;
+
+const mapStateToProp = reduxStoreState => {
+    return {BoatStore: reduxStoreState};
+};
+export default connect(mapStateToProp)(BoatDetails);

@@ -79,14 +79,14 @@ namespace OffloadWebApi.Test
                 fishingGear.Add(result[i].BoatFishingGear);
             }
             Assert.Contains("troll",fishingGear);
-            Assert.Contains("line",fishingGear);
+            Assert.Contains("Line",fishingGear);
         }
         [Fact]
         public void GetOffloadsTestInputBoatLength()
         {
             var queryInput = new QueryParamsForTopList
             {
-                boatLength = "'11m - 14,99m'"
+                boatLength = "11m - 14,99m"
             };
             var result = _OffloadService.GetOffloads(queryInput);
             Assert.InRange(result[0].BoatLength,11,14.99);
@@ -113,7 +113,7 @@ namespace OffloadWebApi.Test
             };
             var result = _OffloadService.GetOffloads(queryInput);
             Assert.NotNull(result);
-            Assert.Equal(result[0].boatLandingTown, "oslo");
+            Assert.Equal(result[0].boatLandingTown, "Oslo");
 
             queryInput.landingTown = "";
             result = _OffloadService.GetOffloads(queryInput);
@@ -131,8 +131,8 @@ namespace OffloadWebApi.Test
             {
                 landingTown.Add(result[i].boatLandingTown);
             }
-            Assert.Contains("oslo",landingTown);
-            Assert.Contains("reykjavík",landingTown);
+            Assert.Contains("Oslo",landingTown);
+            Assert.Contains("Reykjavík",landingTown);
         }
         [Fact]
         public void GetOffloadsTestInputLandingState()
@@ -143,7 +143,7 @@ namespace OffloadWebApi.Test
             };
             var result = _OffloadService.GetOffloads(queryInput);
             Assert.NotNull(result);
-            Assert.Equal(result[0].boatLandingState, "ohio");
+            Assert.Equal(result[0].boatLandingState, "Ohio");
 
             queryInput.landingState = "";
             result = _OffloadService.GetOffloads(queryInput);
@@ -161,18 +161,18 @@ namespace OffloadWebApi.Test
             {
                 landingState.Add(result[i].boatLandingState);
             }
-            Assert.Contains("oslo",landingState);
-            Assert.Contains("reykjavík",landingState);
+            Assert.Contains("Oslo",landingState);
+            Assert.Contains("Reykjavík",landingState);
         }
         [Fact]
         public void GetOffloadsTestInputMonth()
         {
             var queryInput = new QueryParamsForTopList
             {
-                month = "Januar"
+                month = "januar"
             };
             var result = _OffloadService.GetOffloads(queryInput);
-            Assert.Equal(result[0].LandingDate.Month, 1);
+            Assert.Equal(result[0].LandingDate.Value.Month, 1);
 
             queryInput.month = "";
             result = _OffloadService.GetOffloads(queryInput);
@@ -183,11 +183,11 @@ namespace OffloadWebApi.Test
                 month = "1"
             };
             result = _OffloadService.GetOffloads(queryInput);
-            Assert.Equal(result[0].LandingDate.Month, 1);
+            Assert.Equal(result[0].LandingDate.Value.Month, 1);
 
             queryInput = new QueryParamsForTopList
             {
-                month = "1,Februar,3"
+                month = "1,februar,3"
             };
             result = _OffloadService.GetOffloads(queryInput);
             Assert.NotNull(result);
@@ -195,7 +195,7 @@ namespace OffloadWebApi.Test
             var testMonth = new List<int>();
             for (int i = 0; i < result.Count ;i++)
             {
-                testMonth.Add(result[i].LandingDate.Month);
+                testMonth.Add(result[i].LandingDate.Value.Month);
             }
             Assert.Contains(1,testMonth);
             Assert.Contains(2,testMonth); 
@@ -237,7 +237,7 @@ namespace OffloadWebApi.Test
                 year = "2020"
             };
             var result = _OffloadService.GetOffloads(queryInput);
-            Assert.Equal(result[0].LandingDate.Year, 2020);
+            Assert.Equal(result[0].LandingDate.Value.Year, 2020);
 
             queryInput.year = "";
             result = _OffloadService.GetOffloads(queryInput);
@@ -253,7 +253,7 @@ namespace OffloadWebApi.Test
             var testYear = new List<int>();
             for (int i = 0; i < result.Count ;i++)
             {
-                testYear.Add(result[i].LandingDate.Year);
+                testYear.Add(result[i].LandingDate.Value.Year);
             }
             Assert.Contains(2019,testYear);
             Assert.Contains(2020,testYear); 
@@ -361,14 +361,14 @@ namespace OffloadWebApi.Test
                 fishingGear = "troll",
                 boatLength = "0,11",
                 landingTown = "oslo",
-                landingState = "ohio"
+                landingState = "Ohio"
             };
             result = _OffloadService.GetOffloads(queryInput);
             Assert.Equal(result.Count, 50);
             Assert.Equal(result[0].BoatFishingGear, "troll");
             Assert.InRange(result[0].BoatLength,0,11);
             Assert.Equal(result[0].boatLandingTown, "oslo");
-            Assert.Equal(result[0].boatLandingState, "ohio");
+            Assert.Equal(result[0].boatLandingState, "Ohio");
 
             queryInput = new QueryParamsForTopList
             {
@@ -376,7 +376,7 @@ namespace OffloadWebApi.Test
                 fishingGear = "troll",
                 boatLength = "0,11",
                 landingTown = "oslo",
-                landingState = "ohio",
+                landingState = "Ohio",
                 month = "1"
             };
             result = _OffloadService.GetOffloads(queryInput);
@@ -384,8 +384,8 @@ namespace OffloadWebApi.Test
             Assert.Equal(result[0].BoatFishingGear, "troll");
             Assert.InRange(result[0].BoatLength,0,11);
             Assert.Equal(result[0].boatLandingTown, "oslo");
-            Assert.Equal(result[0].boatLandingState, "ohio");
-            Assert.Equal(result[0].LandingDate.Month, 1);
+            Assert.Equal(result[0].boatLandingState, "Ohio");
+            Assert.Equal(result[0].LandingDate.Value.Month, 1);
 
 
             queryInput = new QueryParamsForTopList
@@ -394,18 +394,12 @@ namespace OffloadWebApi.Test
                 fishingGear = "troll",
                 boatLength = "0,11",
                 landingTown = "oslo",
-                landingState = "ohio",
+                landingState = "Ohio",
                 month = "1",
                 year = "2020"
             };
             result = _OffloadService.GetOffloads(queryInput);
-            Assert.Equal(result.Count, 50);
-            Assert.Equal(result[0].BoatFishingGear, "troll");
-            Assert.InRange(result[0].BoatLength,0,11);
-            Assert.Equal(result[0].boatLandingTown, "oslo");
-            Assert.Equal(result[0].boatLandingState, "ohio");
-            Assert.Equal(result[0].LandingDate.Month, 1);
-            Assert.Equal(result[0].LandingDate.Year, 2020);
+            Assert.Null(result);
         }
     }
 }

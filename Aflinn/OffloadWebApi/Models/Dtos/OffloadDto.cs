@@ -11,7 +11,7 @@ namespace OffloadWebApi.Models.Dtos
 
         public string State { get; set; }
 
-        public DateTime LandingDate { get; set; }
+        public DateTime? LandingDate { get; set; }
 
         public float TotalWeight { get; set; }
 
