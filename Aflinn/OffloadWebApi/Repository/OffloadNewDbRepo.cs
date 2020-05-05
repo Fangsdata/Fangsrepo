@@ -433,14 +433,41 @@ namespace OffloadWebApi.Repository
             var cmd = _connection.CreateCommand();
             _connection.Open();
             cmd.CommandText = string.Format(
-                @"SELECT boat_regestration_id, boat_radio_signal_id, 
-                                             boat_name, boat_state_id, boat_nationality_id, 
-                                             boat_town_id,boat_length, fishing_gear
-                                    FROM eskoy.englishVersion
-                                    WHERE boat_name LIKE '%{0}%'
-                                    OR boat_radio_signal_id LIKE '%{0}%'
-                                    OR boat_regestration_id LIKE '%{0}%'
-                                    LIMIT {1}",
+                @"(SELECT 
+                    Aflinn_Boats.`Registreringsmerke (seddel)`,
+                    Aflinn_Boats.`Radiokallesignal (seddel)`,
+                    Aflinn_Landings.`Fartøynavn`,
+                    Aflinn_Boats.`Fartøyfylke`,
+                    Aflinn_Boats.`Fartøynasjonalitet`,
+                    Aflinn_Boats.`Fartøykommune`,
+                    Aflinn_Boats.`Største lengde`,
+                    Aflinn_Fishing_gear.`Redskap`
+                    FROM Aflinn_Landings
+					LEFT JOIN Aflinn_Boats ON Aflinn_Boats.`Registreringsmerke (seddel)` = Aflinn_Landings.`Registreringsmerke (seddel)`
+                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Fishing_gear.`Redskap (kode)` = Aflinn_Landings.`Redskap (kode)`
+                    WHERE Aflinn_Landings.`Fartøynavn` LIKE '{0}%' AND Aflinn_Landings.`Fartøynavn` != ''
+					
+                    GROUP BY Aflinn_Landings.`Registreringsmerke (seddel)`
+                    limit {1}
+                    offset 0)
+                    UNION
+				(SELECT 
+                    Aflinn_Boats.`Registreringsmerke (seddel)`,
+                    Aflinn_Boats.`Radiokallesignal (seddel)`,
+                    Aflinn_Landings.`Fartøynavn`,
+                    Aflinn_Boats.`Fartøyfylke`,
+                    Aflinn_Boats.`Fartøynasjonalitet`,
+                    Aflinn_Boats.`Fartøykommune`,
+                    Aflinn_Boats.`Største lengde`,
+                    Aflinn_Fishing_gear.`Redskap`
+                    FROM Aflinn_Landings
+					LEFT JOIN Aflinn_Boats ON Aflinn_Boats.`Registreringsmerke (seddel)` = Aflinn_Landings.`Registreringsmerke (seddel)`
+                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Fishing_gear.`Redskap (kode)` = Aflinn_Landings.`Redskap (kode)`
+                    WHERE Aflinn_Boats.`Radiokallesignal (seddel)` LIKE '{0}%' AND Aflinn_Boats.`Radiokallesignal (seddel)` != ''
+					OR Aflinn_Boats.`Registreringsmerke (seddel)` LIKE '{0}%' AND Aflinn_Boats.`Registreringsmerke (seddel)` != ''
+                    GROUP BY Aflinn_Landings.`Registreringsmerke (seddel)`
+                    limit {1}
+                    offset 0)",
                 /*@"  SELECT 
                     Aflinn_Boats.`Registreringsmerke (seddel)`,
                     Aflinn_Boats.`Radiokallesignal (seddel)`,
