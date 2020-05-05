@@ -3,6 +3,8 @@ import VesselMap from '../Map'
 import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
 import { connect } from 'react-redux';
+import { normalizeCase } from '../../services/TextTools';
+
 
 class BoatDetails extends React.Component{
     state = {
@@ -51,12 +53,12 @@ class BoatDetails extends React.Component{
    render() {
         const { 
             name,
-            // state,
+            state,
             town,
             length,
-            // weight,
+            weight,
             builtYear,
-            // enginePower,
+            enginePower,
             fishingGear,
             image,
             mapData,
@@ -78,17 +80,19 @@ class BoatDetails extends React.Component{
                 <div className="boat-info">
                     <h3>{this.Capitalize(name)}</h3>
                     <p className="boat-details">Length: { length } m</p>
-                    {/* <p className="boat-details">Weight: { weight }</p> */}
+                    <p className="boat-details">Weight: { weight }</p>
                     <p className="boat-details">Year Built: { builtYear }</p>
-                    {/* <p className="boat-details">State: { state }</p> */}
-                    <p className="boat-details">Town: { town }</p>
-                    {/* <p className="boat-details">Engine size: { enginePower }</p> */}
+                    <p className="boat-details">State: { state }</p>
+                    <p className="boat-details">Town: { normalizeCase(town) }</p>
+                    <p className="boat-details">Engine size: { enginePower } hp</p>
                     <p className="boat-details">Fishing gear: { fishingGear }</p>
                     <br></br>
                     { mapDataFUCKYOUJAVASCRIPT.length !== 0 
-                        ?<p className="boat-details">Latitude / Longitude: <br>{console.log()}</br>{mapData[0].latitude} / {mapData[0].longitude}</p>
+                        ?<p className="boat-details">Latitude / Longitude: <br></br>{mapData[0].latitude} / {mapData[0].longitude}</p>
                         :<></>
                     }
+                    <br></br>
+
                 </div>
             </> 
             :<div className="loader-container"><div className="loader"></div></div>
