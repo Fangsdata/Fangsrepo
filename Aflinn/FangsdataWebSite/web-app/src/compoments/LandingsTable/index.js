@@ -19,7 +19,7 @@ class LandingsTable extends React.Component {
 
     async componentDidMount() {
         const boatname = this.props.boatname.boatname;
-        fetch(`https://fangsdata-api.herokuapp.com/api/offloads/` + boatname + "/5")
+        fetch(`https://fangsdata-api.herokuapp.com/api/offloads/` + boatname + "/5/2")
             .then((res2) => res2.json())
             .then((res2) => {
                 this.setState({landings: res2});
@@ -50,8 +50,7 @@ class LandingsTable extends React.Component {
                 <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
             </tr>))
           :<th colSpan="5"><div className="loader"></div></th>}
-
-    </table>
+        </table>
     );
   }
 }
