@@ -1,10 +1,10 @@
 import React,{useEffect, useState} from 'react';
 import Map from '../Map';
 import {Pie} from 'react-chartjs-2';
-import './index.css';
-import { connect } from 'react-redux';
+import { normalizeCase,normalizeWeight } from '../../services/TextTools';
 
-const OffloadDetails = ({offloadId, ReduxOffload}) => 
+
+const OffloadDetails = ({offloadId}) => 
 {
     const [chartData, setChartData] = useState(
           {
@@ -16,7 +16,31 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
             }]
         }
     )
-    const [ offloadDetail, setOffloadDetails ] = useState({}); 
+    const [ offloadDetail, setOffloadDetails ] = useState({/*
+        "id": "",
+        "town": "",
+        "state": "",
+        "landingDate": "",
+        "totalWeight": 0.0,
+        "fish": [],
+        "boat": {
+            "id": -1,
+            "registration_id": "",
+            "radioSignalId": "",
+            "name": "",
+            "state": "",
+            "nationality": "",
+            "town": "",
+            "length": 0,
+            "fishingGear": "",
+            "image": ""
+            },
+         "mapData": [{
+                "latitude": 0.0,
+                "longitude": 0.0 
+            }]*/
+        });
+
     const generateColors = (size) => {
         let colorExample = [ '#2B59C3','#B7DFB3', '#DCB8B8', '#DCD8B8' ];
         let retData = [];
@@ -51,18 +75,17 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
                 CreatePieChartDataset(data);
             });
     },[]);
-
+    
     return (
         <div className="boat-container landing">
         { Object.keys(offloadDetail).length != 0 
         ? <>
                 <div className="landing-info-container">
-                    <h1>{/*landingTown.toLocaleLowerCase()} in {landingState*/}</h1>
-                    <p>Boat : {ReduxOffload.name}</p> 
-                    <p>Fishing gear : {ReduxOffload.fishingGear}</p>
-                    <p>Landing date : {offloadDetail.landingDate}</p>
-                    <p>Packaging : {offloadDetail.fish[0].packaging}</p>
-                    <p>Preservation : {offloadDetail.fish[0].preservation}</p>
+                    <h1>{normalizeCase(offloadDetail.town)} in {offloadDetail.state}</h1>
+                    
+                    <p>Båt : {normalizeCase(offloadDetail.boat.name)} - {offloadDetail.boat.registration_id}</p> 
+                    <p>Redskap : {offloadDetail.boat.fishingGear}</p>
+                    <p>Landins dato : {offloadDetail.landingDate}</p>
                 </div>
                 <div className="map-container">
                     <Map
@@ -72,7 +95,7 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
                 </div>
                 <table className="landing-table detail">
                     <tr>
-                        <th className="landing-table-header" colSpan="5">Offload details</th>
+                        <th className="landing-table-header" colSpan="7">Offload details</th>
                     </tr>
                     <tr>
                         <td>Type</td>
@@ -80,16 +103,20 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
                         <td>Quality</td>
                         <td>Application</td>
                         <td>Weight</td>
+                        <td>Packaging</td>
+                        <td>Preservation</td>
                     </tr>
                     {
-                        offloadDetail.fish.map((fish) => (
+                        offloadDetail.fish.map((fish, i) => (
                             
-                            <tr key={fish.id}>
+                            <tr key={i}>
                                 <td>{fish.type}</td>
                                 <td>{fish.condition}</td>
                                 <td>{fish.quality}</td>
                                 <td>{fish.application}</td>
-                                <td>{fish.weight} kg</td>
+                                <td>{normalizeCase(fish.packaging)}</td>
+                                <td>{fish.preservation}</td>
+                                <td>{normalizeWeight(fish.weight)}</td>
                             </tr>
                         ))
                     }
@@ -98,7 +125,9 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
-                        <td>{offloadDetail.totalWeight} kg</td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
                     </tr>
                 </table>
                 <div className="pie-chart">
@@ -109,7 +138,4 @@ const OffloadDetails = ({offloadId, ReduxOffload}) =>
         </div>
     )
 }
-const mapStateToProp = reduxStoreState => {
-    return {ReduxOffload: reduxStoreState};
-};
-export default connect(mapStateToProp)(OffloadDetails);
+export default OffloadDetails;
