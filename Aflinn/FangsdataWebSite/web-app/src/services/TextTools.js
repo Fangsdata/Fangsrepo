@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { id, el } from 'date-fns/locale';
 
 
 export const normalizeCase = (e) => {
@@ -12,12 +13,23 @@ export const normalizeCase = (e) => {
 export const normalizeWeight = (e) => {
     if (typeof e == 'number') {
         if (e >= 1000){
-            return e / 1000 + " t"
+            e = e / 1000;
+            if(e < 100) {
+                e = e.toFixed(1)
+            }
+            else {
+                e = e.toFixed(0);
+            }
+            
+            return e + " t"
         } 
-        else if (e <= 1){
-            return e * 1000 + " gr"
+        else if (e <= 1) {
+            e = e * 1000;
+            e = e.toFixed(1);
+            return e + " gr"
         }
-        else{
+        else {
+            e = e.toFixed(1);
             return e + " kg"
         }
     }

@@ -227,8 +227,9 @@ namespace OffloadWebApi.Repository
                     Aflinn_Landings.`Fartøynavn`, 
                     Aflinn_Fishing_gear.`Redskap`, 
                     Aflinn_Boats.`Største lengde`, 
-                    SUM(Aflinn_Landings.`Rundvekt`) AS Rundvekt,
-                    Aflinn_Boats.`Radiokallesignal (seddel)`
+                    SUM(Aflinn_Landings.`Rundvekt`),
+                    Aflinn_Boats.`Radiokallesignal (seddel)`,
+                    Aflinn_Landings.`Registreringsmerke (seddel)`
                     FROM Aflinn_Landings
                     LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)` 
                     LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
@@ -263,7 +264,8 @@ namespace OffloadWebApi.Repository
                         boatFishingGear: reader.GetString(1),
                         boatLength: reader.GetDouble(2),
                         totalWeight: reader.GetDouble(3),
-                        boatRadioSignalId: reader.GetString(4));
+                        boatRadioSignalId: reader.GetString(4),
+                        boatRegistrationId: reader.GetString(5));
                     filteredResults.Add(topListDto);
                 }
             }

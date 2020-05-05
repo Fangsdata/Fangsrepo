@@ -1,17 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { normalizeWeight } from '../../services/TextTools';
+import PropTypes, { number } from 'prop-types';
 
-
-const OffloadListItem = ({ item, index, color }) => (
+const OffloadListItem = ({ item, index }) => (
     <Link className="offload-link" to={"/boats/"+ item.boatRadioSignalId}>
         <div className="offload-row">
             <p className="offload-index">{index}</p>
-            <p className="offload-name"> {item.boatName}</p>
+            <p className="offload-name"> {item.boatName ? item.boatName : item.boatRegistrationId}</p>
             <p className="offload-group"> {item.boatFishingGear}</p>
             <p className="offload-group"> {item.boatLength} m</p>
-            <p className="offload-group"> {item.totalWeight} kg</p>
+            <p className="offload-group"> {normalizeWeight(item.totalWeight)}</p>
         </div>
     </Link>
 );
+
+OffloadListItem.propTypes = {
+    item : PropTypes.shape({
+        avrage: PropTypes.number,
+        boatFishingGear: PropTypes.string,
+        boatImage: PropTypes.string, 
+        boatLandingState: PropTypes.string,
+        boatLandingTown: PropTypes.string,
+        boatLength: PropTypes.number,
+        boatName: PropTypes.string, 
+        boatNationality: PropTypes.string,
+        boatRadioSignalId: PropTypes.string,
+        boatRegistrationId: PropTypes.string,
+        id: PropTypes.number,
+        largestLanding: PropTypes.number,
+        smallest: PropTypes.number,
+        state: PropTypes.string,
+        totalWeight: PropTypes.number,
+        town: PropTypes.string,
+        trips: PropTypes.number,
+    }),
+    index : number
+};
 
 export default OffloadListItem;

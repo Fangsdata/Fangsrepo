@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { normalizeWeight,normalizeDate, normalizeCase } from '../../services/TextTools';
 
 class LandingsTable extends React.Component {
     state = {
@@ -43,10 +44,10 @@ class LandingsTable extends React.Component {
          ? landings.map((landing, i)=>(
             <tr>
                 <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{landing.landingDate}</Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{landing.town}</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{normalizeDate(landing.landingDate)}</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{normalizeCase(landing.town)}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{landing.totalWeight} kg.</Link></td>
+                <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
             </tr>))
           :<th colSpan="5"><div className="loader"></div></th>}
 
