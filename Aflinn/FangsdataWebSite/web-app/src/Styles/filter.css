@@ -146,3 +146,12 @@
 .react-datepicker__month--selected, .react-datepicker__month--in-selecting-range, .react-datepicker__month--in-range, .react-datepicker__quarter--selected, .react-datepicker__quarter--in-selecting-range, .react-datepicker__quarter--in-range {
     background-color: rgb(71, 110, 202) !important;
 }
+
+.filter-container {
+    overflow-y: auto;
+    height: 13.5rem;
+    max-width: 15rem;
+    flex-basis: 25%;
+    margin-right: 1.59rem;
+    margin-bottom: 1.5rem;
+}
