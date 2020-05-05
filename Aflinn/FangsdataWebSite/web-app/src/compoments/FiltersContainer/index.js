@@ -12,6 +12,7 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
    const [showFilters, setShowFilters] = useState(false);
    const [startDate, setStartDate] = useState(Date.now());
    const [endDate, setEndDate] = useState(new Date(2020,4));
+   const headers = ["Fishing Gear", "Boat leangth", "Fish name", "Landing state"]
 
    return (
    <div>
@@ -48,7 +49,7 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
                showMonthYearPicker
             />
          </div>
-                  { Object.keys(allFilters).map(header => <p className="f-headers">{header}</p>)}
+                  { headers.map(header => <p className="f-headers">{header}</p>)}
                    { Object.keys(allFilters).map((item) => {
                      return (<FilterCheckBox
                         key={item} 
