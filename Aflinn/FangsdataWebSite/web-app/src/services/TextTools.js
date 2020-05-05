@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 
 export const normalizeCase = (e) => {
     e = e.toLocaleLowerCase();
@@ -21,4 +23,9 @@ export const normalizeWeight = (e) => {
     }
 
     return e;
+}
+
+export const normalizeDate  = (e) => {
+    return format(new Date(e), "d/M/yyyy")
+
 }

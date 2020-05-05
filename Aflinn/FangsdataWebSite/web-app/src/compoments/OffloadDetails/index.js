@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import Map from '../Map';
 import {Pie} from 'react-chartjs-2';
-import { normalizeCase,normalizeWeight } from '../../services/TextTools';
+import { normalizeCase,normalizeWeight,normalizeDate } from '../../services/TextTools';
 
 
 const OffloadDetails = ({offloadId}) => 
@@ -85,7 +85,7 @@ const OffloadDetails = ({offloadId}) =>
                     
                     <p>Båt : {normalizeCase(offloadDetail.boat.name)} - {offloadDetail.boat.registration_id}</p> 
                     <p>Redskap : {offloadDetail.boat.fishingGear}</p>
-                    <p>Landins dato : {offloadDetail.landingDate}</p>
+                    <p>Landins dato : {normalizeDate(offloadDetail.landingDate)}</p>
                 </div>
                 <div className="map-container">
                     <Map
@@ -98,13 +98,13 @@ const OffloadDetails = ({offloadId}) =>
                         <th className="landing-table-header" colSpan="7">Offload details</th>
                     </tr>
                     <tr>
-                        <td>Type</td>
-                        <td>Condition</td>
-                        <td>Quality</td>
-                        <td>Application</td>
-                        <td>Weight</td>
-                        <td>Packaging</td>
-                        <td>Preservation</td>
+                        <td>Art</td>
+                        <td>Produkttilstand</td>
+                        <td>Kvalitet</td>
+                        <td>Anvendelse</td>
+                        <td>Landingsmåte</td>
+                        <td>Konserveringsmåte</td>
+                        <td>Rundvekt</td>
                     </tr>
                     {
                         offloadDetail.fish.map((fish, i) => (
@@ -121,8 +121,7 @@ const OffloadDetails = ({offloadId}) =>
                         ))
                     }
                     <tr>
-                        <td>Total</td>
-                        <td> - </td>
+                        <td colSpan="2">Total Rundvekt</td>
                         <td> - </td>
                         <td> - </td>
                         <td> - </td>
