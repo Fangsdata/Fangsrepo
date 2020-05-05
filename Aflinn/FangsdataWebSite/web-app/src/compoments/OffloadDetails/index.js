@@ -95,7 +95,7 @@ const OffloadDetails = ({offloadId}) =>
                 </div>
                 <table className="landing-table detail">
                     <tr>
-                        <th className="landing-table-header" colSpan="7">Offload details</th>
+                        <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
                     </tr>
                     <tr>
                         <td>Art</td>
