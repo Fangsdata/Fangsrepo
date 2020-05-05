@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import down_arrow from "./arrow_drop_down-24px.svg";
 import up_arrow from "./arrow_drop_up-24px.svg";
 import filter_icon from "./filter_list-24px.svg";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
@@ -19,29 +20,35 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
       ? <><p className="f-container-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Filter by: <img className="arrow-icon" src={up_arrow} alt=""/></p>
          { showFilters
          ?       <div className="filter-all-filters">
-         <DatePicker
-            selected={startDate}
-            onChange={date=>{
-               setStartDate(date);
-               updateDate(date, endDate)}}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-         />
-         <DatePicker
-            selected={endDate}
-            onChange={date=>{
-               setEndDate(date);
-               updateDate(startDate, date);}}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-         />
-                  { Object.keys(allFilters).map(header => <p className="f-container">{header}</p>)}
+         <div className="date-container">
+            <div className="date-headers">
+               <p>From:</p>
+               <p>To:</p>
+            </div>
+            <DatePicker
+               selected={startDate}
+               onChange={date=>{
+                  setStartDate(date);
+                  updateDate(date, endDate)}}
+               selectsStart
+               startDate={startDate}
+               endDate={endDate}
+               dateFormat="MM/yyyy"
+               showMonthYearPicker
+            />
+            <DatePicker
+               selected={endDate}
+               onChange={date=>{
+                  setEndDate(date);
+                  updateDate(startDate, date);}}
+               selectsEnd
+               startDate={startDate}
+               endDate={endDate}
+               dateFormat="MM/yyyy"
+               showMonthYearPicker
+            />
+         </div>
+                  { Object.keys(allFilters).map(header => <p className="f-headers">{header}</p>)}
                    { Object.keys(allFilters).map((item) => {
                      return (<FilterCheckBox
                         key={item} 

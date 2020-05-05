@@ -1,7 +1,7 @@
 
 .f-header {
     margin-top: 2rem;
-    border: solid gray 1px;
+    /* border: solid gray 1px; */
     border-radius: 1rem;
     display: flex;
     flex-direction: row;
@@ -9,6 +9,9 @@
     justify-content: stretch;
     flex-wrap: wrap;
     margin-bottom: 1.5rem;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(46,74,117,0.5);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(46,74,117,0.5);
+    box-shadow: 0px 0px 5px 0px rgba(46,74,117,0.5);
 }
 
 .f-header-title {
@@ -20,6 +23,7 @@
 
 .f-header-title:hover {
     text-decoration: underline;
+    text-decoration-color: #2B59C3;
 }
 
 .f-container-title {
@@ -32,6 +36,7 @@
 
 .f-container-title:hover {
     text-decoration: underline;
+    text-decoration-color: #2B59C3;
 }
 
 /* .f-container{
@@ -47,9 +52,9 @@
     flex-grow: 1; 
 } */
 
-.f-container{
-    font-weight: 500;
-    flex-basis: 33%;
+.f-headers{
+    font-weight: 600;
+    flex-basis: 25%;
     justify-content: center;
   }
 
@@ -63,7 +68,7 @@
 .filter-container {
   align-items: center;
   justify-content: center;
-  flex-basis: 33%;
+  flex-basis: 25%;
   flex-grow: 1;
 }
 
@@ -75,8 +80,15 @@
     margin-right: 0.5rem;
 }
 
-.check-item, label:hover {
+.check-item {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: baseline;
+}
+
+.filter-label:hover {
     text-decoration: underline;
+    text-decoration-color: #2B59C3;
 }
 
 .checkbox {
@@ -85,6 +97,8 @@
 
 .filter-label {
     cursor: pointer;
+    display: block;
+    max-width: 15rem;
 }
 /* .filter-container:first-child{
   align-items: center;
@@ -92,3 +106,43 @@
   flex-basis: 50%;
   flex-grow: 1; 
 } */
+
+.date-container {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.date-headers {
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    justify-content: flex-end;
+}
+
+.date-headers p {
+    margin-bottom: 0.4rem;
+    flex-basis: 24.8%;
+}
+
+.react-datepicker-wrapper {
+    flex-basis: 25%;
+}
+
+.react-datepicker-wrapper input {
+    border-radius: 14px;
+    padding-left: 8px;
+    border: none;
+    box-shadow: 0px 0px 2px 0px rgba(46,74,117,1);
+}
+
+.checkbox {
+    margin-right: 0.5rem;
+}
+
+.react-datepicker__month--selected, .react-datepicker__month--in-selecting-range, .react-datepicker__month--in-range, .react-datepicker__quarter--selected, .react-datepicker__quarter--in-selecting-range, .react-datepicker__quarter--in-range {
+    background-color: rgb(71, 110, 202) !important;
+}
