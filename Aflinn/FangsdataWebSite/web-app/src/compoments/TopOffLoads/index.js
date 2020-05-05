@@ -36,7 +36,7 @@ class TopOffLoads extends React.Component {
                    { title: '11m - 14,99m',value:'11m - 14,99m', checkState:false },
                    { title: '15m - 20,99m',value:'15m - 20,99m',  checkState:false },
                    { title: '21m - 27,99m', value:'21m - 27,99m', checkState:false },
-                   { title: '28m og over', value:'28m og over', checkState:false }],
+                   { title: '28m og over', value:'28 m og over', checkState:false }],
             fishName: [{ title:'Pelagisk fisk', value:'Pelagisk fisk',checkState:false },
                   { title:'Torsk og torskeartet fisk',value:'Torsk og torskeartet fisk', checkState:false },
                   { title:'Flatfisk, annen bunnfisk og dypvannsfisk',value:'Flatfisk, annen bunnfisk og dypvannsfisk', checkState:false },
