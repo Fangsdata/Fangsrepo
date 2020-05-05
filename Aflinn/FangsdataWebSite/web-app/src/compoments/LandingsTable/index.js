@@ -32,8 +32,7 @@ class LandingsTable extends React.Component {
                 <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
             </tr>))
           :<th colSpan="5"><div className="loader"></div></th>}
-
-    </table>
+        </table>
     );
   }
 }
