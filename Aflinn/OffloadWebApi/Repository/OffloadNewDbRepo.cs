@@ -191,7 +191,7 @@ namespace OffloadWebApi.Repository
                 }
             }
 
-            _connection.Dispose();
+            _connection.Close();
             return boat;
         }
 
@@ -269,7 +269,7 @@ namespace OffloadWebApi.Repository
                     filteredResults.Add(topListDto);
                 }
             }
-            _connection.Dispose();
+            _connection.Close();
             return filteredResults;
         }
 
@@ -323,7 +323,7 @@ namespace OffloadWebApi.Repository
                 }
             }
 
-            _connection.Dispose();
+            _connection.Close();
             return lastOffloads;
         }
 
@@ -427,7 +427,7 @@ namespace OffloadWebApi.Repository
                     }
                 }
             }
-            _connection.Dispose();
+            _connection.Close();
             return offload;
         }
 
@@ -492,7 +492,7 @@ namespace OffloadWebApi.Repository
                     searchedBoats.Add(boat);
                 }
             }
-            _connection.Dispose();
+            _connection.Close();
             return searchedBoats;
         }
 
@@ -543,7 +543,7 @@ namespace OffloadWebApi.Repository
                 }
             }
 
-            _connection.Dispose();
+            _connection.Close();
             return boat;        
         }
     }
