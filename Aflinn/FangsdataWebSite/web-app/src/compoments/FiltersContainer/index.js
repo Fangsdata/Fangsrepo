@@ -10,8 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
 
    const [showFilters, setShowFilters] = useState(false);
-   const [startDate, setStartDate] = useState(Date.now());
-   const [endDate, setEndDate] = useState(new Date(2020,4));
+   const [startDate, setStartDate] = useState(new Date());
    const headers = ["Fishing Gear", "Boat leangth", "Fish name", "Landing state"]
 
    return (
@@ -23,30 +22,14 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
          ?       <div className="filter-all-filters">
          <div className="date-container">
             <div className="date-headers">
-               <p>Fra:</p>
-               <p>Til:</p>
+               <p>Velg måned:</p>
             </div>
             <DatePicker
                selected={startDate}
-               onChange={date=>{
-                  setStartDate(date);
-                  updateDate(date, endDate)}}
-               selectsStart
-               startDate={startDate}
-               endDate={endDate}
+               onChange={date => setStartDate(date)}
                dateFormat="MM/yyyy"
                showMonthYearPicker
-            />
-            <DatePicker
-               selected={endDate}
-               onChange={date=>{
-                  setEndDate(date);
-                  updateDate(startDate, date);}}
-               selectsEnd
-               startDate={startDate}
-               endDate={endDate}
-               dateFormat="MM/yyyy"
-               showMonthYearPicker
+               showFullMonthYearPicker
             />
          </div>
          { headers.map(header => <p className="f-headers">{header}</p>)}
