@@ -3,6 +3,7 @@ import VesselMap from '../Map';
 import LandingsTable from '../LandingsTable';
 import LandingsTableControlls from '../LandingsTableControlls';
 import { normalizeCase } from '../../services/TextTools';
+import boaticon from "./boat.png";
 import { th } from 'date-fns/locale';
 
 
@@ -106,7 +107,7 @@ class BoatDetails extends React.Component{
         return (    
         <div className="boat-container">
             {registrationId !== ""
-            ?<><img src={image} className="boat-img" alt="boat"></img>
+            ?<><img src={boaticon} className="boat-img" alt="boat"></img>
                 <div className="boat-info">
                     <h3>{normalizeCase(name)}</h3>
                     <p className="boat-details">lengde: { length } m</p>
@@ -149,7 +150,8 @@ class BoatDetails extends React.Component{
                     let page = this.state.pageNo;
                     page = 1;
                     this.setState({resultCount: no, pageNo: page})
-                }}></LandingsTableControlls>
+                }}
+                page={this.state.pageNo}></LandingsTableControlls>
         </div>
         );
     };
