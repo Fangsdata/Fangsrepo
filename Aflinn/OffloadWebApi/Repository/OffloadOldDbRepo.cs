@@ -753,5 +753,10 @@ namespace OffloadWebApi.Repository
         {
             throw new NotImplementedException();
         }
+
+        public BoatDto? GetBoatByRegistration(string RegistrationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

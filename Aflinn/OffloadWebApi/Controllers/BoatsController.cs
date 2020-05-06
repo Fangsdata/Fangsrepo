@@ -20,10 +20,22 @@ namespace OffloadWebApi.Controllers
             this._IBoatService = boatService;
         }
 
-        [HttpGet("{BoatRadioSignalId}")]
-        public IActionResult Get(string BoatRadioSignalId)
+        [HttpGet("radio/{BoatRadioSignalId}")]
+        public IActionResult GetRatio(string BoatRadioSignalId)
         {
-            var result = this._IBoatService.GetBoat(BoatRadioSignalId);
+            var result = this._IBoatService.GetBoatByRadio(BoatRadioSignalId);
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
+        [HttpGet("registration/{registrationId}")]
+        public IActionResult GetRegistration(string registrationId)
+        {
+            Console.WriteLine(registrationId);
+            var result = this._IBoatService.GetBoatByRegistration(registrationId);
             if (result == null)
             {
                 return this.NotFound();
