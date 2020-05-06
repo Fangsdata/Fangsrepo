@@ -3,47 +3,29 @@ import { Link } from 'react-router-dom';
 import { normalizeWeight,normalizeDate, normalizeCase } from '../../services/TextTools';
 
 class LandingsTable extends React.Component {
-    state = {
-        landings: [/*{
-            town: "",
-            state: "",
-            landingDate: "",
-            totalWeight: 0,
-            id: ""
-        }*/]
-    };
 
     constructor(props) {
         super(props);
     }
 
-    async componentDidMount() {
-        const boatname = this.props.boatname.boatname;
-        fetch(`https://fangsdata-api.herokuapp.com/api/offloads/` + boatname + "/5/2")
-            .then((res2) => res2.json())
-            .then((res2) => {
-                this.setState({landings: res2});
-            });
-    }
-
   render() {
-      const {landings} = this.state;
+      const {landings, landingNo} = this.props;
     return (
         <table className="landing-table">
         <tr>
-            <th className="landing-table-header" colSpan="5">Most recent landings</th>
+            <th className="landing-table-header" colSpan="5">Siste landinger</th>
         </tr>
-        <tr >
+        <tr>
             <td></td>
-            <td>Date</td>
-            <td>Town</td>
-            <td>State</td>
-            <td>Total weitght</td>
+            <td>Dato</td>
+            <td>Kommune</td>
+            <td>Fylke</td>
+            <td>Total vekt</td>
         </tr>
-        { landings.length !== 0
+        { landings.length != 0
          ? landings.map((landing, i)=>(
             <tr>
-                <td><Link to={"/offloads/"+ landing.id}> {i+1}. </Link></td>
+                <td><Link to={"/offloads/"+ landing.id}> {i+1 + landingNo}. </Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{normalizeDate(landing.landingDate)}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{normalizeCase(landing.town)}</Link></td>
                 <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
