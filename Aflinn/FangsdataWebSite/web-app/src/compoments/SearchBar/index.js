@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
 import {OFFLOADAPI} from "../../Constants";
-import { connect } from 'react-redux';
-import { StoredBoatDetails } from '../../actions/boatAction';
 
 var timeOut;
 const SearchBar = ({StoredBoatDetails}) => {
@@ -55,10 +53,8 @@ const SearchBar = ({StoredBoatDetails}) => {
            <div className="line"></div>
            { foundBoats.map((boat)=> <QuickSearchItem 
                                         searchItemTitle={boat.name + " - " + boat.registration_id}
-                                        RadioSignal={boat.radioSignalId}
+                                        RegistrationId={boat.registration_id}
                                         ClickedEvent={ (selectedItem) =>{
-                                            let item = foundBoats.find(b => b.radioSignalId === selectedItem);
-                                            StoredBoatDetails(item);
                                             updateSearch("");
                                             setFoundBoats([]);}}
                                         />) }
@@ -69,11 +65,11 @@ const SearchBar = ({StoredBoatDetails}) => {
     </div>
     </>)
 }
-const QuickSearchItem = ({searchItemTitle, RadioSignal, ClickedEvent}) => (
-    <Link to={"/boats/" + RadioSignal} onClick={() => {ClickedEvent(RadioSignal)}}>
+const QuickSearchItem = ({searchItemTitle, RegistrationId, ClickedEvent}) => (
+    <Link to={"/boats/" + RegistrationId} onClick={() => {ClickedEvent(RegistrationId)}}>
         <div className="search-result">
             {searchItemTitle} 
         </div>
     </Link>
 )
-export default connect(null,{StoredBoatDetails})(SearchBar);
+export default SearchBar;
