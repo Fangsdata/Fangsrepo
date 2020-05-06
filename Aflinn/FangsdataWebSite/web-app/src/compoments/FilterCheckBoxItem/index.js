@@ -10,7 +10,7 @@ const FilterCheckBoxItem = ({ item,value, group, inputEvent,checkState, checkBox
             value={value}
             onChange={inputEvent}
             checked={checkState}
-        />{console.log(checkBoxType)}
+        />
         <label className="filter-label" htmlFor={item}>{item}</label>
     </div>
 );

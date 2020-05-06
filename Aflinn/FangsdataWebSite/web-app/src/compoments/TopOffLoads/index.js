@@ -2,6 +2,7 @@ import React from 'react';
 import {getOffloads} from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 import FilterContainer from '../FiltersContainer';
+import { ta } from 'date-fns/locale';
 
 var filterTimeOut;
 
@@ -68,11 +69,34 @@ class TopOffLoads extends React.Component {
         const target = event.target;
         const {filter, allFilters } = this.state;
         let index = allFilters[target.name].findIndex((value)=> value.title == target.id );
-        if(index != -1){
+        if(index != -1 && target.type !== "radio"){
             allFilters[target.name][index].checkState = !allFilters[target.name][index].checkState;
             this.setState(allFilters);
         }
-        if(target.checked){
+        else if (target.type === "radio"){
+            allFilters[target.name].forEach((item)=>{
+                if(item.value !== target.value){
+                    item.checkState = false;
+                }
+                else{
+                    item.checkState = true;
+                }
+            });
+            this.setState(allFilters);
+        }
+        if(target.type === "radio"){
+            let currState = filter[target.name];
+            currState[0] = target.value;
+            filter[target.name] = currState;
+            this.setState(filter);
+
+
+            clearTimeout(filterTimeOut);
+            filterTimeOut = setTimeout( async ()=> {
+                this.setState({ offLoads : await getOffloads( filter )});
+            }, 1000);
+        }
+        else if(target.checked){
             let currState = filter[target.name];
             currState.push(target.value);
             filter[target.name] = currState;
