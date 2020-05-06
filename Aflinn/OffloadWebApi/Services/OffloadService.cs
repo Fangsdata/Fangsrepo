@@ -17,14 +17,14 @@ namespace OffloadWebApi.Services
             this._offloadRepo = offloadRepo;
         }
 
-        public List<OffloadDto> GetOffloadById(string radioSignal, int count, int pageNr)
+        public List<OffloadDto> GetOffloadById(string boatRegistrationId, int count, int pageNr)
         {
             int offset = (pageNr - 1) * count;
             if(offset < 0)
             {
                 offset = 0;
             }
-            return this._offloadRepo.GetLastOffloadsFromBoat(radioSignal, count, offset);
+            return this._offloadRepo.GetLastOffloadsFromBoat(boatRegistrationId, count, offset);
         }
 
         private int ParseCount(string count)

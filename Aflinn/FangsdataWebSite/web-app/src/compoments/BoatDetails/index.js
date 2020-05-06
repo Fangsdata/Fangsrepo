@@ -48,7 +48,7 @@ class BoatDetails extends React.Component{
             BoatStore.mapData = [];
             this.setState({boat: BoatStore});
         }
-        fetch(`http://fangsdata-api.herokuapp.com/api/Boats/` + boatname)
+        fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/` + boatname)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({boat: res});
@@ -87,7 +87,7 @@ class BoatDetails extends React.Component{
             fishingGear,
             image,
             mapData,
-            radioSignalId
+            registrationId
         } = this.state.boat;
         const{landings,pageNo,resultCount} = this.state;
         let mapDataFUCKYOUJAVASCRIPT = mapData;
@@ -100,7 +100,7 @@ class BoatDetails extends React.Component{
         }
         return (    
         <div className="boat-container">
-            {radioSignalId !== ""
+            {registrationId !== ""
             ?<><img src={image} className="boat-img" alt="boat"></img>
                 <div className="boat-info">
                     <h3>{normalizeCase(name)}</h3>
