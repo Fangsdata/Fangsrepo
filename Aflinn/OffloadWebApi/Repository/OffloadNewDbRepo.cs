@@ -191,7 +191,7 @@ namespace OffloadWebApi.Repository
                 }
             }
 
-            _connection.Close();
+            _connection.Dispose();
             return boat;
         }
 
@@ -269,11 +269,11 @@ namespace OffloadWebApi.Repository
                     filteredResults.Add(topListDto);
                 }
             }
-            _connection.Close();
+            _connection.Dispose();
             return filteredResults;
         }
 
-        public List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset)
+        public List<OffloadDto> GetLastOffloadsFromBoat(string boatRegistrationId, int count, int Offset)
         {
             var lastOffloads = new List<OffloadDto>();
             var cmd = _connection.CreateCommand();
@@ -292,12 +292,12 @@ namespace OffloadWebApi.Repository
                 LEFT JOIN Aflinn_Landing_state ON Aflinn_Landings.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
                 LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
                 LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
-                WHERE Aflinn_Boats.`Radiokallesignal (seddel)` = '{0}'
+                WHERE Aflinn_Boats.`Registreringsmerke (seddel)` = '{0}'
                 GROUP BY Aflinn_Landings.`Dokumentnummer`
                 ORDER BY Aflinn_Landings.`Landingsdato` DESC
                 LIMIT {1}
                 OFFSET {2}",
-            BoatRadioSignalId,
+            boatRegistrationId,
             count,
             Offset);
 
@@ -323,7 +323,7 @@ namespace OffloadWebApi.Repository
                 }
             }
 
-            _connection.Close();
+            _connection.Dispose();
             return lastOffloads;
         }
 
@@ -427,7 +427,7 @@ namespace OffloadWebApi.Repository
                     }
                 }
             }
-            _connection.Close();
+            _connection.Dispose();
             return offload;
         }
 
@@ -472,26 +472,6 @@ namespace OffloadWebApi.Repository
                     GROUP BY Aflinn_Landings.`Registreringsmerke (seddel)`
                     limit {1}
                     offset 0)",
-                /*@"  SELECT 
-                    Aflinn_Boats.`Registreringsmerke (seddel)`,
-                    Aflinn_Boats.`Radiokallesignal (seddel)`,
-                    Aflinn_Landings.`Fartøynavn`,
-                    Aflinn_Boats.`Fartøyfylke`,
-                    Aflinn_Boats.`Fartøynasjonalitet`,
-                    Aflinn_Boats.`Fartøykommune`,
-                    Aflinn_Boats.`Største lengde`,
-                    Aflinn_Fishing_gear.`Redskap`
-                    FROM Aflinn_Landings
-
-                    LEFT JOIN Aflinn_Boats ON Aflinn_Boats.`Registreringsmerke (seddel)` = Aflinn_Landings.`Registreringsmerke (seddel)`
-                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Fishing_gear.`Redskap (kode)` = Aflinn_Landings.`Redskap (kode)`
-                    WHERE Aflinn_Landings.`Fartøynavn` LIKE '{0}'
-                    OR Aflinn_Boats.`Radiokallesignal (seddel)` LIKE '{0}'
-                    OR Aflinn_Boats.`Registreringsmerke (seddel)` LIKE '{0}'
-                    GROUP BY Aflinn_Boats.`Registreringsmerke (seddel)`
-                    limit {1}
-                    offset {2}
-                    ",*/
                 boatSearchTerm,
                 count);
             var reader = cmd.ExecuteReader();
@@ -507,13 +487,64 @@ namespace OffloadWebApi.Repository
                         state: reader.GetString(3),
                         nationality: reader.GetString(4),
                         town: reader.GetString(5),
-                        /*length: reader.GetDouble(6),*/
+                        length: reader.GetDouble(6),
                         fishingGear: reader.GetString(7));
                     searchedBoats.Add(boat);
                 }
             }
-            _connection.Close();
+            _connection.Dispose();
             return searchedBoats;
+        }
+
+        public BoatDto GetBoatByRegistration(string RegistrationId)
+        {
+            var boat = new BoatDto();
+            var cmd = _connection.CreateCommand();
+            _connection.Open();
+
+            cmd.CommandText = string.Format(
+            @"SELECT 
+                Aflinn_Landings.`Registreringsmerke (seddel)`,
+                Aflinn_Boats.`Radiokallesignal (seddel)` ,
+                Aflinn_Landings.`Fartøynavn`,
+                Aflinn_Boats.`Fartøykommune`,
+                Aflinn_Boats.`Fartøyfylke`,
+                Aflinn_Boats.`Fartøynasjonalitet`,
+                Aflinn_Boats.`Største lengde`,
+                Aflinn_Boats.`Bruttotonnasje annen`,
+                Aflinn_Boats.`Bruttotonnasje 1969`,
+                Aflinn_Boats.`Byggeår`,
+                Aflinn_Boats.`Motorkraft`,
+                Aflinn_Fishing_gear.`Redskap`
+            FROM Aflinn_Landings
+            LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
+            LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
+            WHERE Aflinn_Boats.`Registreringsmerke (seddel)` = '{0}'
+            ORDER BY Aflinn_Landings.`Landingsdato` DESC
+            LIMIT 1 ", RegistrationId);
+            var reader = cmd.ExecuteReader();
+            
+            using(reader)
+            {
+                reader.Read();
+                if(reader.HasRows)
+                {
+                    boat.RegistrationId = reader.GetString(0);
+                    boat.RadioSignalId = reader.GetString(1);
+                    boat.Name = reader.GetString(2);
+                    boat.Town = reader.GetString(3);
+                    boat.State = reader.GetString(4);
+                    boat.Nationality = reader.GetString(5);
+                    boat.Length = reader.GetDouble(6);
+                    boat.Weight = GetBoatWeight(reader.GetInt16(7), reader.GetInt16(8));
+                    boat.BuiltYear = reader.GetInt16(9);
+                    boat.EnginePower = reader.GetInt16(10);
+                    boat.FishingGear = reader.GetString(11);
+                }
+            }
+
+            _connection.Dispose();
+            return boat;        
         }
     }
 }

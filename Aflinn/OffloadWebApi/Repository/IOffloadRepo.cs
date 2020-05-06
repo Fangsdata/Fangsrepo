@@ -10,8 +10,8 @@ namespace OffloadWebApi.Repository
         List<TopListDto> GetFilteredResults(QueryOffloadsInput filters);
         #nullable enable
         BoatDto? GetBoatByRadioSignal(string BoatRadioSignalId);
-
-        List<OffloadDto> GetLastOffloadsFromBoat(string BoatRadioSignalId, int count, int Offset);
+        BoatDto? GetBoatByRegistration(string RegistrationId);
+        List<OffloadDto> GetLastOffloadsFromBoat(string boatRegistrationId, int count, int Offset);
 
         OffloadDto GetSingleOffload(string offloadId);
 

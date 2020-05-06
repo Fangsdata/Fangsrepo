@@ -20,10 +20,10 @@ namespace OffloadWebApi.Test
         [Fact]
         public void CheckIfGetBoatReturnsBoatt(){
             
-            var result = _boatService.GetBoat("radio123");
+            var result = _boatService.GetBoatByRadio("radio123");
             Assert.Equal("radio123", result.RadioSignalId);
 
-            result = _boatService.GetBoat("not_radioXXX");
+            result = _boatService.GetBoatByRadio("not_radioXXX");
             Assert.Null(result);
         }
     }
