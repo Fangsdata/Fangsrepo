@@ -224,25 +224,25 @@ namespace OffloadWebApi.Repository
             
             cmd.CommandText = string.Format(
                 @"SELECT
-                    Aflinn_Landings.`Fartøynavn`, 
+                    Aflinn_Filter.`Fartøynavn`, 
                     Aflinn_Fishing_gear.`Redskap`, 
                     Aflinn_Boats.`Største lengde`, 
-                    SUM(Aflinn_Landings.`Rundvekt`),
+                    SUM(Aflinn_Filter.`Rundvekt`) AS Rundvekt,
                     Aflinn_Boats.`Radiokallesignal (seddel)`,
-                    Aflinn_Landings.`Registreringsmerke (seddel)`
-                    FROM Aflinn_Landings
-                    LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)` 
-                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
-                    LEFT JOIN Aflinn_Fish ON Aflinn_Landings.`Art (kode)` = Aflinn_Fish.`Art (kode)`
-                    LEFT JOIN Aflinn_Landing_state ON Aflinn_Landings.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
-                    LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND  Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
+                    Aflinn_Filter.`Registreringsmerke (seddel)`
+                    FROM Aflinn_Filter
+                    LEFT JOIN Aflinn_Boats ON Aflinn_Filter.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)` 
+                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Filter.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
+                    LEFT JOIN Aflinn_Fish ON Aflinn_Filter.`Art (kode)` = Aflinn_Fish.`Art (kode)`
+                    LEFT JOIN Aflinn_Landing_state ON Aflinn_Filter.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
+                    LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Filter.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Filter.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND  Aflinn_Filter.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
                     WHERE Aflinn_Landings_id_date.`Landingsdato` BETWEEN CAST('{0}' AS DATE) AND CAST('{1}' AS DATE)
                     {2}
                     {3}
                     {4}
                     {5}
-                    GROUP BY Aflinn_Landings.`Fartøynavn`
-                    ORDER BY SUM(Aflinn_Landings.`Rundvekt`) DESC
+                    GROUP BY Aflinn_Filter.`Fartøynavn`
+                    ORDER BY SUM(Aflinn_Filter.`Rundvekt`) DESC
                     LIMIT {6}
                     OFFSET 0",
                 filters.fromDate,
