@@ -6,10 +6,10 @@ const OffladsList = ({ offloads }) => (
         <div className="offload-header">Top Offloads</div>
         <OffladsListItem 
         item = {{
-            boatName: "Name",
-            boatFishingGear: "Fishing Gear",
-            boatLength : 'Boat Length',
-            totalWeight: "Total Weight",
+            boatName: "Navn",
+            boatFishingGear: "Relskap",
+            boatLength : 'Båt lengde',
+            totalWeight: "Total vekt",
             }} 
             index={'#'} 
             />
