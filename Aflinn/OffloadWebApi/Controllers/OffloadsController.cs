@@ -52,10 +52,10 @@ namespace OffloadWebApi.Controllers
         }
 
         // GET api/offloads/:radioSignal/:count
-        [HttpGet("{radioSignal}/{count}")]
-        public IActionResult Get(string radioSignal, int count)
+        [HttpGet("{boatRegistrationId}/{count}")]
+        public IActionResult Get(string boatRegistrationId, int count)
         {
-            var result = this._OffloadService.GetOffloadById(radioSignal, count, 1);
+            var result = this._OffloadService.GetOffloadById(boatRegistrationId, count, 1);
             if (result == null)
             {
                 return this.NotFound();
@@ -64,10 +64,10 @@ namespace OffloadWebApi.Controllers
             return this.Ok(result);
         }
 
-        [HttpGet("{radioSignal}/{count}/{pageNo}")]
-        public IActionResult Get(string radioSignal, int count, int pageNo)
+        [HttpGet("{boatRegistrationId}/{count}/{pageNo}")]
+        public IActionResult Get(string boatRegistrationId, int count, int pageNo)
         {
-            var result = this._OffloadService.GetOffloadById(radioSignal, count, pageNo);
+            var result = this._OffloadService.GetOffloadById(boatRegistrationId, count, pageNo);
             if (result == null)
             {
                 return this.NotFound();

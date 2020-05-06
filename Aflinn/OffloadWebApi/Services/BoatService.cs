@@ -23,13 +23,23 @@ namespace OffloadWebApi.Services
             this._mapService = mapService;
         }
         #nullable enable
-        public BoatDto? GetBoat(string BoatRadioSignalId)
+        public BoatDto? GetBoatByRadio(string BoatRadioSignalId)
         {
             var boat = this._offloadRepo.GetBoatByRadioSignal(BoatRadioSignalId);
             if(boat != null)
             {
                 boat.MapData = _mapService.GetMapDataByRadioSignal(BoatRadioSignalId);
                 boat.Image = GetImage(BoatRadioSignalId);
+            }
+            return boat;
+        }
+        public BoatDto? GetBoatByRegistration(string boatRegistrationId)
+        {
+            var boat = this._offloadRepo.GetBoatByRegistration(boatRegistrationId);
+            if(boat != null)
+            {
+                boat.MapData = _mapService.GetMapDataByRadioSignal(boat.RadioSignalId);
+                boat.Image = GetImage(boat.RadioSignalId);
             }
             return boat;
         }
