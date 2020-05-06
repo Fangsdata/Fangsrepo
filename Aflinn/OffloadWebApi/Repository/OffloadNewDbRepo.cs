@@ -359,7 +359,7 @@ namespace OffloadWebApi.Repository
                 Aflinn_Fish_preservation.`Konserveringsmåte`,
                 Aflinn_Packaging.`Landingsmåte`,
                 Aflinn_Fish_quality.`Kvalitet`,
-                Aflinn_Landings.`Rundvekt`,
+                SUM(Aflinn_Landings.`Rundvekt`) AS Rundvekt,
                 Aflinn_Fishing_gear.`Redskap`,
                 Aflinn_Fishing_gear.`Redskap - gruppe`,
                 Aflinn_Fishing_gear.`Redskap - hovedgruppe`,
@@ -375,7 +375,9 @@ namespace OffloadWebApi.Repository
                 LEFT JOIN Aflinn_Packaging ON Aflinn_Landings.`Landingsmåte (kode)` = Aflinn_Packaging.`Landingsmåte (kode)`
                 LEFT JOIN Aflinn_Fish_quality ON Aflinn_Landings.`Kvalitet (kode)` = Aflinn_Fish_quality.`Kvalitet (kode)`
                 LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
-                WHERE Aflinn_Landings.`Dokumentnummer` = {0}", offloadId);
+                WHERE Aflinn_Landings.`Dokumentnummer` = {0} AND Aflinn_Landings.`Rundvekt` != 0
+                GROUP BY Aflinn_Fish.`Art`, Aflinn_Fish_condition.`Produkttilstand`, Aflinn_Fish_quality.`Kvalitet`, Aflinn_Landings.`Anvendelse`, Aflinn_Packaging.`Landingsmåte`, Aflinn_Fish_preservation.`Konserveringsmåte`
+                ORDER BY SUM(Aflinn_Landings.`Rundvekt`) DESC", offloadId);
             var reader = cmd.ExecuteReader();
             using(reader)
             {
