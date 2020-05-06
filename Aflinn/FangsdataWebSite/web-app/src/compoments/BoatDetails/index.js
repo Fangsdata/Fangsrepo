@@ -2,7 +2,6 @@ import React from 'react';
 import VesselMap from '../Map';
 import LandingsTable from '../LandingsTable';
 import LandingsTableControlls from '../LandingsTableControlls';
-import { connect } from 'react-redux';
 import { normalizeCase } from '../../services/TextTools';
 import { th } from 'date-fns/locale';
 
@@ -40,14 +39,8 @@ class BoatDetails extends React.Component{
     }
 
     async componentDidMount() {
-        const {boatname, BoatStore} = this.props;
+        const {boatname} = this.props;
         const {pageNo,resultCount} = this.state;
-        if(Object.keys(BoatStore).length !== 0)
-        {
-            console.log(BoatStore);
-            BoatStore.mapData = [];
-            this.setState({boat: BoatStore});
-        }
         fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/` + boatname)
             .then((res) => res.json())
             .then((res) => {
@@ -68,6 +61,18 @@ class BoatDetails extends React.Component{
         if(pageNo != prevState.pageNo || resultCount != prevState.resultCount){
             this.setState({landings: []});
             fetch(`https://fangsdata-api.herokuapp.com/api/offloads/${boatname}/${resultCount}/${pageNo}`)
+            .then((res2) => res2.json())
+            .then((res2) => {
+                this.setState({landings: res2});
+            });
+        }
+        if(boatname != prevProps.boatname){
+            fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/` + boatname)
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({boat: res});
+            });
+        fetch(`https://fangsdata-api.herokuapp.com/api/offloads/${boatname}/${resultCount}/${pageNo}`)
             .then((res2) => res2.json())
             .then((res2) => {
                 this.setState({landings: res2});
@@ -150,7 +155,4 @@ class BoatDetails extends React.Component{
     };
 }
 
-const mapStateToProp = reduxStoreState => {
-    return {BoatStore: reduxStoreState};
-};
-export default connect(mapStateToProp)(BoatDetails);
+export default BoatDetails;
