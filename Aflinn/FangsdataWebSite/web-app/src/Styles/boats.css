@@ -100,6 +100,8 @@
 
 .show-more {
     margin-left: auto;
+    display: flex;
+    flex-direction: row;
 }
 
 .controls-container button {
@@ -116,11 +118,12 @@
     background-color: #ececec;
 }
 
-.controls-container input {
+.controls-container select {
     width: 4rem;
     box-shadow: 0 0 2px gray;
     background-color: transparent;
     border: none;
     border-radius: 7px;
     padding: 0 0.6rem 0 0.6rem;
+    margin-left: 0.8rem;
 }
