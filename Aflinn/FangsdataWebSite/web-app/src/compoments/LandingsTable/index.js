@@ -9,7 +9,7 @@ class LandingsTable extends React.Component {
     }
 
   render() {
-      const {landings, landingNo} = this.props;
+      const {landings, landingNo,boatOffloadLoaded} = this.props;
     return (
         <table className="landing-table">
         <tr>
@@ -22,7 +22,7 @@ class LandingsTable extends React.Component {
             <td>Fylke</td>
             <td>Total vekt</td>
         </tr>
-        { landings.length != 0
+        { boatOffloadLoaded
          ? landings.map((landing, i)=>(
             <tr>
                 <td><Link to={"/offloads/"+ landing.id}> {i+1 + landingNo}. </Link></td>

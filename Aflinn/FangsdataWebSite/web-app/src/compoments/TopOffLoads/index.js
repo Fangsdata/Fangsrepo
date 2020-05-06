@@ -7,10 +7,10 @@ var filterTimeOut;
 
 class TopOffLoads extends React.Component {
 
-    async componentDidMount(){
-        this.setState({
-            offLoads : await getOffloads(),
-        });
+    componentDidMount(){
+        getOffloads().then((ofl)=>{
+            this.setState({offLoads: ofl, topOffloadsLoaded: true});
+        })
     }
 
     state = {
@@ -61,7 +61,8 @@ class TopOffLoads extends React.Component {
                    { title: 'Akershus', checkState:false, value:'Akershus'},
                    { title: 'Oslo', checkState:false, value:'Oslo'},
                    { title: 'Buskerud', checkState:false, value:'Buskerud'} ]
-        }
+        },
+        topOffloadsLoaded: false
     }
 
     async inputEvent(event){    
@@ -80,7 +81,8 @@ class TopOffLoads extends React.Component {
             
             clearTimeout(filterTimeOut);
             filterTimeOut = setTimeout( async ()=> {
-                this.setState({ offLoads : await getOffloads( filter )});
+                this.setState({topOffloadsLoaded: false});
+                this.setState({ offLoads : await getOffloads( filter ), topOffloadsLoaded: true});
             }, 1000);
 
         }
@@ -110,6 +112,7 @@ class TopOffLoads extends React.Component {
         }
     }
     render(){
+        const {topOffloadsLoaded} = this.state;
         return (
         <div>
             <FilterContainer 
@@ -119,7 +122,7 @@ class TopOffLoads extends React.Component {
             <OffloadsList 
                 offloads={ this.state.offLoads }
             />
-            { this.state.offLoads.length < 1
+            { topOffloadsLoaded
                 ? <div className="loader">Loading...</div>
                 : <></>
             }

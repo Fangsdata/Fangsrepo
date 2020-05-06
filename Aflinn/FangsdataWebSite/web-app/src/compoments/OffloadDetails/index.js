@@ -133,7 +133,17 @@ const OffloadDetails = ({offloadId}) =>
                     <Pie data={chartData} legend={{display:true}} redraw   width={200} height={300}></Pie>
                 </div>
             </>
-        : <div className="loader"></div>}
+        : <div className="loader-container">
+        <div className="placeholder-info-container landings">
+            <div className="placeholder-item header"></div>
+            <div className="placeholder-item info"></div>
+            <div className="placeholder-item info"></div>
+            <div className="placeholder-item info"></div>
+            <div className="placeholder-item info"></div>
+        </div>
+        <div className="placeholder-item mapload"></div>
+        <div className="loader-container"><div className="loader"></div></div>
+    </div>}
         </div>
     )
 }
