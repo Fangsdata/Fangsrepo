@@ -4,7 +4,7 @@ import LandingsTable from '../LandingsTable';
 import LandingsTableControlls from '../LandingsTableControlls';
 import { connect } from 'react-redux';
 import { normalizeCase } from '../../services/TextTools';
-import boaticon from "./boat.svg";
+import boaticon from "./boat.png";
 import { th } from 'date-fns/locale';
 
 
@@ -145,7 +145,8 @@ class BoatDetails extends React.Component{
                     let page = this.state.pageNo;
                     page = 1;
                     this.setState({resultCount: no, pageNo: page})
-                }}></LandingsTableControlls>
+                }}
+                page={this.state.pageNo}></LandingsTableControlls>
         </div>
         );
     };
