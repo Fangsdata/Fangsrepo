@@ -4,6 +4,7 @@ import LandingsTable from '../LandingsTable'
 import {getBoats} from '../../services/OffloadService';
 import { connect } from 'react-redux';
 import { normalizeCase } from '../../services/TextTools';
+import boaticon from "./boat.svg";
 
 
 class BoatDetails extends React.Component{
@@ -76,7 +77,7 @@ class BoatDetails extends React.Component{
         return (    
         <div className="boat-container">
             {radioSignalId !== ""
-            ?<><img src={image} className="boat-img" alt="boat"></img>
+            ?<><img src={boaticon} className="boat-img" alt="boat"></img>
                 <div className="boat-info">
                     <h3>{this.Capitalize(name)}</h3>
                     <p className="boat-details">Length: { length } m</p>
