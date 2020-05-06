@@ -22,7 +22,7 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
          ?       <div className="filter-all-filters">
          <div className="date-container">
             <div className="date-headers">
-               <p>Select month:</p>
+               <p>Velg måned:</p>
             </div>
             <DatePicker
                selected={startDate}
@@ -32,16 +32,22 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
                showFullMonthYearPicker
             />
          </div>
-                  { headers.map(header => <p className="f-headers">{header}</p>)}
-                   { Object.keys(allFilters).map((item) => {
-                     return (<FilterCheckBox
-                        key={item} 
-                        items={allFilters[item]} 
-                        group={item} 
-                        inputEvent={inputEvent}
-                        />) })}
-
-                  </div>
+         { headers.map(header => <p className="f-headers">{header}</p>)}
+            { Object.keys(allFilters).map((item) => {
+               
+            let checboxType = 'checkbox'; 
+            if(item == 'boatLength'){
+               checboxType = 'radio';
+            }
+            return (<FilterCheckBox
+               key={item} 
+               items={allFilters[item]} 
+               group={item} 
+               inputEvent={inputEvent}
+               checkBoxType={checboxType}
+               />) })}
+            
+         </div>
                   
          : <></>  }</>
       : <><p className="f-header-title" onClick={()=> setShowFilters(!showFilters)}><img className="filter-icon" src={filter_icon} alt=""/>Show filters <img className="arrow-icon" src={down_arrow} alt=""/></p></>

@@ -3,6 +3,9 @@ import { id, el } from 'date-fns/locale';
 
 
 export const normalizeCase = (str)=>{
+    if(str === null){
+        return "";
+    }
     return str.replace(/\w\S*/g, function(txt){
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
