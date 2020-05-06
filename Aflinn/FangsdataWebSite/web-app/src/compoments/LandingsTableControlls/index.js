@@ -8,16 +8,21 @@ const LandingsTableControlls = ({nextPage, prevPage, resultNo, page}) => {
             <p>{page}</p>
             <button onClick={()=>{nextPage()}}>{">"}</button>
             <div className="show-more">
-                <button onClick={()=>resultNo(ammountInput)}>Show more:</button>
-                <input 
-                    type="number"
+                <p>Show more:</p>
+                
+                <select
+                    onClick={()=>resultNo(ammountInput)}
                     value={ammountInput}
                     onChange={ e => { if (e.target.value <= 25){
                                             setAmmountInput(e.target.value)  
                                     }else{
                                             setAmmountInput(25)
                                     }
-                            }}></input>
+                            }}>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                </select>
             </div>
             
         </div>)
