@@ -44,7 +44,7 @@ const SearchBar = ({StoredBoatDetails}) => {
 
     return (
     <div ref={node}>
-    <div className={ `searchbar ${foundBoats.length != 0 && isSearchOpen ? 'open' : ''}` }>
+    <div className={ `searchbar ${foundBoats.length != 0 && !isSearchOpen ? 'open' : ''}` }>
         <input className="search-inp"
             placeholder="Search for boats"
             value={search}
@@ -66,7 +66,7 @@ const SearchBar = ({StoredBoatDetails}) => {
         className="search-btn"
         onClick={() => StartSearch()}>
         <img className="search-icon" src={icon} alt=""/></button>
-        { foundBoats.length != 0 && isSearchOpen
+        { foundBoats.length != 0 && !isSearchOpen
        ?   <div className="quick-search"> 
            <div className="line"></div>
            { foundBoats.map((boat)=> <QuickSearchItem 
