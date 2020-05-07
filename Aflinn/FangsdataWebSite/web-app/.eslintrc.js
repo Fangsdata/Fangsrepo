@@ -22,5 +22,10 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-param-reassign': 'off',
+    'no-use-before-define': 'off',
+    'no-constant-condition': 'off',
+    'no-console': 'off',
+    'react/jsx-filename-extension': 'off'
   },
 };

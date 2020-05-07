@@ -1,41 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { normalizeWeight,normalizeDate, normalizeCase } from '../../services/TextTools';
+import { normalizeWeight, normalizeDate, normalizeCase } from '../../services/TextTools';
 
 class LandingsTable extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-      const {landings, landingNo,boatOffloadLoaded, boatOffloadError} = this.props;
+    const {
+      landings, landingNo, boatOffloadLoaded, boatOffloadError,
+    } = this.props;
     return (
-        <table className="landing-table">
+      <table className="landing-table">
         <tr>
-            <th className="landing-table-header" colSpan="5">Siste landinger</th>
+          <th className="landing-table-header" colSpan="5">Siste landinger</th>
         </tr>
         <tr>
-            <td></td>
-            <td>Dato</td>
-            <td>Kommune</td>
-            <td>Fylke</td>
-            <td>Total vekt</td>
+          <td />
+          <td>Dato</td>
+          <td>Kommune</td>
+          <td>Fylke</td>
+          <td>Total vekt</td>
         </tr>
         { !boatOffloadError
-        ?<>{ boatOffloadLoaded
-          ? landings.map((landing, i)=>(
-              <tr>
-                  <td><Link to={"/offloads/"+ landing.id}> {i+1 + landingNo}. </Link></td>
-                  <td><Link to={"/offloads/"+ landing.id}>{normalizeDate(landing.landingDate)}</Link></td>
-                  <td><Link to={"/offloads/"+ landing.id}>{normalizeCase(landing.town)}</Link></td>
-                  <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
-                  <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
-              </tr>))
-            :<th colSpan="5"><div className="loader"></div></th>}</>
-          :<><p>there was an error here</p></>
-        }
-        </table>
+          ? (
+            <>
+              { boatOffloadLoaded
+                ? landings.map((landing, i) => (
+                  <tr>
+                    <td>
+                      <Link to={`/offloads/${landing.id}`}>
+                        {' '}
+                        {i + 1 + landingNo}
+                        .
+                        {' '}
+                      </Link>
+                    </td>
+                    <td><Link to={`/offloads/${landing.id}`}>{normalizeDate(landing.landingDate)}</Link></td>
+                    <td><Link to={`/offloads/${landing.id}`}>{normalizeCase(landing.town)}</Link></td>
+                    <td><Link to={`/offloads/${landing.id}`}>{landing.state}</Link></td>
+                    <td><Link to={`/offloads/${landing.id}`}>{normalizeWeight(landing.totalWeight)}</Link></td>
+                  </tr>
+                ))
+                : <th colSpan="5"><div className="loader" /></th>}
+            </>
+          )
+          : <><p>there was an error here</p></>}
+      </table>
     );
   }
 }

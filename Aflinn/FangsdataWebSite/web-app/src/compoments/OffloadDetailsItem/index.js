@@ -1,7 +1,5 @@
 import react from 'react';
 
-const OffloadDetailsItem = ()=>{
-    return (<></>);
-}
+const OffloadDetailsItem = () => (<></>);
 
 export default OffloadDetailsItem;
