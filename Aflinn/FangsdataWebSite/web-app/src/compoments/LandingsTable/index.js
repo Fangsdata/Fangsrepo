@@ -9,7 +9,7 @@ class LandingsTable extends React.Component {
     }
 
   render() {
-      const {landings, landingNo,boatOffloadLoaded} = this.props;
+      const {landings, landingNo,boatOffloadLoaded, boatOffloadError} = this.props;
     return (
         <table className="landing-table">
         <tr>
@@ -22,16 +22,19 @@ class LandingsTable extends React.Component {
             <td>Fylke</td>
             <td>Total vekt</td>
         </tr>
-        { boatOffloadLoaded
-         ? landings.map((landing, i)=>(
-            <tr>
-                <td><Link to={"/offloads/"+ landing.id}> {i+1 + landingNo}. </Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{normalizeDate(landing.landingDate)}</Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{normalizeCase(landing.town)}</Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
-                <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
-            </tr>))
-          :<th colSpan="5"><div className="loader"></div></th>}
+        { !boatOffloadError
+        ?<>{ boatOffloadLoaded
+          ? landings.map((landing, i)=>(
+              <tr>
+                  <td><Link to={"/offloads/"+ landing.id}> {i+1 + landingNo}. </Link></td>
+                  <td><Link to={"/offloads/"+ landing.id}>{normalizeDate(landing.landingDate)}</Link></td>
+                  <td><Link to={"/offloads/"+ landing.id}>{normalizeCase(landing.town)}</Link></td>
+                  <td><Link to={"/offloads/"+ landing.id}>{landing.state}</Link></td>
+                  <td><Link to={"/offloads/"+ landing.id}>{normalizeWeight(landing.totalWeight)}</Link></td>
+              </tr>))
+            :<th colSpan="5"><div className="loader"></div></th>}</>
+          :<><p>there was an error here</p></>
+        }
         </table>
     );
   }

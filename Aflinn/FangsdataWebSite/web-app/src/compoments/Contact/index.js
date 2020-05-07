@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from './email.svg'
+import Icon from './email-icon.svg'
 
 const Contact = () => (
     <div className="contact-container">
