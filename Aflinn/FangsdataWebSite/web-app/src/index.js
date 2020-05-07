@@ -11,6 +11,7 @@ import './Styles/boats.css';
 import './Styles/offloads.css';
 import './Styles/filter.css';
 import './Styles/hamburger.css';
+import './Styles/notfound.css';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import boatReducer from './reducers/BoatReducer';

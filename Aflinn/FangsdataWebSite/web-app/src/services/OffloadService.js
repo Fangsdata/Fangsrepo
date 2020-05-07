@@ -27,6 +27,7 @@ async function getDataFromApi( filter ) {
 }
 
 const getOffloads = async (filter = {}) => {
+        console.log(filter);
         let data =  await getDataFromApi(filter);
         if(data.status !== 400){
             data.forEach(item => {

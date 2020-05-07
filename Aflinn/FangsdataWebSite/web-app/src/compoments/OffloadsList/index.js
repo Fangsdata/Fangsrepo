@@ -1,9 +1,9 @@
 import React from 'react';
 import OffladsListItem from '../OffladsListItem';
 
-const OffladsList = ({ offloads }) => (
+const OffladsList = ({ offloads,title }) => (
     <div className="offload-table">
-        <div className="offload-header">Top Offloads</div>
+        <div className="offload-header">{title}</div>
         <OffladsListItem 
         item = {{
             boatName: "Navn",
