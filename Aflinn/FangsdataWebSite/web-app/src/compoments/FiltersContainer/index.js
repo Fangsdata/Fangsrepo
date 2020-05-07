@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
 
    const [showFilters, setShowFilters] = useState(false);
-   const [startDate, setStartDate] = useState(new Date());
+   const [selectedDate, setSelectedDate] = useState(new Date());
    const headers = ["Fishing Gear", "Boat leangth", "Fish name", "Landing state"]
 
    return (
@@ -25,8 +25,10 @@ const FiltersContainer = ({inputEvent, allFilters,updateDate}) => {
                <p>Velg måned:</p>
             </div>
             <DatePicker
-               selected={startDate}
-               onChange={date => setStartDate(date)}
+               selected={selectedDate}
+               onChange={date => {
+                  setSelectedDate(date);
+                  updateDate(date);}}
                dateFormat="MM/yyyy"
                showMonthYearPicker
                showFullMonthYearPicker

@@ -3,15 +3,16 @@ import {getOffloads} from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 import FilterContainer from '../FiltersContainer';
 import { ta } from 'date-fns/locale';
+import { normalizeMonth } from '../../services/TextTools'
 
 var filterTimeOut;
 
 class TopOffLoads extends React.Component {
 
     async componentDidMount(){
-        this.setState({
-            offLoads : await getOffloads(),
-        });
+        let today = new Date();
+        this.setState({selectedMonth: today.getMonth() + 1, selectedYear: today.getFullYear()});
+        this.setState({ offLoads : await getOffloads( ), topOffloadsLoaded:true});
     }
 
     state = {
@@ -62,16 +63,20 @@ class TopOffLoads extends React.Component {
                    { title: 'Akershus', checkState:false, value:'Akershus'},
                    { title: 'Oslo', checkState:false, value:'Oslo'},
                    { title: 'Buskerud', checkState:false, value:'Buskerud'} ]
-        }
+        },
+        topOffloadsLoaded: false,
+        topOfflodError: false,
+        selectedMonth: 0,
+        selectedYear: 0,
     }
 
-    async inputEvent(event){    
+    async inputEvent(event){
         const target = event.target;
         const {filter, allFilters } = this.state;
         let index = allFilters[target.name].findIndex((value)=> value.title == target.id );
         if(index != -1 && target.type !== "radio"){
             allFilters[target.name][index].checkState = !allFilters[target.name][index].checkState;
-            this.setState(allFilters);
+            this.setState({ allFilters: allFilters, topOffloadsLoaded: false, offloads: [] });
         }
         else if (target.type === "radio"){
             allFilters[target.name].forEach((item)=>{
@@ -82,8 +87,9 @@ class TopOffLoads extends React.Component {
                     item.checkState = true;
                 }
             });
-            this.setState(allFilters);
+            this.setState({ allFilters: allFilters, topOffloadsLoaded: false, offloads: [] });
         }
+
         if(target.type === "radio"){
             let currState = filter[target.name];
             currState[0] = target.value;
@@ -93,7 +99,7 @@ class TopOffLoads extends React.Component {
 
             clearTimeout(filterTimeOut);
             filterTimeOut = setTimeout( async ()=> {
-                this.setState({ offLoads : await getOffloads( filter )});
+                this.setState({ offLoads : await getOffloads( filter ), topOffloadsLoaded:true});
             }, 1000);
         }
         else if(target.checked){
@@ -104,7 +110,8 @@ class TopOffLoads extends React.Component {
             
             clearTimeout(filterTimeOut);
             filterTimeOut = setTimeout( async ()=> {
-                this.setState({ offLoads : await getOffloads( filter )});
+                this.setState({topOffloadsLoaded: false});
+                this.setState({ offLoads : await getOffloads( filter ),topOffloadsLoaded:true }); 
             }, 1000);
 
         }
@@ -117,35 +124,47 @@ class TopOffLoads extends React.Component {
             
             clearTimeout(filterTimeOut);
             filterTimeOut = setTimeout( async ()=> {
-                this.setState({ offLoads : await getOffloads( filter )});
+                this.setState({ offLoads : await getOffloads( filter ), topOffloadsLoaded:true});
             }, 1000);        
         }
 
     }
-    async updateDate(start,end){
-        if(start.getTime() <= end.getTime()){
-            let months = [start.getMonth() + 1, end.getMonth() + 1];
-            let years = [start.getFullYear(), end.getFullYear()];
-            let filter = this.state.filter;
-            filter.month = months;
-            filter.year = years;
-            this.setState({ filter });
-            this.setState({ offLoads : await getOffloads( filter )});
-        }
+    async updateDate(selectedDate){
+        let years = [selectedDate.getFullYear(), selectedDate.getFullYear()];
+        let months = [selectedDate.getMonth() + 1, selectedDate.getMonth() + 2];
+
+        let filter = this.state.filter;
+        filter.month = months;
+        filter.year = years;
+        this.setState({ filter: filter, offLoads: [], topOffloadsLoaded: false });
+
+        clearTimeout(filterTimeOut);
+        filterTimeOut = setTimeout( async ()=>{ 
+        this.setState({ 
+            offLoads : await getOffloads( filter ),
+            selectedMonth: months[0],
+            selectedYear: years[0],
+            topOffloadsLoaded: true
+        }) }, 1000);
     }
     render(){
+        const {topOffloadsLoaded,topOfflodError, selectedMonth, selectedYear, offLoads} = this.state;
         return (
         <div>
+        
             <FilterContainer 
-                inputEvent={(e)=>this.inputEvent(e)}
-                updateDate={(start, end)=>this.updateDate(start,end)}
+                inputEvent={(e)=>{ 
+                    this.inputEvent(e)}}
+                updateDate={(d)=>this.updateDate(d)}
                 allFilters={this.state.allFilters}/>
-            <OffloadsList 
-                offloads={ this.state.offLoads }
-            />
-            { this.state.offLoads.length < 1
-                ? <div className="loader">Loading...</div>
-                : <></>
+            {!topOfflodError
+                ?<>{ topOffloadsLoaded
+                        ?<OffloadsList 
+                            offloads={ offLoads }
+                            title={`Største landing i ${normalizeMonth(selectedMonth)} ${selectedYear}` }/>
+                        :<div className="loader">Loading...</div>
+                }</>
+                :<><p>error Loading toplist</p></>
             }
 
         </div>);
