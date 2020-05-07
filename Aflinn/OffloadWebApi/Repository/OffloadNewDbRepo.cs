@@ -151,25 +151,24 @@ namespace OffloadWebApi.Repository
             _connection.Open();
 
             cmd.CommandText = string.Format(
-            @"SELECT 
-                Aflinn_Landings.`Registreringsmerke (seddel)`,
-                Aflinn_Boats.`Radiokallesignal (seddel)` ,
-                Aflinn_Landings.`Fartøynavn`,
-                Aflinn_Boats.`Fartøykommune`,
-                Aflinn_Boats.`Fartøyfylke`,
-                Aflinn_Boats.`Fartøynasjonalitet`,
-                Aflinn_Boats.`Største lengde`,
-                Aflinn_Boats.`Bruttotonnasje annen`,
-                Aflinn_Boats.`Bruttotonnasje 1969`,
-                Aflinn_Boats.`Byggeår`,
-                Aflinn_Boats.`Motorkraft`,
-                Aflinn_Fishing_gear.`Redskap`
-            FROM Aflinn_Landings
-            LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
-            LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
-            WHERE Aflinn_Boats.`Radiokallesignal (seddel)` = '{0}'
-            ORDER BY Aflinn_Landings.`Landingsdato` DESC
-            LIMIT 1   ", BoatRadioSignalId);
+            @"SELECT              
+                `Registreringsmerke (seddel)`,
+                `Radiokallesignal (seddel)`,
+                `Fartøynavn`,
+                `Fartøykommune`,
+                `Fartøyfylke`,
+                `Fartøynasjonalitet`,
+                `Største lengde`,
+                `Bruttotonnasje annen`,
+                `Bruttotonnasje 1969`,
+                `Byggeår`,
+                `Motorkraft`,
+                `Redskap`,
+                `Landingsdato`
+            FROM GetBoatByRadioSignal
+            WHERE `Radiokallesignal (seddel)` = '{0}'
+            ORDER BY `Landingsdato` DESC
+            LIMIT 1;", BoatRadioSignalId);
             var reader = cmd.ExecuteReader();
             
             using(reader)
@@ -207,44 +206,43 @@ namespace OffloadWebApi.Repository
             string landingState = string.Empty;
             if(filters.BoatLength != null)
             {
-                boatLength = string.Format("AND Aflinn_Boats.`Største lengde` BETWEEN {0} AND {1}", filters.BoatLength[0].ToString(), filters.BoatLength[1].ToString());
+                boatLength = string.Format("AND `Største lengde` BETWEEN {0} AND {1}", filters.BoatLength[0].ToString(), filters.BoatLength[1].ToString());
             }
             if(filters.FishingGear != null)
             {
-                fishingGear = AddFilter(filters.FishingGear, "Aflinn_Fishing_gear.`Redskap - gruppe`");
+                fishingGear = AddFilter(filters.FishingGear, "`Redskap - gruppe`");
             }
             if(filters.FishName != null)
             {
-                fishName = AddFilter(filters.FishName, "Aflinn_Fish.`Art - hovedgruppe`");
+                fishName = AddFilter(filters.FishName, "`Art - hovedgruppe`");
             }
             if(filters.LandingState != null)
             {
-                landingState = AddFilter(filters.LandingState, "Aflinn_Landing_state.`Landingsfylke`");
+                landingState = AddFilter(filters.LandingState, "`Landingsfylke`");
             }
             
             cmd.CommandText = string.Format(
                 @"SELECT
-                    Aflinn_Filter.`Fartøynavn`, 
-                    Aflinn_Fishing_gear.`Redskap`, 
-                    Aflinn_Boats.`Største lengde`, 
-                    SUM(Aflinn_Filter.`Rundvekt`) AS Rundvekt,
-                    Aflinn_Boats.`Radiokallesignal (seddel)`,
-                    Aflinn_Filter.`Registreringsmerke (seddel)`
-                    FROM Aflinn_Filter
-                    LEFT JOIN Aflinn_Boats ON Aflinn_Filter.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)` 
-                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Filter.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
-                    LEFT JOIN Aflinn_Fish ON Aflinn_Filter.`Art (kode)` = Aflinn_Fish.`Art (kode)`
-                    LEFT JOIN Aflinn_Landing_state ON Aflinn_Filter.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
-                    LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Filter.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Filter.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND  Aflinn_Filter.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
-                    WHERE Aflinn_Landings_id_date.`Landingsdato` BETWEEN CAST('{0}' AS DATE) AND CAST('{1}' AS DATE)
+                    `Fartøynavn`, 
+                    `Redskap`, 
+                    `Største lengde`, 
+                    SUM(`Rundvekt`),
+                    `Radiokallesignal (seddel)`,
+                    `Registreringsmerke (seddel)`,
+					`Redskap - gruppe`,
+                    `Art - hovedgruppe`,
+                    `Landingsfylke`,
+                    `Landingsdato`
+                    FROM GetFilteredResults
+                    WHERE `Landingsdato` BETWEEN CAST('{0}' AS DATE) AND CAST('{1}' AS DATE)
                     {2}
                     {3}
                     {4}
                     {5}
-                    GROUP BY Aflinn_Filter.`Fartøynavn`
-                    ORDER BY SUM(Aflinn_Filter.`Rundvekt`) DESC
+                    GROUP BY `Registreringsmerke (seddel)`
+                    ORDER BY SUM(`Rundvekt`) DESC
                     LIMIT {6}
-                    OFFSET 0",
+                    OFFSET 0;",
                 filters.fromDate,
                 filters.toDate,
                 boatLength,
@@ -279,24 +277,21 @@ namespace OffloadWebApi.Repository
             var cmd = _connection.CreateCommand();
             _connection.Open();
             cmd.CommandText = string.Format(
-            @"SELECT Aflinn_Landings.`Dokumentnummer`,
-                Aflinn_Landing_town.`Landingskommune`,
-                Aflinn_Landing_state.`Landingsfylke`,
-                Aflinn_Landings.`Lon (lokasjon)`,
-                Aflinn_Landings.`Lat (lokasjon)`,
-                Aflinn_Landings.`Landingsdato`,
-                Aflinn_Landings.`Landingsklokkeslett`,
-                SUM(Aflinn_Landings.`Rundvekt`) AS Rundvekt
-                FROM Aflinn_Landings
-                LEFT JOIN Aflinn_Landing_town ON Aflinn_Landings.`Landingskommune (kode)` = Aflinn_Landing_town.`Landingskommune (kode)`
-                LEFT JOIN Aflinn_Landing_state ON Aflinn_Landings.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
-                LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
-                LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
-                WHERE Aflinn_Boats.`Registreringsmerke (seddel)` = '{0}'
-                GROUP BY Aflinn_Landings.`Dokumentnummer`
-                ORDER BY Aflinn_Landings.`Landingsdato` DESC
+            @"SELECT  
+               `Dokumentnummer`
+                `Landingskommune`,
+                `Landingsfylke`,
+                `Lon (lokasjon)`,
+                `Lat (lokasjon)`,
+                `Landingsdato`,
+                `Landingsklokkeslett`,
+                SUM(`Rundvekt`)
+                FROM GetLastOffloadsFromBoat
+                WHERE `Registreringsmerke (seddel)` = '{0}'
+                GROUP BY `Dokumentnummer`
+                ORDER BY `Landingsdato` DESC
                 LIMIT {1}
-                OFFSET {2}",
+                OFFSET {2};",
             boatRegistrationId,
             count,
             Offset);
@@ -335,49 +330,39 @@ namespace OffloadWebApi.Repository
             cmd.CommandTimeout = 90;
 
             cmd.CommandText = string.Format(
-            @"SELECT
-                Aflinn_Landings.`Dokumentnummer`,
-                Aflinn_Landings.`Dokument versjonsnummer`,
-                Aflinn_Landings.`Dokument salgsdato`,
-                Aflinn_Landing_town.`Landingskommune`,
-                Aflinn_Landing_state.`Landingsfylke`,
-                Aflinn_Landings.`Registreringsmerke (seddel)`,
-                Aflinn_Landings.`Fartøynavn`,
-                Aflinn_Landings.`Lon (lokasjon)`,
-                Aflinn_Landings.`Lat (lokasjon)`,
-                Aflinn_Landings.`Landingsdato`,
-                Aflinn_Landings.`Landingsklokkeslett`,
-                Aflinn_Landings.`Landingsmåned (kode)`,
-                Aflinn_Boats.`Lengdegruppe`,
-                Aflinn_Boats.`Radiokallesignal (seddel)`,
-                Aflinn_Fish.`Art`,
-                Aflinn_Fish.`Art - gruppe`,
-                Aflinn_Fish.`Art - hovedgruppe`,
-                Aflinn_Landings.`Anvendelse`,
-                Aflinn_Landings.`Anvendelse hovedgruppe`,
-                Aflinn_Fish_condition.`Produkttilstand`,
-                Aflinn_Fish_preservation.`Konserveringsmåte`,
-                Aflinn_Packaging.`Landingsmåte`,
-                Aflinn_Fish_quality.`Kvalitet`,
-                SUM(Aflinn_Landings.`Rundvekt`) AS Rundvekt,
-                Aflinn_Fishing_gear.`Redskap`,
-                Aflinn_Fishing_gear.`Redskap - gruppe`,
-                Aflinn_Fishing_gear.`Redskap - hovedgruppe`,
-                Aflinn_Fish.`Art (kode)` as `fish_id`
-            FROM Aflinn_Landings
-                LEFT JOIN Aflinn_Landing_town ON Aflinn_Landings.`Landingskommune (kode)` = Aflinn_Landing_town.`Landingskommune (kode)`
-                LEFT JOIN Aflinn_Landing_state ON Aflinn_Landings.`Landingsfylke (kode)` = Aflinn_Landing_state.`Landingsfylke (kode)`
-                LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
-                LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
-                LEFT JOIN Aflinn_Fish ON Aflinn_Landings.`Art (kode)` = Aflinn_Fish.`Art (kode)`
-                LEFT JOIN Aflinn_Fish_condition ON Aflinn_Landings.`Produkttilstand (kode)` = Aflinn_Fish_condition.`Produkttilstand (kode)`
-                LEFT JOIN Aflinn_Fish_preservation ON Aflinn_Landings.`Konserveringsmåte (kode)` = Aflinn_Fish_preservation.`Konserveringsmåte (kode)`
-                LEFT JOIN Aflinn_Packaging ON Aflinn_Landings.`Landingsmåte (kode)` = Aflinn_Packaging.`Landingsmåte (kode)`
-                LEFT JOIN Aflinn_Fish_quality ON Aflinn_Landings.`Kvalitet (kode)` = Aflinn_Fish_quality.`Kvalitet (kode)`
-                LEFT JOIN Aflinn_Landings_id_date ON Aflinn_Landings.`Dokumentnummer` = Aflinn_Landings_id_date.`Dokumentnummer` AND Aflinn_Landings.`Landingsdato` = Aflinn_Landings_id_date.`Landingsdato` AND Aflinn_Landings.`Linjenummer` = Aflinn_Landings_id_date.`Linjenummer`
-                WHERE Aflinn_Landings.`Dokumentnummer` = {0} AND Aflinn_Landings.`Rundvekt` != 0
-                GROUP BY Aflinn_Fish.`Art`, Aflinn_Fish_condition.`Produkttilstand`, Aflinn_Fish_quality.`Kvalitet`, Aflinn_Landings.`Anvendelse`, Aflinn_Packaging.`Landingsmåte`, Aflinn_Fish_preservation.`Konserveringsmåte`
-                ORDER BY SUM(Aflinn_Landings.`Rundvekt`) DESC", offloadId);
+            @"SELECT 
+                    `Dokumentnummer`,
+                    `Dokument versjonsnummer`,
+                    `Dokument salgsdato`,
+                    `Landingskommune`,
+                    `Landingsfylke`,
+                    `Registreringsmerke (seddel)`,
+                    `Fartøynavn`,
+                    `Lon (lokasjon)`,
+                    `Lat (lokasjon)`,
+                    `Landingsdato`,
+                    `Landingsklokkeslett`,
+                    `Landingsmåned (kode)`,
+                    `Lengdegruppe`,
+                    `Radiokallesignal (seddel)`,
+                    `Art`,
+                    `Art - gruppe`,
+                    `Art - hovedgruppe`,
+                    `Anvendelse`,
+                    `Anvendelse hovedgruppe`,
+                    `Produkttilstand`,
+                    `Konserveringsmåte`,
+                    `Landingsmåte`,
+                    `Kvalitet`,
+                    SUM(`Rundvekt`),
+                    `Redskap`,
+                    `Redskap - gruppe`,
+                    `Redskap - hovedgruppe`,
+                    `Art (kode)` as `fish_id`
+                FROM GetSingleOffload
+                WHERE `Dokumentnummer` = {0} AND `Rundvekt` != 0
+                GROUP BY `Art`, `Produkttilstand`, `Kvalitet`, `Anvendelse`, `Landingsmåte`, `Konserveringsmåte`
+                ORDER BY SUM(`Rundvekt`) DESC;", offloadId);
             var reader = cmd.ExecuteReader();
             using(reader)
             {
@@ -438,40 +423,36 @@ namespace OffloadWebApi.Repository
             _connection.Open();
             cmd.CommandText = string.Format(
                 @"(SELECT 
-                    Aflinn_Boats.`Registreringsmerke (seddel)`,
-                    Aflinn_Boats.`Radiokallesignal (seddel)`,
-                    Aflinn_Landings.`Fartøynavn`,
-                    Aflinn_Boats.`Fartøyfylke`,
-                    Aflinn_Boats.`Fartøynasjonalitet`,
-                    Aflinn_Boats.`Fartøykommune`,
-                    Aflinn_Boats.`Største lengde`,
-                    Aflinn_Fishing_gear.`Redskap`
-                    FROM Aflinn_Landings
-					LEFT JOIN Aflinn_Boats ON Aflinn_Boats.`Registreringsmerke (seddel)` = Aflinn_Landings.`Registreringsmerke (seddel)`
-                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Fishing_gear.`Redskap (kode)` = Aflinn_Landings.`Redskap (kode)`
-                    WHERE Aflinn_Landings.`Fartøynavn` LIKE '{0}%' AND Aflinn_Landings.`Fartøynavn` != ''
-					
-                    GROUP BY Aflinn_Landings.`Registreringsmerke (seddel)`
-                    limit {1}
-                    offset 0)
-                    UNION
-				(SELECT 
-                    Aflinn_Boats.`Registreringsmerke (seddel)`,
-                    Aflinn_Boats.`Radiokallesignal (seddel)`,
-                    Aflinn_Landings.`Fartøynavn`,
-                    Aflinn_Boats.`Fartøyfylke`,
-                    Aflinn_Boats.`Fartøynasjonalitet`,
-                    Aflinn_Boats.`Fartøykommune`,
-                    Aflinn_Boats.`Største lengde`,
-                    Aflinn_Fishing_gear.`Redskap`
-                    FROM Aflinn_Landings
-					LEFT JOIN Aflinn_Boats ON Aflinn_Boats.`Registreringsmerke (seddel)` = Aflinn_Landings.`Registreringsmerke (seddel)`
-                    LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Fishing_gear.`Redskap (kode)` = Aflinn_Landings.`Redskap (kode)`
-                    WHERE Aflinn_Boats.`Radiokallesignal (seddel)` LIKE '{0}%' AND Aflinn_Boats.`Radiokallesignal (seddel)` != ''
-					OR Aflinn_Boats.`Registreringsmerke (seddel)` LIKE '{0}%' AND Aflinn_Boats.`Registreringsmerke (seddel)` != ''
-                    GROUP BY Aflinn_Landings.`Registreringsmerke (seddel)`
-                    limit {1}
-                    offset 0)",
+                    `Registreringsmerke (seddel)`,
+                    `Radiokallesignal (seddel)`,
+                    `Fartøynavn`,
+                    `Fartøyfylke`,
+                    `Fartøynasjonalitet`,
+                    `Fartøykommune`,
+                    `Største lengde`,
+                    `Redskap`                
+				FROM SearchForBoat
+				WHERE `Fartøynavn` LIKE '{0}%' AND `Fartøynavn` != ''
+				GROUP BY `Registreringsmerke (seddel)`
+				limit {1}
+				offset 0)
+                UNION
+                (SELECT 
+                    `Registreringsmerke (seddel)`,
+                    `Radiokallesignal (seddel)`,
+                    `Fartøynavn`,
+                    `Fartøyfylke`,
+                    `Fartøynasjonalitet`,
+                    `Fartøykommune`,
+                    `Største lengde`,
+                    `Redskap`                
+				FROM SearchForBoat
+                WHERE `Radiokallesignal (seddel)` LIKE '{0}%' AND `Radiokallesignal (seddel)` != ''
+				OR `Registreringsmerke (seddel)` LIKE '{0}%' AND `Registreringsmerke (seddel)` != ''
+				GROUP BY `Registreringsmerke (seddel)`
+				limit {1}
+				offset 0
+                );",
                 boatSearchTerm,
                 count);
             var reader = cmd.ExecuteReader();
@@ -504,23 +485,22 @@ namespace OffloadWebApi.Repository
 
             cmd.CommandText = string.Format(
             @"SELECT 
-                Aflinn_Landings.`Registreringsmerke (seddel)`,
-                Aflinn_Boats.`Radiokallesignal (seddel)` ,
-                Aflinn_Landings.`Fartøynavn`,
-                Aflinn_Boats.`Fartøykommune`,
-                Aflinn_Boats.`Fartøyfylke`,
-                Aflinn_Boats.`Fartøynasjonalitet`,
-                Aflinn_Boats.`Største lengde`,
-                Aflinn_Boats.`Bruttotonnasje annen`,
-                Aflinn_Boats.`Bruttotonnasje 1969`,
-                Aflinn_Boats.`Byggeår`,
-                Aflinn_Boats.`Motorkraft`,
-                Aflinn_Fishing_gear.`Redskap`
-            FROM Aflinn_Landings
-            LEFT JOIN Aflinn_Boats ON Aflinn_Landings.`Registreringsmerke (seddel)` = Aflinn_Boats.`Registreringsmerke (seddel)`
-            LEFT JOIN Aflinn_Fishing_gear ON Aflinn_Landings.`Redskap (kode)` = Aflinn_Fishing_gear.`Redskap (kode)`
-            WHERE Aflinn_Boats.`Registreringsmerke (seddel)` = '{0}'
-            ORDER BY Aflinn_Landings.`Landingsdato` DESC
+                `Registreringsmerke (seddel)`,
+                `Radiokallesignal (seddel)` ,
+                `Fartøynavn`,
+                `Fartøykommune`,
+                `Fartøyfylke`,
+                `Fartøynasjonalitet`,
+                `Største lengde`,
+                `Bruttotonnasje annen`,
+                `Bruttotonnasje 1969`,
+                `Byggeår`,
+                `Motorkraft`,
+                `Redskap`,
+                `Landingsdato`
+            FROM GetBoatByRegistration
+            WHERE `Registreringsmerke (seddel)` = '{0}'
+            ORDER BY `Landingsdato` DESC
             LIMIT 1 ", RegistrationId);
             var reader = cmd.ExecuteReader();
             

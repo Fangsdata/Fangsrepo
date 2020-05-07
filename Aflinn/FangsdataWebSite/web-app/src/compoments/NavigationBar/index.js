@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchBar from '../SearchBar';
-import NavLinks from '../NavLinks';
+// import NavLinks from '../NavLinks';
+import NavLinks from '../NavLinks'
 import { NavLink } from 'react-router-dom';
 import Logo from './FangstDataLogo.svg'
 
@@ -12,7 +13,8 @@ const NavigationBar = () => (
             <img className="logo" src={Logo} alt=""/>
         </NavLink>
         <SearchBar />
-        <NavLinks  />
+        <NavLinks />
+        {/* <NavLinks  /> */}
     </nav>
 
 );
