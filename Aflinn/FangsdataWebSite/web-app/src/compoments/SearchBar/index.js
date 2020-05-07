@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import icon from "./search-24px.svg";
 import { Link } from 'react-router-dom';
 import {OFFLOADAPI} from "../../Constants";
@@ -8,6 +8,7 @@ const SearchBar = ({StoredBoatDetails}) => {
 
     const [search, updateSearch] = useState("");
     const [foundBoats, setFoundBoats] = useState([]); 
+    const [isSearchOpen, setSearchStatus] = useState(false)
 
     const StartSearch = () => {}
 
@@ -24,9 +25,26 @@ const SearchBar = ({StoredBoatDetails}) => {
         }
     }
 
+    const node = useRef()
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClick);  
+        return () => {
+          document.removeEventListener("mousedown", handleClick);
+        };
+      }, []);
+
+      const handleClick = e => {
+        if (node.current.contains(e.target)) {
+          setSearchStatus( false )
+          return;
+        }
+        setSearchStatus( true )
+    }
+
     return (
-    <>
-    <div className={ `searchbar ${foundBoats.length != 0 ? 'open' : ''}` }>
+    <div ref={node}>
+    <div className={ `searchbar ${foundBoats.length != 0 && !isSearchOpen ? 'open' : ''}` }>
         <input className="search-inp"
             placeholder="Search for boats"
             value={search}
@@ -48,7 +66,7 @@ const SearchBar = ({StoredBoatDetails}) => {
         className="search-btn"
         onClick={() => StartSearch()}>
         <img className="search-icon" src={icon} alt=""/></button>
-        { foundBoats.length != 0
+        { foundBoats.length != 0 && !isSearchOpen
        ?   <div className="quick-search"> 
            <div className="line"></div>
            { foundBoats.map((boat)=> <QuickSearchItem 
@@ -63,7 +81,7 @@ const SearchBar = ({StoredBoatDetails}) => {
         : <></>
     }
     </div>
-    </>)
+    </div>)
 }
 const QuickSearchItem = ({searchItemTitle, RegistrationId, ClickedEvent}) => (
     <Link to={"/boats/" + RegistrationId} onClick={() => {ClickedEvent(RegistrationId)}}>
