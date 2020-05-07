@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react';
+import { Redirect } from 'react-router-dom';
 import Map from '../Map';
 import {Pie} from 'react-chartjs-2';
 import { normalizeCase,normalizeWeight,normalizeDate } from '../../services/TextTools';
@@ -15,7 +16,9 @@ const OffloadDetails = ({offloadId}) =>
             data: [1],
             }]
         }
-    )
+    );
+    const [offloadLoading, setOffloadLoad] = useState(false);
+    const [offloadError, setOffloadError] = useState(false);
     const [ offloadDetail, setOffloadDetails ] = useState({/*
         "id": "",
         "town": "",
@@ -63,6 +66,8 @@ const OffloadDetails = ({offloadId}) =>
     }
 
     useEffect(()=>{
+        setOffloadLoad(false);
+        setOffloadLoad(false);
         fetch(`https://fangsdata-api.herokuapp.com/api/offloads/details/${offloadId}`)
             .then((res) => res.json())
             .then((json) => {
@@ -73,68 +78,88 @@ const OffloadDetails = ({offloadId}) =>
                     return rObj;
                 });
                 CreatePieChartDataset(data);
+                setOffloadLoad(true); 
+            })
+            .catch(()=>{
+                setOffloadError(true);
             });
     },[]);
     
     return (
         <div className="boat-container landing">
-        { Object.keys(offloadDetail).length != 0 
-        ? <>
-                <div className="landing-info-container">
-                    <h1>{normalizeCase(offloadDetail.town)} in {offloadDetail.state}</h1>
-                    
-                    <p>Båt : {normalizeCase(offloadDetail.boat.name)} - {offloadDetail.boat.registration_id}</p> 
-                    <p>Redskap : {offloadDetail.boat.fishingGear}</p>
-                    <p>Landins dato : {normalizeDate(offloadDetail.landingDate)}</p>
-                </div>
-                <div className="map-container">
-                    <Map
-                        lat={offloadDetail.mapData[0].latitude}
-                        lng={offloadDetail.mapData[0].longitude}
-                    />
-                </div>
-                <table className="landing-table detail">
-                    <tr>
-                        <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
-                    </tr>
-                    <tr>
-                        <td>Art</td>
-                        <td>Produkttilstand</td>
-                        <td>Kvalitet</td>
-                        <td>Anvendelse</td>
-                        <td>Landingsmåte</td>
-                        <td>Konserveringsmåte</td>
-                        <td>Rundvekt</td>
-                    </tr>
-                    {
-                        offloadDetail.fish.map((fish, i) => (
-                            
-                            <tr key={i}>
-                                <td>{fish.type}</td>
-                                <td>{fish.condition}</td>
-                                <td>{fish.quality}</td>
-                                <td>{fish.application}</td>
-                                <td>{normalizeCase(fish.packaging)}</td>
-                                <td>{fish.preservation}</td>
-                                <td>{normalizeWeight(fish.weight)}</td>
-                            </tr>
-                        ))
-                    }
-                    <tr>
-                        <td colSpan="2">Total Rundvekt</td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
-                    </tr>
-                </table>
-                <div className="pie-chart">
-                    <Pie data={chartData} legend={{display:true}} redraw   width={200} height={300}></Pie>
-                </div>
-            </>
-        : <div className="loader"></div>}
-        </div>
+        { !offloadError
+        ? <> { offloadLoading 
+            ? <>
+                    <div className="landing-info-container">
+                        <h1>{normalizeCase(offloadDetail.town)} in {offloadDetail.state}</h1>
+                        
+                        <p>Båt : {normalizeCase(offloadDetail.boat.name)} - {offloadDetail.boat.registration_id}</p> 
+                        <p>Redskap : {offloadDetail.boat.fishingGear}</p>
+                        <p>Landins dato : {normalizeDate(offloadDetail.landingDate)}</p>
+                    </div>
+                    <div className="map-container">
+                        <Map
+                            lat={offloadDetail.mapData[0].latitude}
+                            lng={offloadDetail.mapData[0].longitude}
+                        />
+                    </div>
+                    <table className="landing-table detail">
+                        <tr>
+                            <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                            <td>Produkttilstand</td>
+                            <td>Kvalitet</td>
+                            <td>Anvendelse</td>
+                            <td>Landingsmåte</td>
+                            <td>Konserveringsmåte</td>
+                            <td>Rundvekt</td>
+                        </tr>
+                        {
+                            offloadDetail.fish.map((fish, i) => (
+                                
+                                <tr key={i}>
+                                    <td>{fish.type}</td>
+                                    <td>{fish.condition}</td>
+                                    <td>{fish.quality}</td>
+                                    <td>{fish.application}</td>
+                                    <td>{normalizeCase(fish.packaging)}</td>
+                                    <td>{fish.preservation}</td>
+                                    <td>{normalizeWeight(fish.weight)}</td>
+                                </tr>
+                            ))
+                        }
+                        <tr>
+                            <td colSpan="2">Total Rundvekt</td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
+                        </tr>
+                    </table>
+                    <div className="pie-chart">
+                        <Pie data={chartData} legend={{display:true}} redraw   width={200} height={300}></Pie>
+                    </div>
+                </>
+            : <div className="loader-container">
+            <div className="placeholder-info-container landings">
+                <div className="placeholder-item header"></div>
+                <div className="placeholder-item info"></div>
+                <div className="placeholder-item info"></div>
+                <div className="placeholder-item info"></div>
+                <div className="placeholder-item info"></div>
+            </div>
+            <div className="placeholder-item mapload"></div>
+            <div className="loader-container"><div className="loader"></div></div>
+            </div>}
+        </>
+        :<>
+        <Redirect to="/404" />
+        </>
+        }
+    </div>
     )
 }
 export default OffloadDetails;
