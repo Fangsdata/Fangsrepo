@@ -1,4 +1,5 @@
 import React from 'react';
+import { string, func, bool } from 'prop-types';
 
 
 const FilterCheckBoxItem = ({
@@ -17,5 +18,23 @@ const FilterCheckBoxItem = ({
     <label className="filter-label" htmlFor={item}>{item}</label>
   </div>
 );
+
+FilterCheckBoxItem.propTypes = {
+  item: string,
+  value: string,
+  group: string,
+  inputEvent: func,
+  checkState: bool,
+  checkBoxType: string,
+};
+
+FilterCheckBoxItem.defaultProps = {
+  item: '',
+  value: '',
+  group: '',
+  inputEvent: () => { console.log('missing inputEvent'); },
+  checkState: false,
+  checkBoxType: 'checkbox',
+};
 
 export default FilterCheckBoxItem;

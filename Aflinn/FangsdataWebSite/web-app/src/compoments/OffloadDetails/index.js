@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Pie } from 'react-chartjs-2';
-import Map from '../Map';
+import PropTypes from 'prop-types';
+import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
 
 
@@ -53,11 +54,11 @@ const OffloadDetails = ({ offloadId }) => {
   };
   const CreatePieChartDataset = (data) => {
     const pieData = {
-      labels: data.map((data) => data.label),
+      labels: data.map((d) => d.label),
       datasets: [{
         label: 'fish dataset',
         backgroundColor: generateColors(data.length),
-        data: data.map((data) => data.value),
+        data: data.map((d) => d.value),
       }],
     };
     setChartData(pieData);
@@ -120,7 +121,7 @@ const OffloadDetails = ({ offloadId }) => {
                     </p>
                   </div>
                   <div className="map-container">
-                    <Map
+                    <MapContainer
                       lat={offloadDetail.mapData[0].latitude}
                       lng={offloadDetail.mapData[0].longitude}
                     />
@@ -162,7 +163,13 @@ const OffloadDetails = ({ offloadId }) => {
                     </tr>
                   </table>
                   <div className="pie-chart">
-                    <Pie data={chartData} legend={{ display: true }} redraw width={200} height={300} />
+                    <Pie
+                      data={chartData}
+                      legend={{ display: true }}
+                      redraw
+                      width={200}
+                      height={300}
+                    />
                   </div>
                 </>
               )
@@ -189,4 +196,9 @@ const OffloadDetails = ({ offloadId }) => {
     </div>
   );
 };
+
+OffloadDetails.propTypes = {
+  offloadId: PropTypes.number.isRequired,
+};
+
 export default OffloadDetails;
