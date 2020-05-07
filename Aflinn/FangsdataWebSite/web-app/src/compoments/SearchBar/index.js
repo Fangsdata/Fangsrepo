@@ -36,10 +36,10 @@ const SearchBar = ({StoredBoatDetails}) => {
 
       const handleClick = e => {
         if (node.current.contains(e.target)) {
-          setSearchStatus( isSearchOpen => !isSearchOpen )
+          setSearchStatus( false )
           return;
         }
-        setSearchStatus( isSearchOpen => !isSearchOpen )
+        setSearchStatus( true )
     }
 
     return (
