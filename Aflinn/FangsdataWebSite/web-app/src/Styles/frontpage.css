@@ -1,0 +1,40 @@
+
+.front-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.front-page .offload-table {
+    width: 34rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.front-page .offload-table .offload-row {
+    height: 3rem;
+    align-items: flex-end;
+}
+
+.front-list-container {
+    margin-bottom: 2rem;
+    flex-basis: 48%;
+}
+
+.more-btn {
+    background-color: #346DE0;
+    color: white;
+    padding: 0.6rem;
+    border-radius: 2rem;
+    margin-top: 1rem;
+    width: 6rem;
+    text-align: center;
+    margin-left: auto;
+    font-weight: 700;
+}
+
+.more-btn:hover {
+    background-color: #254aa1;
+    text-decoration: none;
+}
