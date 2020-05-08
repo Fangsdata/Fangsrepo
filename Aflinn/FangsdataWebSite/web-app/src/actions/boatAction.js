@@ -1,8 +1,9 @@
 import { BOAT_OFFLOAD_DETAILS } from '../Constants';
 
-export const StoredBoatDetails = boat => {
-    return ({
-        type: BOAT_OFFLOAD_DETAILS,
-        payload: boat
-    })
-}
+const StoredBoatDetails = (boat) => ({
+  type: BOAT_OFFLOAD_DETAILS,
+  payload: boat,
+});
+
+
+export default StoredBoatDetails;

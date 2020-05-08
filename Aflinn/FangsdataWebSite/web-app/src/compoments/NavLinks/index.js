@@ -2,48 +2,60 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 class NavLinks extends React.Component {
+  constructor(props) {
+    super(props);
 
-    constructor( props ) {
-		super( props );
+    this.state = {
+      isSidebarOpen: false,
+    };
+  }
 
-		this.state = {
-			isSidebarOpen: false
-		}
-	}
+  handleMenuButtonClick() {
+    const { isSidebarOpen } = this.state;
+    this.setState({ isSidebarOpen: !isSidebarOpen });
+  }
 
-	handleMenuButtonClick = () => {
-		this.setState(  { isSidebarOpen: ! this.state.isSidebarOpen } )
-	};
-    
+  render() {
+    const { isSidebarOpen } = this.state;
+    return (
+      <div className="navlink-container">
+        <div
+          className={`burger-container ${isSidebarOpen ? 'change' : ''}`}
+          onClick={() => this.handleMenuButtonClick()}
+          onKeyDown={this.handleKeyDown}
+        >
+          <div className="line1" />
+          <div className="line2" />
+          <div className="line3" />
+        </div>
 
-    render() {
-        const { isSidebarOpen } = this.state;
-        return (
-            <div className="navlink-container">
-                <div className={ `burger-container ${isSidebarOpen ? 'change' : ''}` }onClick={this.handleMenuButtonClick}>
-                    <div className="line1"></div>
-                    <div className="line2"></div>
-                    <div className="line3"></div>
-                </div>
-
-                <nav className={ `nav-${isSidebarOpen ? 'show' : 'hide'}` }>
-                    <div className="navlinks">
-                        <NavLink
-                        exact
-                        to="/">Home</NavLink>
-                    {/* <NavLink
+        <nav className={`nav-${isSidebarOpen ? 'show' : 'hide'}`}>
+          <div className="navlinks">
+            <NavLink
+              exact
+              to="/"
+            >
+              Home
+            </NavLink>
+            {/* <NavLink
                         exact
                         to="/boats">Boat</NavLink> */}
-                    <NavLink
-                        exact
-                        to="/contact">Contact us</NavLink>
-                    <NavLink
-                        exact
-                        to="/about">About us</NavLink>
-                    </div>
-                </nav>
+            <NavLink
+              exact
+              to="/contact"
+            >
+              Contact us
+            </NavLink>
+            <NavLink
+              exact
+              to="/about"
+            >
+              About us
+            </NavLink>
+          </div>
+        </nav>
 
-            {/* <ul className="navlinks">
+        {/* <ul className="navlinks">
                 <li>
                     <NavLink
                     exact
@@ -55,9 +67,9 @@ class NavLinks extends React.Component {
                     to="/boats">Boat</NavLink>
                 </li>
             </ul> */}
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default NavLinks;
