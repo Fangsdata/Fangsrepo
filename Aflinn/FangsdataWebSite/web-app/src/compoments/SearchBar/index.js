@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import icon from './search-24px.svg';
 import { OFFLOADAPI } from '../../Constants';
 
@@ -95,4 +96,16 @@ const QuickSearchItem = ({ searchItemTitle, RegistrationId, ClickedEvent }) => (
     </div>
   </Link>
 );
+
+QuickSearchItem.propTypes = {
+  searchItemTitle: PropTypes.string,
+  RegistrationId: PropTypes.string,
+  ClickedEvent: PropTypes.func.isRequired,
+};
+
+QuickSearchItem.defaultProps = {
+  searchItemTitle: '',
+  RegistrationId: '',
+};
+
 export default SearchBar;

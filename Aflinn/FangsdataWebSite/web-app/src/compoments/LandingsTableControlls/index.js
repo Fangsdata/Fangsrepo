@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { func, string } from 'prop-types';
 
 const LandingsTableControlls = ({
   nextPage, prevPage, resultNo, page,
@@ -31,6 +32,17 @@ const LandingsTableControlls = ({
 
     </div>
   );
+};
+
+LandingsTableControlls.propTypes = {
+  nextPage: func.isRequired,
+  prevPage: func.isRequired,
+  resultNo: func.isRequired,
+  page: string,
+};
+
+LandingsTableControlls.defaultProps = {
+  page: '',
 };
 
 export default LandingsTableControlls;

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import PropTypes, { func } from 'prop-types';
 import FilterCheckBox from '../FilterCheckBox';
-import down_arrow from './arrow_drop_down-24px.svg';
-import up_arrow from './arrow_drop_up-24px.svg';
-import filter_icon from './filter_list-24px.svg';
+import downArrow from './arrow_drop_down-24px.svg';
+import upArrow from './arrow_drop_up-24px.svg';
+import filterIcon from './filter_list-24px.svg';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
@@ -19,10 +20,10 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
           ? (
             <>
               <p className="f-container-title" onClick={() => setShowFilters(!showFilters)}>
-                <img className="filter-icon" src={filter_icon} alt="" />
+                <img className="filter-icon" src={filterIcon} alt="" />
                 Filter by:
                 {' '}
-                <img className="arrow-icon" src={up_arrow} alt="" />
+                <img className="arrow-icon" src={upArrow} alt="" />
               </p>
               { showFilters
                 ? (
@@ -45,7 +46,7 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
                     { headers.map((header) => <p className="f-headers">{header}</p>)}
                     { Object.keys(allFilters).map((item) => {
                       let checboxType = 'checkbox';
-                      if (item == 'boatLength') {
+                      if (item === 'boatLength') {
                         checboxType = 'radio';
                       }
                       return (
@@ -68,10 +69,10 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
           : (
             <>
               <p className="f-header-title" onClick={() => setShowFilters(!showFilters)}>
-                <img className="filter-icon" src={filter_icon} alt="" />
+                <img className="filter-icon" src={filterIcon} alt="" />
                 Show filters
                 {' '}
-                <img className="arrow-icon" src={down_arrow} alt="" />
+                <img className="arrow-icon" src={downArrow} alt="" />
               </p>
             </>
           )}
@@ -80,5 +81,12 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
     </div>
   );
 };
+
+FiltersContainer.propTypes = {
+  inputEvent: func.isRequired,
+  allFilters: PropTypes.object.isRequired,
+  updateDate: func.isRequired,
+};
+
 
 export default FiltersContainer;

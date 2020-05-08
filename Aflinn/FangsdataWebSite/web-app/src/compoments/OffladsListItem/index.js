@@ -8,21 +8,15 @@ const OffloadListItem = ({ item, index }) => (
     <div className="offload-row">
       <p className="offload-index">{index}</p>
       <p className="offload-name">
-        {' '}
         {item.boatName ? item.boatName : item.boatRegistrationId}
       </p>
       <p className="offload-group">
-        {' '}
         {item.boatFishingGear}
       </p>
       <p className="offload-group">
-        {' '}
-        {item.boatLength}
-        {' '}
-        m
+        {`${item.boatLength} m`}
       </p>
       <p className="offload-group">
-        {' '}
         {normalizeWeight(item.totalWeight)}
       </p>
     </div>
@@ -48,8 +42,8 @@ OffloadListItem.propTypes = {
     totalWeight: PropTypes.number,
     town: PropTypes.string,
     trips: PropTypes.number,
-  }),
-  index: number,
+  }).isRequired,
+  index: number.isRequired,
 };
 
 export default OffloadListItem;
