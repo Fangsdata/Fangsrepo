@@ -23,7 +23,7 @@ const About = () => (
       </p>
       <p>
         If you have any questions or comments, please don't hesitate to
-        <Link exact to="/contact">contact us</Link>
+        <Link exact to="/contact"> contact us</Link>
         .
       </p>
     </div>

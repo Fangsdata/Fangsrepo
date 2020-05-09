@@ -8,45 +8,43 @@ import { normalizeWeight, normalizeDate, normalizeCase } from '../../services/Te
 const LandingsTable = ({
   landings, landingNo, boatOffloadLoaded, boatOffloadError,
 }) => (
-  <table className="landing-table">
-    <tr>
-      <th className="landing-table-header" colSpan="5">Siste landinger</th>
-    </tr>
-    <tr>
-      <td />
-      <td>Dato</td>
+<div className="offload-table landing-table">
+      <div className="offload-header">Siste landinger</div>
+      {/* <td>Dato</td>
       <td>Kommune</td>
       <td>Fylke</td>
-      <td>Total vekt</td>
-    </tr>
+      <td>Total vekt</td> */}
+      <div className="offload-row">
+        <p className="offload-index">#</p>
+        <p className="offload-name">Dato</p>
+        <p className="offload-group">Kommune</p>
+        <p className="offload-group">Fylke</p>
+        <p className="offload-group">Total vekt</p>
+      </div>
     { !boatOffloadError
       ? (
         <>
           { boatOffloadLoaded
             ? landings.map((landing, i) => (
-              <tr>
-                <td>
-                  <Link to={`/offloads/${landing.id}`}>
-                    {i + 1 + landingNo}
-                    .
-                  </Link>
-                </td>
-                <td><Link to={`/offloads/${landing.id}`}>{normalizeDate(landing.landingDate)}</Link></td>
-                <td><Link to={`/offloads/${landing.id}`}>{normalizeCase(landing.town)}</Link></td>
-                <td><Link to={`/offloads/${landing.id}`}>{landing.state}</Link></td>
-                <td><Link to={`/offloads/${landing.id}`}>{normalizeWeight(landing.totalWeight)}</Link></td>
-              </tr>
+              <Link to={`/offloads/${landing.id}`}>
+              <div className="offload-row">
+                <p className="offload-index">{i + 1 + landingNo}.</p>
+                <p className="offload-name">{normalizeDate(landing.landingDate)}</p>
+                <p className="offload-group">{normalizeCase(landing.town)}</p>
+                <p className="offload-group">{landing.state}</p>
+                <p className="offload-group">{normalizeWeight(landing.totalWeight)}</p>
+              </div>
+              </Link>
             ))
             : (
-              <th colSpan="5">
-                <div className="loader" />
+              <div className="loader">
                 Loading
-              </th>
+              </div>
             )}
         </>
       )
       : <p>there was an error here</p>}
-  </table>
+</div>
 );
 
 LandingsTable.propTypes = {

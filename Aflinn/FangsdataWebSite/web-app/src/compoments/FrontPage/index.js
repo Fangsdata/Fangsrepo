@@ -7,42 +7,141 @@ import OffloadsList from '../OffloadsList';
 
 class FrontPage extends React.Component {
     state = {
-        offLoads: []
+        offLoads: [],
+        tableLoaded: false,
+        tableError: false,
     }
 
     async componentDidMount(){
-        this.setState({ offLoads : await getOffloadsTest(), topOffloadsLoaded:true});
+        this.setState({ offLoads : await getOffloadsTest(), tableLoaded:true});
     }
 
     render(){
-        const {offLoads} = this.state;
+        const {
+            offLoads,
+            tableLoaded,
+            tableError
+        } = this.state;
         console.log(offLoads)
         return (
         <div className="front-page">
-            <div className="front-list-container">
-            <OffloadsList
-                offloads={ offLoads }
-                title="Top List 1"/>
-             <Link to="/"><div className="more-btn">More</div></Link>
-            </div>
-            <div className="front-list-container">
-            <OffloadsList 
-                offloads={ offLoads }
-                title="Top List 2"/>
-                <Link to="/"><div className="more-btn">More</div></Link>
-            </div>
-            <div className="front-list-container">
-            <OffloadsList 
-                offloads={ offLoads }
-                title="Top List 3"/>
-                <Link to="/"><div className="more-btn">More</div></Link>
-            </div>
-            <div className="front-list-container">
-            <OffloadsList 
-                offloads={ offLoads }
-                title="Top List 4"/>
-                <Link to="/"><div className="more-btn">More</div></Link>
-            </div>
+            
+            {!tableError
+                ? (
+                  <>
+                    { tableLoaded
+                      ? (
+                        <>
+                        <div className="front-list-container">
+                        <OffloadsList
+                            offloads={ offLoads }
+                            title="Top List 1"/>
+                         <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                        </div>
+                        </>
+                      )
+                      : (
+                        <div className="front-loading-container">
+                            <div className="offload-header" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item more" />
+                        </div>
+                      )}
+                  </>
+                )
+                : <><p>here was an error</p></>}
+                {!tableError
+                ? (
+                  <>
+                    { tableLoaded
+                      ? (
+                        <>
+                        <div className="front-list-container">
+                        <OffloadsList
+                            offloads={ offLoads }
+                            title="Top List 1"/>
+                         <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                        </div>
+                        </>
+                      )
+                      : (
+                        <div className="front-loading-container">
+                            <div className="offload-header" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item more" />
+                        </div>
+                      )}
+                  </>
+                )
+                : <><p>here was an error</p></>}
+                {!tableError
+                ? (
+                  <>
+                    { tableLoaded
+                      ? (
+                        <>
+                        <div className="front-list-container">
+                        <OffloadsList
+                            offloads={ offLoads }
+                            title="Top List 1"/>
+                         <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                        </div>
+                        </>
+                      )
+                      : (
+                        <div className="front-loading-container">
+                            <div className="offload-header" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item more" />
+                        </div>
+                      )}
+                  </>
+                )
+                : <><p>here was an error</p></>}
+                {!tableError
+                ? (
+                  <>
+                    { tableLoaded
+                      ? (
+                        <>
+                        <div className="front-list-container">
+                        <OffloadsList
+                            offloads={ offLoads }
+                            title="Top List 1"/>
+                         <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                        </div>
+                        </>
+                      )
+                      : (
+                        <div className="front-loading-container">
+                            <div className="offload-header" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item" />
+                            <div className="placeholder-item more" />
+                        </div>
+                      )}
+                  </>
+                )
+                : <><p>here was an error</p></>}
 
         </div>
         );

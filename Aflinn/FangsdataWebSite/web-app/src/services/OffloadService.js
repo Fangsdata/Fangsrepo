@@ -47,4 +47,5 @@ const getOffloadsTest = async (filter = {}) => {
 export {
   getOffloads,
   getBoats,
+  getOffloadsTest
 };

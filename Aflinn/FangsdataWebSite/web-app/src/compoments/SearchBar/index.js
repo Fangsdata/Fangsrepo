@@ -42,7 +42,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div ref={node}>
+    <div ref={node} className="search-container">
       <div className={`searchbar ${foundBoats.length !== 0 && !isSearchOpen ? 'open' : ''}`}>
         <input
           className="search-inp"

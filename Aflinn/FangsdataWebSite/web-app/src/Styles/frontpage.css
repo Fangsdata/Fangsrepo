@@ -14,12 +14,16 @@
 
 .front-page .offload-table .offload-row {
     height: 3rem;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .front-list-container {
     margin-bottom: 2rem;
     flex-basis: 48%;
+}
+
+.front-page .offload-group {
+    flex: 0 0 20%;
 }
 
 .more-btn {
@@ -38,3 +42,42 @@
     background-color: #254aa1;
     text-decoration: none;
 }
+
+.front-page .placeholder-item {
+    height: 2.6rem;
+    width: 34rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    border-radius: 2px;
+    animation: animatedBackgroundLong 5s linear infinite;
+
+}
+
+.front-page .offload-header {
+    width: 34rem;
+    margin-bottom: 0.5rem;
+}
+
+.front-loading-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.placeholder-item.more {
+    padding: 0.6rem;
+    border-radius: 2rem;
+    margin-top: 0.5rem;
+    width: 6rem;
+    margin-left: auto;
+    animation: none;
+}
+
+@keyframes animatedBackgroundLong {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 5000px 0;
+    }
+  }

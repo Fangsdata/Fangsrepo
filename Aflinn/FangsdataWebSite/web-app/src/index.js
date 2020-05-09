@@ -12,10 +12,13 @@ import './Styles/navbar.css';
 import './Styles/boats.css';
 import './Styles/offloads.css';
 import './Styles/filter.css';
-// import './Styles/hamburger.css';
+import './Styles/hamburger.css';
 import './Styles/notfound.css';
 import boatReducer from './reducers/BoatReducer';
 import './Styles/landings.css';
+import './Styles/frontpage.css';
+import './Styles/footer.css';
+
 
 ReactDOM.render(
   <Provider
