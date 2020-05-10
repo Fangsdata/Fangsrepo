@@ -1,41 +1,61 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {getOffloadsTest} from '../../services/OffloadService';
+import {getOffloads} from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 
 // https://fangsdata-api.herokuapp.com/api/offloads?fishingGear=Garn&Count=5
 
 class FrontPage extends React.Component {
     state = {
-        offLoads: [],
-        tableLoaded: false,
+        offLoads0: [],
+        offLoads1: [],
+        offLoads2: [],
+        offLoads3: [],
+        tableLoaded0: false,
+        tableLoaded1: false,
+        tableLoaded2: false,
+        tableLoaded3: false,
         tableError: false,
     }
 
     async componentDidMount(){
-        this.setState({ offLoads : await getOffloadsTest(), tableLoaded:true});
+        this.setState({ offLoads0 : 
+          await getOffloads({count:[5], fishingGear:['Krokredskap']}),
+          tableLoaded0:true ,
+          offLoads1 : await getOffloads({count:[5], fishingGear:['Trål'] }),
+          tableLoaded1:true });
+        this.setState({ 
+          offLoads2 : await getOffloads({count:[5],fishingGear:['Snurrevad'] }),
+          tableLoaded2:true ,
+          offLoads3 : await getOffloads({count:[5], fishingGear:['Garn'] }),
+          tableLoaded3:true});
     }
 
     render(){
         const {
-            offLoads,
-            tableLoaded,
+            offLoads0,
+            offLoads1,
+            offLoads2,
+            offLoads3,
+            tableLoaded0,
+            tableLoaded1,
+            tableLoaded2,
+            tableLoaded3,
             tableError
         } = this.state;
-        console.log(offLoads)
         return (
         <div className="front-page">
             
             {!tableError
                 ? (
                   <>
-                    { tableLoaded
+                    { tableLoaded0
                       ? (
                         <>
                         <div className="front-list-container">
                         <OffloadsList
-                            offloads={ offLoads }
-                            title="Top List 1"/>
+                            offloads={ offLoads0 }
+                            title="Største Krokredskap landing"/>
                          <Link to="/topoffloads"><div className="more-btn">More</div></Link>
                         </div>
                         </>
@@ -58,13 +78,13 @@ class FrontPage extends React.Component {
                 {!tableError
                 ? (
                   <>
-                    { tableLoaded
+                    { tableLoaded1
                       ? (
                         <>
                         <div className="front-list-container">
                         <OffloadsList
-                            offloads={ offLoads }
-                            title="Top List 1"/>
+                            offloads={ offLoads1 }
+                            title="Største Trål landing"/>
                          <Link to="/topoffloads"><div className="more-btn">More</div></Link>
                         </div>
                         </>
@@ -87,13 +107,13 @@ class FrontPage extends React.Component {
                 {!tableError
                 ? (
                   <>
-                    { tableLoaded
+                    { tableLoaded2
                       ? (
                         <>
                         <div className="front-list-container">
                         <OffloadsList
-                            offloads={ offLoads }
-                            title="Top List 1"/>
+                            offloads={ offLoads2 }
+                            title="Største Snurrevad landing"/>
                          <Link to="/topoffloads"><div className="more-btn">More</div></Link>
                         </div>
                         </>
@@ -116,13 +136,13 @@ class FrontPage extends React.Component {
                 {!tableError
                 ? (
                   <>
-                    { tableLoaded
+                    { tableLoaded3
                       ? (
                         <>
                         <div className="front-list-container">
                         <OffloadsList
-                            offloads={ offLoads }
-                            title="Top List 1"/>
+                            offloads={ offLoads3 }
+                            title="Største Garn landing"/>
                          <Link to="/topoffloads"><div className="more-btn">More</div></Link>
                         </div>
                         </>

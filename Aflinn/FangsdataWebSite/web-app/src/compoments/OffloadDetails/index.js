@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import MapContainer from '../Map';
@@ -96,28 +96,16 @@ const OffloadDetails = ({ offloadId }) => {
               ? (
                 <>
                   <div className="landing-info-container">
-                    <h1>
-                      {normalizeCase(offloadDetail.town)}
-                      {' '}
-                      in
-                      {' '}
-                      {offloadDetail.state}
-                    </h1>
+                    <h1>{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</h1>
 
+                    <Link 
+                      to={`/boats/${offloadDetail.boat.registration_id}`}>
+                        { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
+                    </Link>
                     <p>
-                      Båt :
-                      {normalizeCase(offloadDetail.boat.name)}
-                      {' '}
-                      -
-                      {offloadDetail.boat.registration_id}
+                      {`Redskap : ${offloadDetail.boat.fishingGear}`}
                     </p>
-                    <p>
-                      Redskap :
-                      {offloadDetail.boat.fishingGear}
-                    </p>
-                    <p>
-                      Landins dato :
-                      {normalizeDate(offloadDetail.landingDate)}
+                    <p>{`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
                     </p>
                   </div>
                   <div className="map-container">
