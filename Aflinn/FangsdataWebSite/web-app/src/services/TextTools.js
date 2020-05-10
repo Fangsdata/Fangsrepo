@@ -8,23 +8,10 @@ export const normalizeCase = (str) => {
   return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 };
 
-export const normalizeLength = (txtInput) => {
-  let e = txtInput;
-  if(typeof e === 'number') {
-    if(e === 0){
-      return 'ikke registrert';
-    }
-    return `${e.toFixed(1)} m`
-  }
-  return e;
-} 
 
 export const normalizeWeight = (txtInput) => {
   let e = txtInput;
   if (typeof e === 'number') {
-    if (e === 0){
-      return 'ikke registrert';
-    }
     if (e >= 1000) {
       e /= 1000;
       if (e < 100) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes, { number } from 'prop-types';
-import { normalizeWeight, normalizeLength } from '../../services/TextTools';
+import { normalizeWeight } from '../../services/TextTools';
 
 const OffloadListItem = ({ item, index }) => (
   <Link className="offload-link" to={`/boats/${item.boatRegistrationId}`}>
@@ -14,7 +14,7 @@ const OffloadListItem = ({ item, index }) => (
         {item.boatFishingGear}
       </p>
       <p className="offload-group">
-        {`${normalizeLength(item.boatLength)}`}
+        {`${item.boatLength} m`}
       </p>
       <p className="offload-group">
         {normalizeWeight(item.totalWeight)}

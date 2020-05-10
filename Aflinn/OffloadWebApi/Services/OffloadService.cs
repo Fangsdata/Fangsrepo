@@ -29,7 +29,7 @@ namespace OffloadWebApi.Services
 
         private int ParseCount(string count)
         {
-            int cnt = 10;
+            int cnt = 0;
             if(!string.IsNullOrEmpty(count))
             {
                 cnt = int.Parse(count);
@@ -38,9 +38,9 @@ namespace OffloadWebApi.Services
             {
                throw new System.InvalidOperationException();
             }
-            if (cnt < 1)
+            if (cnt < 10)
             {
-                cnt = 1;
+                cnt = 10;
             }
             else if (cnt > 500)
             {

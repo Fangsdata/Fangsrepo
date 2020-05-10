@@ -278,7 +278,7 @@ namespace OffloadWebApi.Repository
             _connection.Open();
             cmd.CommandText = string.Format(
             @"SELECT  
-               `Dokumentnummer`,
+               `Dokumentnummer`
                 `Landingskommune`,
                 `Landingsfylke`,
                 `Lon (lokasjon)`,
@@ -369,22 +369,11 @@ namespace OffloadWebApi.Repository
                 reader.Read();
                 if(reader.HasRows)
                 {
-                    DateTime? rowLandingTown = null;
-                    try
-                    {
-                       rowLandingTown = reader.GetDateTime(9);
-                    }
-                    catch (System.Exception e)
-                    {
-                        Console.WriteLine(e);
-                        Console.WriteLine("--- unable to create date");
-                    }
-
                     offload = genOffloadDto(
                         id: reader.GetInt64(0).ToString(),
                         town: reader.GetString(3),
                         state: reader.GetString(4),
-                        landingdate: rowLandingTown, 
+                        landingdate: reader.GetDateTime(2),
                         totalWeight: reader.GetFloat(23),
                         boat: genSimpleBoat( 
                             registrationId: reader.GetString(5),

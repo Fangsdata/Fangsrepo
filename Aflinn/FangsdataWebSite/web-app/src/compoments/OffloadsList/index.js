@@ -45,13 +45,12 @@ OffladsList.propTypes = {
     totalWeight: PropTypes.number,
     town: PropTypes.string,
     trips: PropTypes.number,
-  })),
+  })).isRequired,
   title: PropTypes.string,
 };
 
 OffladsList.defaultProps = {
   title: '',
-  offloads : []
 };
 
 
