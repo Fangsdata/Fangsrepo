@@ -51,7 +51,7 @@ OffladsList.propTypes = {
 
 OffladsList.defaultProps = {
   title: '',
-  offloads : []
+  offloads: [],
 };
 
 

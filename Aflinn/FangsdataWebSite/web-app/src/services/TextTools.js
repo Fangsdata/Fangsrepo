@@ -9,20 +9,20 @@ export const normalizeCase = (str) => {
 };
 
 export const normalizeLength = (txtInput) => {
-  let e = txtInput;
-  if(typeof e === 'number') {
-    if(e === 0){
+  const e = txtInput;
+  if (typeof e === 'number') {
+    if (e === 0) {
       return 'ikke registrert';
     }
-    return `${e.toFixed(1)} m`
+    return `${e.toFixed(1)} m`;
   }
   return e;
-} 
+};
 
 export const normalizeWeight = (txtInput) => {
   let e = txtInput;
   if (typeof e === 'number') {
-    if (e === 0){
+    if (e === 0) {
       return 'ikke registrert';
     }
     if (e >= 1000) {

@@ -98,14 +98,16 @@ const OffloadDetails = ({ offloadId }) => {
                   <div className="landing-info-container">
                     <h1>{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</h1>
 
-                    <Link 
-                      to={`/boats/${offloadDetail.boat.registration_id}`}>
-                        { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
+                    <Link
+                      to={`/boats/${offloadDetail.boat.registration_id}`}
+                    >
+                      { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
                     </Link>
                     <p>
                       {`Redskap : ${offloadDetail.boat.fishingGear}`}
                     </p>
-                    <p>{`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
+                    <p>
+                      {`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
                     </p>
                   </div>
                   <div className="map-container">
