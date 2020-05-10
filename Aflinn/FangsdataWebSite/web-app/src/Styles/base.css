@@ -2,8 +2,13 @@
     width: 4.5rem;
 }
 
+p {
+    margin: 0;
+}
+
 .container {
     padding-top: 5rem;
+    min-height: calc(100vh - 4rem);
 }
 
 .about-container {

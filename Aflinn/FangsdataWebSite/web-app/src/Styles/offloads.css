@@ -6,7 +6,7 @@
 .offload-row {
     display: flex;
     flex-wrap: wrap;
-    border-bottom: solid grey 0.07rem;
+    border-bottom: solid #ddd 0.07rem;
     align-items: center;
     height: 4.5rem;
 }
@@ -24,6 +24,8 @@
     justify-content: center;
     height: 2.5rem;
     align-items: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .offload-table > a:nth-child(odd) > div {

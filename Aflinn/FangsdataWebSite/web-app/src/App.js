@@ -9,6 +9,8 @@ import Contact from './compoments/Contact';
 import About from './compoments/About';
 import OffloadDetails from './compoments/OffloadDetails';
 import NotFound from './compoments/NotFound';
+import FrontPage from './compoments/FrontPage';
+import Footer from './compoments/Footer'
 
 function App() {
   return (
@@ -16,7 +18,8 @@ function App() {
       <NavigationBar />
       <Container>
         <Switch>
-          <Route exact path="/" component={TopOffloads} />
+          <Route exact path="/" component={FrontPage} />
+          <Route exact path="/topoffloads" component={TopOffloads} />
           <Route exact path="/home" render={() => <Redirect to="/" />} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/about" component={About} />
@@ -24,7 +27,9 @@ function App() {
           <Route exact path="/offloads/:offloadId" render={(e) => <OffloadDetails offloadId={e.match.params.offloadId} />} />
           <Route path="/*" component={NotFound} />
         </Switch>
+        <div class="push"></div>
       </Container>
+      <Footer />
     </div>
   );
 }

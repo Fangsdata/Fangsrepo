@@ -37,9 +37,9 @@ class NavLinks extends React.Component {
             >
               Home
             </NavLink>
-            {/* <NavLink
-                        exact
-                        to="/boats">Boat</NavLink> */}
+            <NavLink
+              exact
+              to="/topoffloads">Top Offloads</NavLink>
             <NavLink
               exact
               to="/contact"
@@ -50,23 +50,10 @@ class NavLinks extends React.Component {
               exact
               to="/about"
             >
-              About us
+              About
             </NavLink>
           </div>
         </nav>
-
-        {/* <ul className="navlinks">
-                <li>
-                    <NavLink
-                    exact
-                    to="/">Home</NavLink>
-                </li>
-                <li>
-                <NavLink
-                    exact
-                    to="/boats">Boat</NavLink>
-                </li>
-            </ul> */}
       </div>
     );
   }
