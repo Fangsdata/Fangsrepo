@@ -10,7 +10,7 @@ import About from './compoments/About';
 import OffloadDetails from './compoments/OffloadDetails';
 import NotFound from './compoments/NotFound';
 import FrontPage from './compoments/FrontPage';
-import Footer from './compoments/Footer'
+import Footer from './compoments/Footer';
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/offloads/:offloadId" render={(e) => <OffloadDetails offloadId={e.match.params.offloadId} />} />
           <Route path="/*" component={NotFound} />
         </Switch>
-        <div class="push"></div>
+        <div className="push" />
       </Container>
       <Footer />
     </div>

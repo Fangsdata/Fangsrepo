@@ -3,7 +3,7 @@ import { string } from 'prop-types';
 import VesselMap from '../Map';
 import LandingsTable from '../LandingsTable';
 import LandingsTableControlls from '../LandingsTableControlls';
-import { normalizeCase } from '../../services/TextTools';
+import { normalizeCase, normalizeLength, normalizeWeight } from '../../services/TextTools';
 import boaticon from './boat.png';
 
 class BoatDetails extends React.Component {
@@ -105,6 +105,8 @@ class BoatDetails extends React.Component {
       mapData,
     } = boat;
 
+    const { boatname } = this.props;
+
     let cleanMapData = mapData;
     if (mapData === undefined) {
       cleanMapData = [];
@@ -122,38 +124,29 @@ class BoatDetails extends React.Component {
                   <>
                     <img src={boaticon} className="boat-img" alt="boat" />
                     <div className="boat-info">
-                      <h3>{normalizeCase(name)}</h3>
+                      <h3>{ name !== '' ? normalizeCase(name) : boatname }</h3>
                       <p className="boat-details">
-                        lengde:
-                        { length }
-                        {' '}
-                        m
+
+                        { `lengde: ${normalizeLength(length)}` }
                       </p>
                       <p className="boat-details">
-                        Vekt:
-                        { weight }
+                        { `Vekt: ${normalizeWeight(weight)}` }
                       </p>
                       <p className="boat-details">
-                        År bygd:
-                        { builtYear }
+                        { `År bygd: ${builtYear !== 0 ? builtYear : 'ikke registrert'}` }
                       </p>
                       <p className="boat-details">
-                        Fylke:
-                        { state }
+                        { `Fylke: ${state !== '' ? state : 'ikke registrert'}` }
                       </p>
                       <p className="boat-details">
-                        Kommune:
-                        { normalizeCase(town) }
+                        { `Kommune: ${town !== '' ? normalizeCase(town) : 'ikke registrert'}` }
                       </p>
                       <p className="boat-details">
-                        Motor kraft:
-                        { enginePower }
-                        {' '}
-                        hp
+                        { `Motor kraft: ${enginePower !== 0 ? `${enginePower} hp` : 'ikke registrert'}` }
                       </p>
                       <p className="boat-details">
-                        Relskap:
-                        { fishingGear }
+
+                        { `Relskap: ${fishingGear !== '' ? fishingGear : 'ikke registrer`'}`}
                       </p>
                       <br />
                       { cleanMapData.length !== 0
@@ -161,10 +154,7 @@ class BoatDetails extends React.Component {
                           <p className="boat-details">
                             Breddegrad / lengdegrad:
                             <br />
-                            {mapData[0].latitude}
-                            {' '}
-                            /
-                            {mapData[0].longitude}
+                            {`${mapData[0].latitude} / ${mapData[0].longitude}`}
                           </p>
                         )
                         : <></>}

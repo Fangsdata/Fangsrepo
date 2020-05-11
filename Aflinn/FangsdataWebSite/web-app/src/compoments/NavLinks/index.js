@@ -39,7 +39,10 @@ class NavLinks extends React.Component {
             </NavLink>
             <NavLink
               exact
-              to="/topoffloads">Top Offloads</NavLink>
+              to="/topoffloads"
+            >
+              Top Offloads
+            </NavLink>
             <NavLink
               exact
               to="/contact"
