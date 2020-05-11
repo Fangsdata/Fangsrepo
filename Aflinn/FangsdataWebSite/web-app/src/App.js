@@ -8,6 +8,7 @@ import BoatDetails from './compoments/BoatDetails';
 import Contact from './compoments/Contact';
 import About from './compoments/About';
 import OffloadDetails from './compoments/OffloadDetails';
+import Search from './compoments/Search'
 import NotFound from './compoments/NotFound';
 import FrontPage from './compoments/FrontPage';
 import Footer from './compoments/Footer';
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/about" component={About} />
           <Route exact path="/boats/:boatname" render={(e) => <BoatDetails boatname={e.match.params.boatname} />} />
           <Route exact path="/offloads/:offloadId" render={(e) => <OffloadDetails offloadId={e.match.params.offloadId} />} />
+          <Route exact path="/search=:searchterm" render={(e) => <Search searchterm={e.match.params.searchterm} />} />
           <Route path="/*" component={NotFound} />
         </Switch>
         <div className="push" />

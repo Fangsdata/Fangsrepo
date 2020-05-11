@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import icon from './search-24px.svg';
 import { OFFLOADAPI } from '../../Constants';
+import Search from '../Search';
 
 let timeOut;
 const SearchBar = () => {
   const [search, updateSearch] = useState('');
   const [foundBoats, setFoundBoats] = useState([]);
   const [isSearchOpen, setSearchStatus] = useState(false);
+  const [goToSearchPage, setGoToSearchPage] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const StartSearch = () => {};
+  const StartSearch = () => {
+    // console.log(foundBoats)
+    setGoToSearchPage(true);
+    // console.log(goToSearchPage)
+    // this.props.history.push(`/search=${foundBoats}`);
+  };
 
   const UpdateQuickSearch = (searchTerm) => {
     if (searchTerm.length > 2) {
@@ -51,7 +59,8 @@ const SearchBar = () => {
           onInput={(e) => {
             updateSearch(e.target.value);
             clearTimeout(timeOut);
-            const searchTerm = e.target.value;
+            // const searchTerm = e.target.value;
+            setSearchTerm(e.target.value)
             timeOut = setTimeout(() => UpdateQuickSearch(searchTerm), 500);
           }}
           onKeyPress={(e) => {
@@ -86,6 +95,11 @@ const SearchBar = () => {
           )
           : <></>}
       </div>
+      {goToSearchPage && 
+      <>
+      <Redirect to={ `/search=${searchTerm}`}/>
+      </>
+      }
     </div>
   );
 };
