@@ -4,7 +4,7 @@
 
 .landing-info-container{
     margin-top: 40px;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 .landing-info-container h1 {
@@ -18,11 +18,12 @@
 
 .landing {
     justify-content: space-around;
+    overflow-x: auto;
 }
 
 .landing-table-container {
     overflow-x: auto;
-    width: 92%;
+    width: 93%;
 }
 
 .info-wrapper {
@@ -34,18 +35,42 @@
 }
 
 .landing-info-container p {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .anchor-img {
-    height: 2.4rem;
-    margin-left: 30px;
+    height: 3rem;
+    margin-left: 2.4rem;
     margin-top: 40px;
+    padding-top: 0.5rem;
+}
+
+.pie-chart {
+    margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 730px) {
+    .loader-container {
+        justify-content: center;
+    }
+
+    .placeholder-item.mapload {
+        margin: 0;
+        margin-top: 3rem;
+    }
 }
 
 @media only screen and (max-width: 515px) {
     .landing-info-container{
         margin-bottom: 0;
+    }
+
+    .placeholder-item.header {
+        width: 260px;
+    }
+
+    .placeholder-info-container {
+        align-items: center;
     }
 }
 

@@ -100,7 +100,7 @@ const OffloadDetails = ({ offloadId }) => {
                 <div className="info-wrapper">
                   <img src={Anchor} className="anchor-img" alt="boat" />
                   <div className="landing-info-container">
-                    <h1>{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</h1>
+                  <div className="landings-header">{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</div>
 
                     <Link
                       to={`/boats/${offloadDetail.boat.registration_id}`}
