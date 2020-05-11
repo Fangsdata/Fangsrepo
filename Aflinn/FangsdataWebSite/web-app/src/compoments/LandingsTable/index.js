@@ -8,32 +8,35 @@ import { normalizeWeight, normalizeDate, normalizeCase } from '../../services/Te
 const LandingsTable = ({
   landings, landingNo, boatOffloadLoaded, boatOffloadError,
 }) => (
-<div className="offload-table landing-table">
-      <div className="offload-header">Siste landinger</div>
-      {/* <td>Dato</td>
+  <div className="offload-table landing-table">
+    <div className="offload-header">Siste landinger</div>
+    {/* <td>Dato</td>
       <td>Kommune</td>
       <td>Fylke</td>
       <td>Total vekt</td> */}
-      <div className="offload-row">
-        <p className="offload-index">#</p>
-        <p className="offload-name">Dato</p>
-        <p className="offload-group">Kommune</p>
-        <p className="offload-group">Fylke</p>
-        <p className="offload-group">Total vekt</p>
-      </div>
+    <div className="offload-row">
+      <p className="offload-index">#</p>
+      <p className="offload-name">Dato</p>
+      <p className="offload-group">Kommune</p>
+      <p className="offload-group">Fylke</p>
+      <p className="offload-group">Total vekt</p>
+    </div>
     { !boatOffloadError
       ? (
         <>
           { boatOffloadLoaded
             ? landings.map((landing, i) => (
               <Link to={`/offloads/${landing.id}`}>
-              <div className="offload-row">
-                <p className="offload-index">{i + 1 + landingNo}.</p>
-                <p className="offload-name">{normalizeDate(landing.landingDate)}</p>
-                <p className="offload-group">{normalizeCase(landing.town)}</p>
-                <p className="offload-group">{landing.state}</p>
-                <p className="offload-group">{normalizeWeight(landing.totalWeight)}</p>
-              </div>
+                <div className="offload-row">
+                  <p className="offload-index">
+                    {i + 1 + landingNo}
+                    .
+                  </p>
+                  <p className="offload-name">{normalizeDate(landing.landingDate)}</p>
+                  <p className="offload-group">{normalizeCase(landing.town)}</p>
+                  <p className="offload-group">{landing.state}</p>
+                  <p className="offload-group">{normalizeWeight(landing.totalWeight)}</p>
+                </div>
               </Link>
             ))
             : (
@@ -44,7 +47,7 @@ const LandingsTable = ({
         </>
       )
       : <p>there was an error here</p>}
-</div>
+  </div>
 );
 
 LandingsTable.propTypes = {

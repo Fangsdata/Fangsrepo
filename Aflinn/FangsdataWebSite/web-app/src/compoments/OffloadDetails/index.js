@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import MapContainer from '../Map';
@@ -100,28 +100,18 @@ const OffloadDetails = ({ offloadId }) => {
                 <div className="info-wrapper">
                   <img src={Anchor} className="anchor-img" alt="boat" />
                   <div className="landing-info-container">
-                    <div className="landings-header">
-                      {normalizeCase(offloadDetail.town)}
-                      {' '}
-                      in
-                      {' '}
-                      {offloadDetail.state}
-                    </div>
+                    <h1>{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</h1>
 
+                    <Link
+                      to={`/boats/${offloadDetail.boat.registration_id}`}
+                    >
+                      { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
+                    </Link>
                     <p>
-                      Båt :
-                      {normalizeCase(offloadDetail.boat.name)}
-                      {' '}
-                      -
-                      {offloadDetail.boat.registration_id}
+                      {`Redskap : ${offloadDetail.boat.fishingGear}`}
                     </p>
                     <p>
-                      Redskap :
-                      {offloadDetail.boat.fishingGear}
-                    </p>
-                    <p>
-                      Landins dato :
-                      {normalizeDate(offloadDetail.landingDate)}
+                      {`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
                     </p>
                   </div>
                   </div>
