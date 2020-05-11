@@ -122,37 +122,37 @@ class BoatDetails extends React.Component {
                   <>
                     <img src={boaticon} className="boat-img" alt="boat" />
                     <div className="boat-info">
-                      <h3>{normalizeCase(name)}</h3>
+                      <p className="boat-header">{normalizeCase(name)}</p>
                       <p className="boat-details">
-                        lengde:
+                        lengde:{' '}
                         { length }
                         {' '}
                         m
                       </p>
                       <p className="boat-details">
-                        Vekt:
+                        Vekt:{' '}
                         { weight }
                       </p>
                       <p className="boat-details">
-                        År bygd:
+                        År bygd:{' '}
                         { builtYear }
                       </p>
                       <p className="boat-details">
-                        Fylke:
+                        Fylke:{' '}
                         { state }
                       </p>
                       <p className="boat-details">
-                        Kommune:
+                        Kommune:{' '}
                         { normalizeCase(town) }
                       </p>
                       <p className="boat-details">
-                        Motor kraft:
+                        Motor kraft:{' '}
                         { enginePower }
                         {' '}
                         hp
                       </p>
                       <p className="boat-details">
-                        Relskap:
+                        Relskap:{' '}
                         { fishingGear }
                       </p>
                       <br />

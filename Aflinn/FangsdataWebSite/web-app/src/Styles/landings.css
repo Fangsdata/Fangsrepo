@@ -1,17 +1,51 @@
-.pie-chart{
+/* .pie-chart{
     width: 20rem;
-}
+} */
 
 .landing-info-container{
-    margin: 40px;
+    margin-top: 40px;
+    margin-left: 1rem;
+}
+
+.landing-info-container h1 {
+    margin: 0;
 }
 
 .detail {
-    width: 95% !important;
-    margin: 0 !important;
+    width: 100%;
+    margin: 0;
 }
 
 .landing {
     justify-content: space-around;
+}
+
+.landing-table-container {
+    overflow-x: auto;
+    width: 92%;
+}
+
+.info-wrapper {
+    display: flex;
+}
+
+.landings-header {
+    font-size: 1.8rem;
+}
+
+.landing-info-container p {
+    margin-top: 1rem;
+}
+
+.anchor-img {
+    height: 2.4rem;
+    margin-left: 30px;
+    margin-top: 40px;
+}
+
+@media only screen and (max-width: 515px) {
+    .landing-info-container{
+        margin-bottom: 0;
+    }
 }
 

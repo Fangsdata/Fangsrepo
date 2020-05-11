@@ -27,7 +27,6 @@ function App() {
           <Route exact path="/offloads/:offloadId" render={(e) => <OffloadDetails offloadId={e.match.params.offloadId} />} />
           <Route path="/*" component={NotFound} />
         </Switch>
-        <div class="push"></div>
       </Container>
       <Footer />
     </div>

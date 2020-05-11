@@ -5,7 +5,7 @@
     width: 100%;
     top: 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-evenly;
     padding: 0;
@@ -14,7 +14,7 @@
 }
 
 .search-container {
-    width: 50%
+    width: 45em;
 }
 .searchbar {
     height: 2rem;
@@ -24,7 +24,6 @@
     border-radius: 15px;;
     border: 0.1em solid #2B59C3;
     font-size: 1rem;
-    margin-top: -1.5rem;
     z-index: 2;
 }
 
@@ -68,11 +67,11 @@
 }
 
 .logo-placeholder {
-    width: 4.5rem;
-    height: 4.5rem;
-    margin-top: 1rem;
+    width: 72px;
+    height: 72px;
     position: relative;
     z-index: 2;
+    /* margin-left: 10.8%; */
 }
 
 .small-logo {
@@ -120,4 +119,44 @@
     border-top: 1px solid #e8eaed;
     margin: 0 20px 0 14px;
     padding-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 1200px) {
+    .logo-placeholder {
+        margin-left: 7%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .logo-placeholder {
+        margin-right: 2rem;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .logo {
+        margin-left: 7%;
+    }
+}
+
+@media only screen and (max-width: 570px) {
+    .logo {
+        margin-left: 5%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .logo-placeholder {
+        margin-right: 3.5rem;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .search-inp {
+        color: transparent;
+    }
+
+    .search-btn {
+        padding-right: 3rem;
+    }
 }

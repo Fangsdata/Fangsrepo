@@ -22,7 +22,6 @@ class FrontPage extends React.Component {
             tableLoaded,
             tableError
         } = this.state;
-        console.log(offLoads)
         return (
         <div className="front-page">
             
