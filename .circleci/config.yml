@@ -11,7 +11,7 @@ jobs:
           steps:
             
             - run: cd Aflinn/FangsdataWebSite/web-app; npm install
-            - run: cd Aflinn/FangsdataWebSite/web-app; npm lint
+            - run: cd Aflinn/FangsdataWebSite/web-app; npm run lint
 workflows:
     build-and-test:
       jobs:
