@@ -9,39 +9,38 @@ class NavigationBar extends React.Component {
   constructor() {
     super();
     this.state = {
-      classItem: 'logo',
+      logoClass: 'logo',
     };
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.getWindowHeight());
+    window.addEventListener('scroll', this.handleScroll());
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.getWindowHeight());
+    window.removeEventListener('scroll', this.handleScroll());
   }
 
-  getWindowHeight() {
-    const distanceY = window.pageYOffset
-    || document.documentElement.scrollTop;
+  handleScroll() {
     const shrinkOn = 50;
-    if (distanceY > shrinkOn) {
+    const yOffset = window.pageYOffset || document.documentElement.scrollTop;
+    if (yOffset > shrinkOn) {
       this.setState({
-        classItem: 'small-logo',
+        logoClass: 'small-logo',
       });
     } else {
       this.setState({
-        classItem: 'logo',
+        logoClass: 'logo',
       });
     }
   }
 
   render() {
-    const { classItem } = this.state;
+    const { logoClass } = this.state;
     return (
       <>
         <NavLink exact to="/">
-          <img className={classItem} src={Logo} alt="" />
+          <img className={logoClass} src={Logo} alt="Logo" />
         </NavLink>
         <nav className="navbar">
           <div className="logo-placeholder" />

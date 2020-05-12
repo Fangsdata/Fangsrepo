@@ -46,7 +46,7 @@ const SearchBar = () => {
       <div className={`searchbar ${foundBoats.length !== 0 && !isSearchOpen ? 'open' : ''}`}>
         <input
           className="search-inp"
-          placeholder="Search for boats"
+          placeholder="Søk etter båter"
           value={search}
           onInput={(e) => {
             updateSearch(e.target.value);

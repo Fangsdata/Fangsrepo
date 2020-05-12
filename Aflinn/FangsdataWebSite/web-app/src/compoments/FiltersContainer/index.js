@@ -10,41 +10,134 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const [showFishingGear, setShowFishingGear] = useState(true);
+  const [showBoatLength, setShowBoatLength] = useState(true);
+  const [showFishName, setShowFishName] = useState(true);
+  const [showLandingState, setShowLandingState] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const headers = ['Fishing Gear', 'Boat leangth', 'Fish name', 'Landing state'];
 
   return (
     <div>
-      <div className="f-header">
-        {showFilters
-          ? (
-            <>
-              <p className="f-container-title" onClick={() => setShowFilters(!showFilters)}>
-                <img className="filter-icon" src={filterIcon} alt="" />
-                Filter by:
-                {' '}
-                <img className="arrow-icon" src={upArrow} alt="" />
-              </p>
-              { showFilters
-                ? (
-                  <div className="filter-all-filters">
-                    <div className="date-container">
+                <div className="filter-all-filters">
+                  <div className="f-header">
+                    <p className="f-header-title">
+                      <img className="filter-icon" src={filterIcon} alt="" />
+                      Filtre:
+                    </p>
+                      <div className="date-container">
                       <div className="date-headers">
                         <p>Velg måned:</p>
                       </div>
-                      <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => {
-                          setSelectedDate(date);
-                          updateDate(date);
-                        }}
-                        dateFormat="MM/yyyy"
-                        showMonthYearPicker
-                        showFullMonthYearPicker
-                      />
+                        <DatePicker
+                          selected={selectedDate}
+                          onChange={(date) => {
+                            setSelectedDate(date);
+                            updateDate(date);
+                          }}
+                          dateFormat="MM/yyyy"
+                          showMonthYearPicker
+                          showFullMonthYearPicker
+                        />
+                      </div>
+                  </div>
+                    {/* { headers.map((header) => <p className="f-headers" onClick={() => setShowFilter(!showFilter)}>{header}</p>)} */}
+                    <div className="dropdowns-container">
+                    {showFishingGear
+                      ?(
+                        <div className="filter-dropdown closed">
+                        <p className="f-headers" onClick={() => setShowFishingGear(!showFishingGear)}>Relskap
+                        <img className="arrow-icon" src={downArrow} alt="" />
+                        </p>
+                      </div>
+                      )
+                      :(
+                        <div className="filter-dropdown">
+                          <p className="f-headers" onClick={() => setShowFishingGear(!showFishingGear)}>Relskap
+                          <img className="arrow-icon" src={upArrow} alt="" /></p>
+                          <FilterCheckBox
+                                key={'fishingGear'}
+                                items={allFilters['fishingGear']}
+                                group={'fishingGear'}
+                                inputEvent={inputEvent}
+                                checkBoxType={'checkbox'}
+                              />
+                      </div>
+                      )
+                    }
+                    {showBoatLength
+                      ?(
+                        <div className="filter-dropdown closed">
+                        <p className="f-headers" onClick={() => setShowBoatLength(!showBoatLength)}>Båt lengde
+                        <img className="arrow-icon" src={downArrow} alt="" />
+                        </p>
+                      </div>
+                      )
+                      :(
+                        <div className="filter-dropdown">
+                        <p className="f-headers" onClick={() => setShowBoatLength(!showBoatLength)}>Båt lengde
+                          <img className="arrow-icon" src={upArrow} alt="" /></p>
+                          <FilterCheckBox
+                                key={'boatLength'}
+                                items={allFilters['boatLength']}
+                                group={'boatLength'}
+                                inputEvent={inputEvent}
+                                checkBoxType={'radio'}
+                              />
+                      </div>
+                      )
+                    }
+                    {showFishName
+                      ?(
+                        <div className="filter-dropdown closed">
+                        <p className="f-headers" onClick={() => setShowFishName(!showFishName)}>Fisketype
+                        <img className="arrow-icon" src={downArrow} alt="" />
+                        </p>
+                      </div>
+                      )
+                      :(
+                        <div className="filter-dropdown">
+                        <p className="f-headers" onClick={() => setShowFishName(!showFishName)}>Fisketype
+                          <img className="arrow-icon" src={upArrow} alt="" /></p>
+                          <FilterCheckBox
+                                key={'fishName'}
+                                items={allFilters['fishName']}
+                                group={'fishName'}
+                                inputEvent={inputEvent}
+                                checkBoxType={'checkbox'}
+                              />
+                      </div>
+                      )
+                    }
+                    {showLandingState
+                      ?(
+                        <div className="filter-dropdown closed">
+                        <p className="f-headers" onClick={() => setShowLandingState(!showLandingState)}>Fylke
+                        <img className="arrow-icon" src={downArrow} alt="" />
+                        </p>
+                      </div>
+                      )
+                      :(
+                        <div className="filter-dropdown">
+                        <p className="f-headers" onClick={() => setShowLandingState(!showLandingState)}>Fylke
+                          <img className="arrow-icon" src={upArrow} alt="" /></p>
+                          <FilterCheckBox
+                                key={'landingState'}
+                                items={allFilters['landingState']}
+                                group={'landingState'}
+                                inputEvent={inputEvent}
+                                checkBoxType={'checkbox'}
+                              />
+                      </div>
+                      )
+                    }
+                      
+                      
+                      
+
+
                     </div>
-                    { headers.map((header) => <p className="f-headers">{header}</p>)}
-                    { Object.keys(allFilters).map((item) => {
+                    {/* { Object.keys(allFilters).map((item) => {
                       let checboxType = 'checkbox';
                       if (item === 'boatLength') {
                         checboxType = 'radio';
@@ -56,28 +149,12 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
                           group={item}
                           inputEvent={inputEvent}
                           checkBoxType={checboxType}
+                          show={showFilter}
                         />
                       );
-                    })}
+                    })} */}
 
                   </div>
-                )
-
-                : <></> }
-            </>
-          )
-          : (
-            <>
-              <p className="f-header-title" onClick={() => setShowFilters(!showFilters)}>
-                <img className="filter-icon" src={filterIcon} alt="" />
-                Show filters
-                {' '}
-                <img className="arrow-icon" src={downArrow} alt="" />
-              </p>
-            </>
-          )}
-
-      </div>
     </div>
   );
 };

@@ -124,7 +124,7 @@ class BoatDetails extends React.Component {
                   <>
                     <img src={boaticon} className="boat-img" alt="boat" />
                     <div className="boat-info">
-                      <h3>{ name !== '' ? normalizeCase(name) : boatname }</h3>
+                      <p className="boat-header">{ name !== '' ? normalizeCase(name) : boatname }</p>
                       <p className="boat-details">
 
                         { `lengde: ${normalizeLength(length)}` }
