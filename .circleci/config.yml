@@ -7,11 +7,8 @@ jobs:
       name: node/default
     steps:
       - checkout
-
       - node/with-cache:
           steps:
-            - run: npm Fangsrepo/Aflinn/FangsdataWebSite/web-app/install
-            - run: npm Fangsrepo/Aflinn/FangsdataWebSite/web-app/lint
             - run: npm Aflinn/FangsdataWebSite/web-app/install
             - run: npm Aflinn/FangsdataWebSite/web-app/lint
 workflows:
