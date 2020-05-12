@@ -29,7 +29,6 @@ function App() {
           <Route exact path="/search=:searchterm" render={(e) => <Search searchterm={e.match.params.searchterm} />} />
           <Route path="/*" component={NotFound} />
         </Switch>
-        <div className="push" />
       </Container>
       <Footer />
     </div>

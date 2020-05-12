@@ -4,6 +4,8 @@ import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
+import Anchor from './anchor.svg';
+
 
 
 const OffloadDetails = ({ offloadId }) => {
@@ -95,8 +97,10 @@ const OffloadDetails = ({ offloadId }) => {
             { offloadLoading
               ? (
                 <>
+                <div className="info-wrapper">
+                  <img src={Anchor} className="anchor-img" alt="boat" />
                   <div className="landing-info-container">
-                    <h1>{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</h1>
+                  <div className="landings-header">{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</div>
 
                     <Link
                       to={`/boats/${offloadDetail.boat.registration_id}`}
@@ -110,12 +114,14 @@ const OffloadDetails = ({ offloadId }) => {
                       {`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
                     </p>
                   </div>
+                  </div>
                   <div className="map-container">
                     <MapContainer
                       lat={offloadDetail.mapData[0].latitude}
                       lng={offloadDetail.mapData[0].longitude}
                     />
                   </div>
+                  <div className="landing-table-container">
                   <table className="landing-table detail">
                     <tr>
                       <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
@@ -152,13 +158,14 @@ const OffloadDetails = ({ offloadId }) => {
                       <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
                     </tr>
                   </table>
+                  </div>
                   <div className="pie-chart">
                     <Pie
                       data={chartData}
-                      legend={{ display: true }}
+                      legend={{ display: true, position: "left" }}
                       redraw
-                      width={200}
-                      height={300}
+                      width={450}
+                      height={400}
                     />
                   </div>
                 </>
