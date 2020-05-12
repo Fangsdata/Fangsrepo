@@ -7,8 +7,8 @@ jobs:
     executor:
       name: node/default
     steps:
-      - checkout
-        path: ~/Aflinn/FangsdataWebSite/web-app
+      - checkout:
+          path: ~/Aflinn/FangsdataWebSite/web-app
 
       - node/with-cache:
           steps:
