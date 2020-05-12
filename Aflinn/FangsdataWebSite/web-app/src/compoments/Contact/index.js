@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from './email-icon.svg';
+import Illustration from './email.svg';
 
 const Contact = () => (
   <div className="contact-container">
@@ -8,7 +8,7 @@ const Contact = () => (
       <p>If you have any questions or comments, please send us a line.</p>
       <a className="mail" href="mailto:mail@example.com">Send email</a>
     </div>
-    <img className="email-icon" src={Icon} alt="" />
+    <img className="email-icon" src={Illustration} alt="" />
   </div>
 );
 
