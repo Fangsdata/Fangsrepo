@@ -9,8 +9,9 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npm Aflinn/FangsdataWebSite/web-app/install
-            - run: npm Aflinn/FangsdataWebSite/web-app/lint
+            
+            - run: cd Aflinn/FangsdataWebSite/web-app; npm install
+            - run: cd Aflinn/FangsdataWebSite/web-app; npm lint
 workflows:
     build-and-test:
       jobs:
