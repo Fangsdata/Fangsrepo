@@ -10,14 +10,17 @@ const SearchBar = () => {
   const [search, updateSearch] = useState('');
   const [foundBoats, setFoundBoats] = useState([]);
   const [isSearchOpen, setSearchStatus] = useState(false);
-  const [goToSearchPage, setGoToSearchPage] = useState(false)
+  const [goToSearchPage, setGoToSearchPage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const StartSearch = () => {
-    // console.log(foundBoats)
+    setSearchStatus(false);
     setGoToSearchPage(true);
-    // console.log(goToSearchPage)
-    // this.props.history.push(`/search=${foundBoats}`);
+    setTimeout(function(){ setGoToSearchPage(false); }, 50);
+    console.log("Click")
+    if (foundBoats.length < 1) {
+      setTimeout(function(){ setGoToSearchPage(true); setSearchStatus(false); }, 3000);
+    }
   };
 
   const UpdateQuickSearch = (searchTerm) => {
@@ -97,7 +100,10 @@ const SearchBar = () => {
       </div>
       {goToSearchPage && 
       <>
-      <Redirect to={ `/search=${searchTerm}`}/>
+      <Redirect to={{
+        pathname: `/search=${searchTerm}`,
+        state: { boats: foundBoats }
+      }}/>
       </>
       }
     </div>
