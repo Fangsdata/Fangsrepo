@@ -3,13 +3,15 @@ orbs:
   node: circleci/node@1.1.6
 jobs:
   build-and-test:
+    working_directory: ~/Aflinn/FangsdataWebSite/web-app
     executor:
       name: node/default
     steps:
       - checkout
+        path: ~/Aflinn/FangsdataWebSite/web-app
+
       - node/with-cache:
           steps:
-            - run: cd Aflinn/FangsdataWebSite/web-app
             - run: npm install
             - run: npm lint
 workflows:
