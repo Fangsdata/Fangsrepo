@@ -35,25 +35,25 @@ class NavLinks extends React.Component {
               exact
               to="/"
             >
-              Home
+              Hjem
             </NavLink>
             <NavLink
               exact
               to="/topoffloads"
             >
-              Top Offloads
+              Topp landing
             </NavLink>
             <NavLink
               exact
               to="/contact"
             >
-              Contact us
+              Kontakt oss
             </NavLink>
             <NavLink
               exact
               to="/about"
             >
-              About
+              Om oss
             </NavLink>
           </div>
         </nav>
