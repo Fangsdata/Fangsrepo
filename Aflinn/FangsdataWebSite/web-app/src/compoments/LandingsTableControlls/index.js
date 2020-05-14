@@ -15,9 +15,9 @@ const LandingsTableControlls = ({
 
         <select
           value={ammountInput}
-          
+
           onChange={(e) => {
-              console.log(e.target.value)
+            console.log(e.target.value);
             if (e.target.value <= 25) {
               setAmmountInput(e.target.value);
             } else {

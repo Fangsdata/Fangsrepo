@@ -7,7 +7,6 @@ import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/Te
 import Anchor from './anchor.svg';
 
 
-
 const OffloadDetails = ({ offloadId }) => {
   const [chartData, setChartData] = useState(
     {
@@ -97,23 +96,23 @@ const OffloadDetails = ({ offloadId }) => {
             { offloadLoading
               ? (
                 <>
-                <div className="info-wrapper">
-                  <img src={Anchor} className="anchor-img" alt="boat" />
-                  <div className="landing-info-container">
-                  <div className="landings-header">{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</div>
+                  <div className="info-wrapper">
+                    <img src={Anchor} className="anchor-img" alt="boat" />
+                    <div className="landing-info-container">
+                      <div className="landings-header">{`${normalizeCase(offloadDetail.town)} i ${offloadDetail.state}`}</div>
 
-                    <Link
-                      to={`/boats/${offloadDetail.boat.registration_id}`}
-                    >
-                      { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
-                    </Link>
-                    <p>
-                      {`Redskap : ${offloadDetail.boat.fishingGear}`}
-                    </p>
-                    <p>
-                      {`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
-                    </p>
-                  </div>
+                      <Link
+                        to={`/boats/${offloadDetail.boat.registration_id}`}
+                      >
+                        { `${normalizeCase(offloadDetail.boat.name)} - ${offloadDetail.boat.registration_id} `}
+                      </Link>
+                      <p>
+                        {`Redskap : ${offloadDetail.boat.fishingGear}`}
+                      </p>
+                      <p>
+                        {`Landins dato : ${normalizeDate(offloadDetail.landingDate)}`}
+                      </p>
+                    </div>
                   </div>
                   <div className="map-container">
                     <MapContainer
@@ -122,20 +121,20 @@ const OffloadDetails = ({ offloadId }) => {
                     />
                   </div>
                   <div className="landing-table-container">
-                  <table className="landing-table detail">
-                    <tr>
-                      <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
-                    </tr>
-                    <tr>
-                      <td>Art</td>
-                      <td>Produkttilstand</td>
-                      <td>Kvalitet</td>
-                      <td>Anvendelse</td>
-                      <td>Landingsmåte</td>
-                      <td>Konserveringsmåte</td>
-                      <td>Rundvekt</td>
-                    </tr>
-                    {
+                    <table className="landing-table detail">
+                      <tr>
+                        <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
+                      </tr>
+                      <tr>
+                        <td>Art</td>
+                        <td>Produkttilstand</td>
+                        <td>Kvalitet</td>
+                        <td>Anvendelse</td>
+                        <td>Landingsmåte</td>
+                        <td>Konserveringsmåte</td>
+                        <td>Rundvekt</td>
+                      </tr>
+                      {
                             offloadDetail.fish.map((fish, i) => (
 
                               <tr key={i}>
@@ -149,20 +148,20 @@ const OffloadDetails = ({ offloadId }) => {
                               </tr>
                             ))
                         }
-                    <tr>
-                      <td colSpan="2">Total Rundvekt</td>
-                      <td> - </td>
-                      <td> - </td>
-                      <td> - </td>
-                      <td> - </td>
-                      <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
-                    </tr>
-                  </table>
+                      <tr>
+                        <td colSpan="2">Total Rundvekt</td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
+                      </tr>
+                    </table>
                   </div>
                   <div className="pie-chart">
                     <Pie
                       data={chartData}
-                      legend={{ display: true, position: "left" }}
+                      legend={{ display: true, position: 'left' }}
                       redraw
                       width={450}
                       height={400}
