@@ -64,7 +64,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads0}
                         title="Største Krokredskap landing"
                       />
-                      <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -94,7 +94,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads1}
                         title="Største Trål landing"
                       />
-                      <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -124,7 +124,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads2}
                         title="Største Snurrevad landing"
                       />
-                      <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -154,7 +154,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads3}
                         title="Største Garn landing"
                       />
-                      <Link to="/topoffloads"><div className="more-btn">More</div></Link>
+                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )

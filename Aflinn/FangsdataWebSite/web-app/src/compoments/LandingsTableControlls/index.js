@@ -11,17 +11,19 @@ const LandingsTableControlls = ({
       <p>{page}</p>
       <button onClick={() => { nextPage(); }}>{'>'}</button>
       <div className="show-more">
-        <p>Show more:</p>
+        <p>mer resultat:</p>
 
         <select
-          onClick={() => resultNo(ammountInput)}
           value={ammountInput}
+          
           onChange={(e) => {
+              console.log(e.target.value)
             if (e.target.value <= 25) {
               setAmmountInput(e.target.value);
             } else {
               setAmmountInput(25);
             }
+            resultNo(e.target.value);
           }}
         >
           <option value="5">5</option>

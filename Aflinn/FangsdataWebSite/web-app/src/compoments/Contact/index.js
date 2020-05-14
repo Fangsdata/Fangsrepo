@@ -4,9 +4,9 @@ import Illustration from './email.svg';
 const Contact = () => (
   <div className="contact-container">
     <div className="contact-info">
-      <h1 className="contact-header">Contact us</h1>
-      <p>If you have any questions or comments, please send us a line.</p>
-      <a className="mail" href="mailto:mail@example.com">Send email</a>
+      <h1 className="contact-header">Kontakt oss</h1>
+      <p>Hvis du har spørsmål eller kommentarer, kan du sende oss en linje.</p>
+      <a className="mail" href="mailto:hrafn@eskoy.com">Send e-post</a>
     </div>
     <img className="email-icon" src={Illustration} alt="" />
   </div>
