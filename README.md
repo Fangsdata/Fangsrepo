@@ -1,3 +1,12 @@
+# Run the website locally and it will connect to the remote API on the internet:
+### In the directory /Fangsrepo/Aflinn/FangsdataWebSite/web-app
+### Type in the terminal: 1. npm install 2. npm start
+
+# Run the API locally (password required in appsettings.json):
+### In the directory /Fangsrepo/Aflinn/OffloadWebApi
+### Type 1. dotnet build 2. dotnet run
+
+
 # Fangsrepo
 
 ## OffloadWebApi
