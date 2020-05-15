@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import icon from './search-24px.svg';
 import { OFFLOADAPI } from '../../Constants';
-import Search from '../Search';
 
 let timeOut;
 const SearchBar = () => {
@@ -14,13 +13,28 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const StartSearch = () => {
-    setSearchStatus(false);
+    // setFoundBoats([]);
+    // setSearchStatus(false);
     setGoToSearchPage(true);
     setTimeout(function(){ setGoToSearchPage(false); }, 50);
-    console.log("Click")
-    if (foundBoats.length < 1) {
-      setTimeout(function(){ setGoToSearchPage(true); setSearchStatus(false); }, 3000);
-    }
+    // console.log(searchTerm)
+    // if (searchTerm.length > 2) {
+    //   fetch(`${OFFLOADAPI}/search/boats/${searchTerm}`)
+    //     .then((res) => res.json())
+    //     .then((res) => {
+    //       setFoundBoats(res);
+    //     })
+    //     .then(
+    //       setGoToSearchPage(true),
+    //       setTimeout(function(){ setGoToSearchPage(false); }, 50),
+    //       );
+    // } else {
+    //   setFoundBoats([]);
+    // }
+    // if (foundBoats.length < 1) {
+    //   setTimeout(function(){ setGoToSearchPage(true); setSearchStatus(false); }, 3000);
+    //   setTimeout(function(){ setGoToSearchPage(false); }, 3050);
+    // }
   };
 
   const UpdateQuickSearch = (searchTerm) => {
@@ -102,8 +116,13 @@ const SearchBar = () => {
       <>
       <Redirect to={{
         pathname: `/search=${searchTerm}`,
-        state: { boats: foundBoats }
+        state: { boats: foundBoats,
+                  searchTerm: searchTerm,
+                  isSearchOpen: isSearchOpen
+                }
       }}/>
+      {/* {setSearchStatus(false)} */}
+      {/* {UpdateQuickSearch(searchTerm)} */}
       </>
       }
     </div>

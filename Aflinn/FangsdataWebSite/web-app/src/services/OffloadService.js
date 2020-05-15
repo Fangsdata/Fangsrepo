@@ -44,8 +44,15 @@ const getOffloadsTest = async () => {
   return json;
 };
 
+const searchTest = async (searchTerm = '') => {
+  const resp = await fetch(`${OFFLOADAPI}/search/boats/${searchTerm}`);
+  const json = await resp.json();
+  return json;
+};
+
 export {
   getOffloads,
   getBoats,
   getOffloadsTest,
+  searchTest,
 };
