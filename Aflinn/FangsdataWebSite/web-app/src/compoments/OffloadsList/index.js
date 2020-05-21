@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import OffladsListItem from '../OffladsListItem';
 
 
-const OffladsList = ({ offloads, title }) => (
+const OffladsList = ({ offloads, title,pageNo }) => (
   <div className="offload-table">
     <div className="offload-header">{title}</div>
     <OffladsListItem
@@ -20,7 +20,7 @@ const OffladsList = ({ offloads, title }) => (
       <OffladsListItem
         key={item.boatRegistrationId}
         item={item}
-        index={index + 1}
+        index={(index + 1) + (pageNo *  offloads.length) - offloads.length}
       />
     ))}
   </div>
@@ -47,11 +47,13 @@ OffladsList.propTypes = {
     trips: PropTypes.number,
   })),
   title: PropTypes.string,
+  pageNo: number
 };
 
 OffladsList.defaultProps = {
   title: '',
   offloads: [],
+  pageNo: 1
 };
 
 

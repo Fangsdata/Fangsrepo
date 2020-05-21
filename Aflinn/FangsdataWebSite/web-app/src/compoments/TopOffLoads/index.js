@@ -3,6 +3,7 @@ import { getOffloads } from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 import FilterContainer from '../FiltersContainer';
 import { normalizeMonth } from '../../services/TextTools';
+import LandingsTableControlls from '../LandingsTableControlls';
 
 let filterTimeOut;
 
@@ -18,6 +19,8 @@ class TopOffLoads extends React.Component {
         month: [],
         year: [],
         landingState: [],
+        pageNo: [1],
+        count: [10]
       },
       allFilters: {
         fishingGear: [{ title: 'Not', checkState: false, value: 'Not' },
@@ -68,14 +71,15 @@ class TopOffLoads extends React.Component {
 
   async componentDidMount() {
     const today = new Date();
+    const {filter} = this.state;
     this.setState({ selectedMonth: today.getMonth() + 1, selectedYear: today.getFullYear() });
-    this.setState({ offLoads: await getOffloads(), topOffloadsLoaded: true });
+    this.setState({ offLoads: await getOffloads(filter), topOffloadsLoaded: true });
   }
-
 
   async inputEvent(event) {
     const { target } = event;
     const { filter, allFilters } = this.state;
+
     const index = allFilters[target.name].findIndex((value) => value.title === target.id);
     if (index !== -1 && target.type !== 'radio') {
       allFilters[target.name][index].checkState = !allFilters[target.name][index].checkState;
@@ -149,11 +153,10 @@ class TopOffLoads extends React.Component {
 
   render() {
     const {
-      topOffloadsLoaded, topOfflodError, selectedMonth, selectedYear, offLoads, allFilters,
+      topOffloadsLoaded, topOfflodError, selectedMonth, selectedYear, offLoads, allFilters, filter
     } = this.state;
     return (
       <div>
-
         <FilterContainer
           inputEvent={(e) => {
             this.inputEvent(e);
@@ -168,6 +171,7 @@ class TopOffLoads extends React.Component {
                 ? (
                   <OffloadsList
                     offloads={offLoads}
+                    pageNo={filter.pageNo[0]}
                     title={`Største landing i ${normalizeMonth(selectedMonth)} ${selectedYear}`}
                   />
                 )
@@ -175,7 +179,33 @@ class TopOffLoads extends React.Component {
             </>
           )
           : <><p>error Loading toplist</p></>}
-
+            <LandingsTableControlls
+              nextPage={async() => {
+                let page = filter.pageNo[0];
+                page += 1;
+                let newFilter = filter;
+                newFilter.pageNo = [page];
+                this.setState({ filter: newFilter, offLoads: await getOffloads(newFilter) });
+              }}
+              prevPage={ async ()=>{
+                let page = filter.pageNo[0];
+                if(page > 1 ){
+                  page -= 1;
+                  let newFilter = filter;
+                  newFilter.pageNo = [page];
+                  this.setState({ filter: newFilter, offLoads: await getOffloads(newFilter) });
+                }
+              }}
+              resultNo={ async (no)=>{
+                let newFilter = filter;
+                newFilter.pageNo = [1];
+                newFilter.count = [no];
+                this.setState({ filter: newFilter, offLoads: await getOffloads(newFilter) });
+              }}
+              page={filter.pageNo[0]}
+              defaultPageSize={filter.count[0]}
+              pageSizeOptions={[10,25,50]}
+            />
       </div>
     );
   }
