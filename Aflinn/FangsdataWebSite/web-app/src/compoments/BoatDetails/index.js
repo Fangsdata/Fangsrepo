@@ -44,16 +44,20 @@ class BoatDetails extends React.Component {
   async componentDidMount() {
     const { boatname, boatRadio } = this.props;
     const { pageNo, resultCount } = this.state;
-    console.log("wazza")
     fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/${boatname}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
-        fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
-            .then(res => res.json())
-            .then(res => this.setState({mapData: res}))
-            .catch(()=>{}) 
-        this.setState({ boat: res, boatDetailLoaded: true });
+        if(boatRadio === "" ){
+          fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
+              .then(res => res.json())
+              .then(res => {
+                console.log(res[0]);
+                if( res[0]['latitude'] !== undefined || res[0]['longitude'] !== undefined )
+                this.setState({mapData: res})
+              })
+              .catch(()=>{}) 
+          this.setState({ boat: res, boatDetailLoaded: true });
+        }
 
       })
       .catch(() => this.setState({ boatDetailError: true }));
@@ -73,7 +77,7 @@ class BoatDetails extends React.Component {
 
   async componentDidUpdate(prevProps, prevState) {
     const { pageNo, resultCount } = this.state;
-    const { boatname } = this.props;
+    const { boatname,boatRadio } = this.props;
     if (pageNo !== prevState.pageNo || resultCount !== prevState.resultCount) {
       this.setState({ boatOffloadLoaded: false, boatDetailError: false, boatOffloadError: false });
       this.setState({ landings: [] });
@@ -86,8 +90,21 @@ class BoatDetails extends React.Component {
     if (boatname !== prevProps.boatname) {
       this.setState({ boatOffloadLoaded: false, boatDetailError: false, boatOffloadError: false });
       fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/${boatname}`)
-        .then((res) => res.json())
-        .then((res) => this.setState({ boat: res, boatDetailLoaded: true }));
+      .then((res) => res.json())
+      .then((res) => {
+        if(boatRadio === "" ){
+          fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
+              .then(res => res.json())
+              .then(res => {
+                console.log(res[0]);
+                if( res[0]['latitude'] === undefined && res[0]['longitude'] === undefined )
+                this.setState({mapData: res})
+              })
+              .catch(()=>{}) 
+          this.setState({ boat: res, boatDetailLoaded: true });
+        }
+      })
+      .catch(() => this.setState({ boatDetailError: true }));
 
       fetch(`https://fangsdata-api.herokuapp.com/api/offloads/${boatname}/${resultCount}/${pageNo}`)
         .then((res2) => res2.json())

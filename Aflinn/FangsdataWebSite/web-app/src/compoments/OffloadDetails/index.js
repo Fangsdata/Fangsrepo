@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
 import Anchor from './anchor.svg';
+import EditIcon from './icons8-edit-64.png';
 
 
 const OffloadDetails = ({ offloadId }) => {
@@ -20,30 +21,17 @@ const OffloadDetails = ({ offloadId }) => {
   );
   const [offloadLoading, setOffloadLoad] = useState(false);
   const [offloadError, setOffloadError] = useState(false);
-  const [offloadDetail, setOffloadDetails] = useState({/*
-        "id": "",
-        "town": "",
-        "state": "",
-        "landingDate": "",
-        "totalWeight": 0.0,
-        "fish": [],
-        "boat": {
-            "id": -1,
-            "registration_id": "",
-            "radioSignalId": "",
-            "name": "",
-            "state": "",
-            "nationality": "",
-            "town": "",
-            "length": 0,
-            "fishingGear": "",
-            "image": ""
-            },
-         "mapData": [{
-                "latitude": 0.0,
-                "longitude": 0.0
-            }] */
-  });
+  const [offloadDetail, setOffloadDetails] = useState({});
+  const [showEdit, setShowEdit] = useState(false);
+  const [colums, setColums] = useState({
+    art: true,
+    Produkttilstand :true,
+    Kvalitet: true,
+    Anvendelse : true,
+    Landingsmåte: true,
+    Konserveringsmåte: true,
+    Rundvekt: true
+  })
 
   const generateColors = (size) => {
     const colorExample = ['#2B59C3', '#B7DFB3', '#DCB8B8', '#DCD8B8'];
@@ -121,6 +109,11 @@ const OffloadDetails = ({ offloadId }) => {
                     />
                   </div>
                   <div className="landing-table-container">
+                    {!showEdit
+                      ?<img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
+                      :<><img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
+                       <Edit items={colums}/></>
+                    }
                     <table className="landing-table detail">
                       <tr>
                         <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
@@ -135,19 +128,18 @@ const OffloadDetails = ({ offloadId }) => {
                         <td>Rundvekt</td>
                       </tr>
                       {
-                            offloadDetail.fish.map((fish, i) => (
-
-                              <tr key={i}>
-                                <td>{fish.type}</td>
-                                <td>{fish.condition}</td>
-                                <td>{fish.quality}</td>
-                                <td>{fish.application}</td>
-                                <td>{normalizeCase(fish.packaging)}</td>
-                                <td>{fish.preservation}</td>
-                                <td>{normalizeWeight(fish.weight)}</td>
-                              </tr>
-                            ))
-                        }
+                        offloadDetail.fish.map((fish, i) => (
+                          <tr key={i}>
+                            <td>{fish.type}</td>
+                            <td>{fish.condition}</td>
+                            <td>{fish.quality}</td>
+                            <td>{fish.application}</td>
+                            <td>{normalizeCase(fish.packaging)}</td>
+                            <td>{fish.preservation}</td>
+                            <td>{normalizeWeight(fish.weight)}</td>
+                          </tr>
+                        ))
+                      }
                       <tr>
                         <td colSpan="2">Total Rundvekt</td>
                         <td> - </td>
@@ -158,6 +150,7 @@ const OffloadDetails = ({ offloadId }) => {
                       </tr>
                     </table>
                   </div>
+                  
                   <div className="pie-chart">
                     <Pie
                       data={chartData}
@@ -196,5 +189,22 @@ const OffloadDetails = ({ offloadId }) => {
 OffloadDetails.propTypes = {
   offloadId: PropTypes.number.isRequired,
 };
+
+const Edit = ({items, inputEvent})=>(<>
+  {Object.keys(items).map((item)=>(
+    <>
+      <input
+        className="checkbox"
+        type="checkbox"
+        name="filters"
+        id={item}
+        value={item}
+        onChange={inputEvent}
+        checked={items[item]}
+      />
+      <label htmlFor={item}>{item}</label>
+    </>
+  ))}
+</>);
 
 export default OffloadDetails;
