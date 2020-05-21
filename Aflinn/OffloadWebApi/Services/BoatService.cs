@@ -1,17 +1,12 @@
 using OffloadWebApi.Models.Dtos;
 using OffloadWebApi.Repository;
-using System.IO;
-using System.Net;
-using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 namespace OffloadWebApi.Services
 {
     public class BoatService : IBoatService
     {
         private IOffloadRepo _offloadRepo;
-        private IMapService _mapService;
 
         private string GetImage(string BoatRadioSignalId)
         {
@@ -20,7 +15,6 @@ namespace OffloadWebApi.Services
         public BoatService(IOffloadRepo offloadRepo, IMapService mapService)
         {
             this._offloadRepo = offloadRepo;
-            this._mapService = mapService;
         }
         #nullable enable
         public BoatDto? GetBoatByRadio(string BoatRadioSignalId)
@@ -28,7 +22,6 @@ namespace OffloadWebApi.Services
             var boat = this._offloadRepo.GetBoatByRadioSignal(BoatRadioSignalId);
             if(boat != null)
             {
-                boat.MapData = _mapService.GetMapDataByRadioSignal(BoatRadioSignalId);
                 boat.Image = GetImage(BoatRadioSignalId);
             }
             return boat;
@@ -38,7 +31,6 @@ namespace OffloadWebApi.Services
             var boat = this._offloadRepo.GetBoatByRegistration(boatRegistrationId);
             if(boat != null)
             {
-                boat.MapData = _mapService.GetMapDataByRadioSignal(boat.RadioSignalId);
                 boat.Image = GetImage(boat.RadioSignalId);
             }
             return boat;
