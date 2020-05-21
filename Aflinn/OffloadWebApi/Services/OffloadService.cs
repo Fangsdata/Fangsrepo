@@ -279,7 +279,7 @@ namespace OffloadWebApi.Services
                 var parsedFilters = new QueryOffloadsInput
                 {
                     Count = ParseCount(filters.count),
-                    pageNo = ParsePageNo(filters.pageNo),
+                    pageNo = ParsePageNo(filters.pageNo, filters.count),
                     PreservationMethod = ParesPreservationMethod(filters.preservationMethod),
                     FishingGear = ParseFishingGear(filters.fishingGear),
                     BoatLength = parseBoatLength(filters.boatLength),
@@ -307,10 +307,10 @@ namespace OffloadWebApi.Services
             return ChangeInputIntoList(preservationMethod, ",");
         }
 
-        private int ParsePageNo(string pageNo)
+        private int ParsePageNo(string pageNo, string count)
         {
             int pageNumber = 1;
-
+            int countOffset = ParseCount(count);
             if(!string.IsNullOrEmpty(pageNo))
             {
                 bool sucess = int.TryParse(pageNo, out pageNumber);
@@ -327,7 +327,7 @@ namespace OffloadWebApi.Services
             {
                 pageNumber = 100;
             }
-            return pageNumber;
+            return (pageNumber - 1) * countOffset;
         }
 
         private List<string> ParseFishName(string fishType)
