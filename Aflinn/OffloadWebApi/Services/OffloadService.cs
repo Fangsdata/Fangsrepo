@@ -279,6 +279,8 @@ namespace OffloadWebApi.Services
                 var parsedFilters = new QueryOffloadsInput
                 {
                     Count = ParseCount(filters.count),
+                    pageNo = ParsePageNo(filters.pageNo),
+                    PreservationMethod = ParesPreservationMethod(filters.preservationMethod),
                     FishingGear = ParseFishingGear(filters.fishingGear),
                     BoatLength = parseBoatLength(filters.boatLength),
                     LandingTown = ParseLandingTown(filters.landingTown),
@@ -298,6 +300,34 @@ namespace OffloadWebApi.Services
                 Console.WriteLine("could not parse input");
                 return null;
             }
+        }
+
+        private List<string> ParesPreservationMethod(string preservationMethod)
+        {
+            return ChangeInputIntoList(preservationMethod, ",");
+        }
+
+        private int ParsePageNo(string pageNo)
+        {
+            int pageNumber = 1;
+
+            if(!string.IsNullOrEmpty(pageNo))
+            {
+                bool sucess = int.TryParse(pageNo, out pageNumber);
+                if(!sucess)
+                {
+                    Console.WriteLine("cant parse page no");
+                }
+            }
+            if(pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+            else if(pageNumber > 100)
+            {
+                pageNumber = 100;
+            }
+            return pageNumber;
         }
 
         private List<string> ParseFishName(string fishType)

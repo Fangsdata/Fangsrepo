@@ -5,6 +5,11 @@ namespace OffloadWebApi.Models.InputModels
 {
     public class QueryOffloadsInput
     {
+        public int pageNo { get; set; }
+
+        #nullable enable
+        public List<string>? PreservationMethod { get; set; }
+
         #nullable enable
         public int Count { get; set; }
         #nullable enable
