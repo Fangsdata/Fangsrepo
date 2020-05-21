@@ -23,7 +23,6 @@ class BoatDetails extends React.Component {
         enginePower: '',
         fishingGear: '',
         image: '',
-        mapData: [],
       },
       landings: [/* {
                 town: "",
@@ -32,6 +31,7 @@ class BoatDetails extends React.Component {
                 totalWeight: 0,
                 id: ""
             } */],
+      mapData: [],
       pageNo: 1,
       resultCount: 5,
       boatDetailLoaded: false,
@@ -42,18 +42,34 @@ class BoatDetails extends React.Component {
   }
 
   async componentDidMount() {
-    const { boatname } = this.props;
+    const { boatname, boatRadio } = this.props;
     const { pageNo, resultCount } = this.state;
+    console.log("wazza")
     fetch(`http://fangsdata-api.herokuapp.com/api/Boats/registration/${boatname}`)
       .then((res) => res.json())
-      .then((res) => this.setState({ boat: res, boatDetailLoaded: true }))
+      .then((res) => {
+        console.log(res)
+        fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
+            .then(res => res.json())
+            .then(res => this.setState({mapData: res}))
+            .catch(()=>{}) 
+        this.setState({ boat: res, boatDetailLoaded: true });
+
+      })
       .catch(() => this.setState({ boatDetailError: true }));
 
     fetch(`https://fangsdata-api.herokuapp.com/api/offloads/${boatname}/${resultCount}/${pageNo}`)
       .then((res2) => res2.json())
       .then((res2) => this.setState({ landings: res2, boatOffloadLoaded: true }))
       .catch((() => this.setState({ boatOffloadLoaded: true })));
-  }
+    if(boatRadio !== ""){
+      fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${boatRadio}`)
+        .then(res => res.json())
+        .then(res => this.setState({mapData: res}))
+        .catch(()=>{})
+      }
+    }
+
 
   async componentDidUpdate(prevProps, prevState) {
     const { pageNo, resultCount } = this.state;
@@ -91,6 +107,7 @@ class BoatDetails extends React.Component {
       boatDetailError,
       boatOffloadError,
       boat,
+      mapData
     } = this.state;
 
     const {
@@ -102,7 +119,6 @@ class BoatDetails extends React.Component {
       builtYear,
       enginePower,
       fishingGear,
-      mapData,
     } = boat;
 
     const { boatname } = this.props;
@@ -219,7 +235,11 @@ class BoatDetails extends React.Component {
 
 BoatDetails.propTypes = {
   boatname: string.isRequired,
+  boatRadio: string.isRequired
 };
 
+BoatDetails.defaultProps = {
+  boatRadio: ""
+}
 
 export default BoatDetails;
