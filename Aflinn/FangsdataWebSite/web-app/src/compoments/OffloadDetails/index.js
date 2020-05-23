@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Pie } from 'react-chartjs-2';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
 import Anchor from './anchor.svg';
 import EditIcon from './icons8-edit-64.png';
-
 
 const OffloadDetails = ({ offloadId }) => {
   const [chartData, setChartData] = useState(
     {
       labels: ['NON'],
       datasets: [{
-        label: 'My First dataset',
+        label: '',
         backgroundColor: ['#2B59C3'],
         data: [1],
       }],
@@ -54,7 +53,6 @@ const OffloadDetails = ({ offloadId }) => {
   };
 
   useEffect(() => {
-    setOffloadLoad(false);
     setOffloadLoad(false);
     fetch(`https://fangsdata-api.herokuapp.com/api/offloads/details/${offloadId}`)
       .then((res) => res.json())
@@ -112,43 +110,18 @@ const OffloadDetails = ({ offloadId }) => {
                     {!showEdit
                       ?<img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
                       :<><img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
-                       <Edit items={colums}/></>
+                       <Edit items={colums} 
+                       inputEvent={(e)=>{
+                         let newColums = colums;
+                         newColums[e] = !newColums[e];
+                         setColums(newColums);
+                       }}/></>
                     }
-                    <table className="landing-table detail">
-                      <tr>
-                        <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
-                      </tr>
-                      <tr>
-                        <td>Art</td>
-                        <td>Produkttilstand</td>
-                        <td>Kvalitet</td>
-                        <td>Anvendelse</td>
-                        <td>Landingsmåte</td>
-                        <td>Konserveringsmåte</td>
-                        <td>Rundvekt</td>
-                      </tr>
-                      {
-                        offloadDetail.fish.map((fish, i) => (
-                          <tr key={i}>
-                            <td>{fish.type}</td>
-                            <td>{fish.condition}</td>
-                            <td>{fish.quality}</td>
-                            <td>{fish.application}</td>
-                            <td>{normalizeCase(fish.packaging)}</td>
-                            <td>{fish.preservation}</td>
-                            <td>{normalizeWeight(fish.weight)}</td>
-                          </tr>
-                        ))
-                      }
-                      <tr>
-                        <td colSpan="2">Total Rundvekt</td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
-                      </tr>
-                    </table>
+                    <LandingsTable
+                      totalWeight={offloadDetail.totalWeight}
+                      fish={offloadDetail.fish}
+                      headers={colums}
+                    />
                   </div>
                   
                   <div className="pie-chart">
@@ -190,21 +163,97 @@ OffloadDetails.propTypes = {
   offloadId: PropTypes.number.isRequired,
 };
 
-const Edit = ({items, inputEvent})=>(<>
-  {Object.keys(items).map((item)=>(
+class Edit extends React.Component {
+
+  constructor(props) {
+    super(props);
+    const {items} = this.props;
+    this.state = {
+      items: items
+    };
+  }
+  com
+  render() {
+    const {inputEvent} = this.props;
+    const {items} = this.state;
+    return (
+      <>
+        {Object.keys(items).map((item)=>(
+          <>
+            <input
+              className="checkbox"
+              type="checkbox"
+              name="filters"
+              id={item}
+              value={item}
+              onChange={()=>{
+                inputEvent(item);
+                let newItems = items;
+                if(newItems[item]){
+                  newItems[item] = true;
+                }
+                else{
+                  newItems[item] = false;
+                }
+                this.setState({items: newItems})
+              }}
+              checked={items[item]}
+            />
+            <label htmlFor={item}>{item}</label>
+          </>
+        ))}
+      </>);
+  }
+}
+
+Edit.propTypes = {
+  items: PropTypes.object,
+  inputEvent: func
+};
+
+const LandingsTable = (({headers, fish, totalWeight })=>{
+
+  const offloadWidthIndex = () => {
+    let i = 0;
+    Object.keys(headers).map((head) => { if (headers[head]) i++ })
+    return i;
+  }
+
+  return( <table className="landing-table detail">
+  <tr>
+    <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
+  </tr>
+  <tr>
+  { Object.keys(headers).map((head)=>(
     <>
-      <input
-        className="checkbox"
-        type="checkbox"
-        name="filters"
-        id={item}
-        value={item}
-        onChange={inputEvent}
-        checked={items[item]}
-      />
-      <label htmlFor={item}>{item}</label>
+      {headers[head]
+      ?<td>{head}</td>
+      :<></>}
     </>
   ))}
-</>);
+  </tr>
+  {
+    fish.map((fish, i) => (
+      <tr key={i}>
+        {headers["art"] ?<td>{fish.type}</td> :<></>}
+        {headers["Produkttilstand"] ?<td>{fish.condition}</td>: <></>}
+        {headers["Kvalitet"] ?<td>{fish.quality}</td>: <></>}
+        {headers["Anvendelse"] ?<td>{fish.application}</td>: <></>}
+        {headers["Landingsmåte"] ?<td>{normalizeCase(fish.packaging)}</td>: <></>}
+        {headers["Konserveringsmåte"] ?<td>{fish.preservation}</td>: <></>}
+        {headers["Rundvekt"] ?<td>{normalizeWeight(fish.weight)}</td>: <></>}
+      </tr>
+    ))
+  }
+  <tr>
+    { offloadWidthIndex() !== 1
+   ?<>
+      <td colSpan={ offloadWidthIndex() - 1 }>Total Rundvekt</td>
+      <td>{normalizeWeight(totalWeight)}</td>
+    </>
+    :<td>Total Rundvekt {normalizeWeight(totalWeight)}</td>}
+  </tr>
+</table>)
+});
 
 export default OffloadDetails;
