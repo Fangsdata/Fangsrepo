@@ -18,6 +18,7 @@ const OffloadDetails = ({ offloadId }) => {
       }],
     },
   );
+  const [filteredData, setFilteredData] = useState();
   const [offloadLoading, setOffloadLoad] = useState(false);
   const [offloadError, setOffloadError] = useState(false);
   const [offloadDetail, setOffloadDetails] = useState({});
@@ -52,20 +53,71 @@ const OffloadDetails = ({ offloadId }) => {
     setChartData(pieData);
   };
 
+  const FilterOffloadDataSet = (fish) => {
+
+    // Merge same colums
+    let tempFish = fish.map((item)=>{
+      let tempFish = {};
+      if(colums["art"]){ tempFish["type"] = item.type; }
+      if(colums["Produkttilstand"]){ tempFish["condition"] = item.condition; }
+      if(colums["Kvalitet"]){ tempFish["quality"] = item.quality; }
+      if(colums["Anvendelse"]){ tempFish["application"] = item.application; }
+      if(colums["Landingsmåte"]){ tempFish["packaging"] = item.packaging; }
+      if(colums["Konserveringsmåte"]){ tempFish["preservation"] = item.preservation; }
+      tempFish["weight"] = item.weight
+      return tempFish;
+    });
+
+    let mergedFish = [];
+
+    for(let i = 0; i < tempFish.length; i++){
+      let found = false;
+      for(let j = 0; j < mergedFish.length; j++){
+        let noWeightTemp = tempFish[i];
+        let noWeightMerged = mergedFish[j];
+        let stubitPointersMerged = mergedFish[j].weight;
+        let stubitPointersTemp = tempFish[i].weight;
+        noWeightMerged.weight = 0; 
+        noWeightTemp.weight = 0;
+        if( JSON.stringify(noWeightTemp) === JSON.stringify(noWeightMerged)){
+          mergedFish[j].weight = stubitPointersTemp + stubitPointersMerged; 
+          found = true;
+        }
+        tempFish[i].weight = stubitPointersTemp;
+        if(mergedFish[j].weight === 0){ 
+          mergedFish[j].weight = stubitPointersMerged }
+      }
+      if(!found){
+        mergedFish.push(tempFish[i]);
+      }
+    }
+
+    setFilteredData(mergedFish);
+    return mergedFish;
+  }
+
+  const UpdateData = (fishData) => {
+    const filteredData = FilterOffloadDataSet(fishData);
+    console.log(filteredData);
+    const lable = Object.getOwnPropertyNames(filteredData[0])[0];
+    const data = filteredData.map((item) => {
+      const rObj = {
+        label: item[lable],
+        value: item.weight,
+      }
+      return rObj;
+    });
+
+    CreatePieChartDataset(data);
+  }
+
   useEffect(() => {
     setOffloadLoad(false);
     fetch(`https://fangsdata-api.herokuapp.com/api/offloads/details/${offloadId}`)
       .then((res) => res.json())
       .then((json) => {
         setOffloadDetails(json);
-        const data = json.fish.map((item) => {
-          const rObj = {
-            label: item.type,
-            value: item.weight,
-          };
-          return rObj;
-        });
-        CreatePieChartDataset(data);
+        UpdateData(json.fish);
         setOffloadLoad(true);
       })
       .catch(() => {
@@ -115,11 +167,12 @@ const OffloadDetails = ({ offloadId }) => {
                          let newColums = colums;
                          newColums[e] = !newColums[e];
                          setColums(newColums);
+                         UpdateData(offloadDetail.fish);
                        }}/></>
                     }
                     <LandingsTable
                       totalWeight={offloadDetail.totalWeight}
-                      fish={offloadDetail.fish}
+                      fish={filteredData}
                       headers={colums}
                     />
                   </div>
@@ -218,64 +271,6 @@ const LandingsTable = (({headers, fish, totalWeight })=>{
     Object.keys(headers).map((head) => { if (headers[head]) i++ })
     return i;
   }
-  const [mergedFish, setMergedFish] = useState([{
-    type:"",
-    condition: "",
-    quality:"",
-    application: "",
-    packaging: "",
-    preservation: "",
-    weight:""
-
-  }]);
-  useEffect(()=>{
-    // Merge same colums
-    let tempFish = fish.map((item)=>{
-      let tempFish = {};
-      if(headers["art"]){ tempFish["type"] = item.type; }
-      if(headers["Produkttilstand"]){ tempFish["condition"] = item.condition; }
-      if(headers["Kvalitet"]){ tempFish["quality"] = item.quality; }
-      if(headers["Anvendelse"]){ tempFish["application"] = item.application; }
-      if(headers["Landingsmåte"]){ tempFish["packaging"] = item.packaging; }
-      if(headers["Konserveringsmåte"]){ tempFish["preservation"] = item.preservation; }
-      tempFish["weight"] = item.weight
-      return tempFish;
-    });
-
-    let mergedFish = [];
-    for(let i = 0; i < tempFish.length; i++){
-      let found = false;
-      for(let j = 0; j < mergedFish.length; j++){
-        let noWeightTemp = tempFish[i];
-        let noWeightMerged = mergedFish[j];
-        let stubitPointersMerged = mergedFish[j].weight;
-        let stubitPointersTemp = tempFish[i].weight;
-        noWeightMerged.weight = 0; 
-        noWeightTemp.weight = 0;
-        if( JSON.stringify(noWeightTemp) === JSON.stringify(noWeightMerged)){
-          mergedFish[j].weight = stubitPointersTemp + stubitPointersMerged; 
-          found = true;
-        }
-        tempFish[i].weight = stubitPointersTemp;
-        if(mergedFish[j].weight === 0){ 
-          mergedFish[j].weight = stubitPointersMerged }
-
-      }
-      if(!found){
-        
-        mergedFish.push(tempFish[i]);
-      }
-    }
-    setMergedFish(mergedFish);
-
-  },[headers["art"],
-     headers["Produkttilstand"],
-     headers["Kvalitet"],
-     headers["Anvendelse"],
-     headers["Landingsmåte"],
-     headers["Konserveringsmåte"],
-     headers["Rundvekt"]]);
-
   return( <table className="landing-table detail">
   <tr>
     <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
@@ -290,7 +285,7 @@ const LandingsTable = (({headers, fish, totalWeight })=>{
   ))}
   </tr>
   {
-    mergedFish.map((fish, i) => (
+    fish.map((fish, i) => (
       <tr key={i}>
         {headers["art"] ?<td>{fish.type}</td> :<></>}
         {headers["Produkttilstand"] ?<td>{fish.condition}</td>: <></>}
