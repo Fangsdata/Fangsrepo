@@ -57,7 +57,7 @@
 }
 
 .filter-all-filters{
-    margin-top: 30px;
+  margin-top: 30px;
   display: flex;
   flex-basis: 100%;
   flex-wrap: wrap;
@@ -151,7 +151,6 @@
 .filter-dropdown {
     display: flex;
     flex-direction: column;
-    flex-basis: 25%;
     height: 13.2rem;
     border-radius: 1rem;
     -webkit-box-shadow: 0px 0px 5px 0px rgba(46,74,117,0.5);

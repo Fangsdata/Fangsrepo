@@ -5,7 +5,9 @@ import PropTypes, { func } from 'prop-types';
 import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
 import Anchor from './anchor.svg';
-import EditIcon from './icons8-edit-64.png';
+import filterImg from './filter_list-24px.svg';
+import UpArrowImg from './arrow_drop_up-24px.svg';
+import DownArrowImg from './arrow_drop_down-24px.svg';
 
 const OffloadDetails = ({ offloadId }) => {
   const [chartData, setChartData] = useState(
@@ -199,15 +201,20 @@ const OffloadDetails = ({ offloadId }) => {
                   </div>
                   <div className="landing-table-container">
                     {!showEdit
-                      ?<img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
-                      :<><img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
+                      ?<div className="offload-edit closed" onClick={()=>setShowEdit(!showEdit)}>
+                        <div>
+                          <img src={filterImg} alt="edit"/>
+                          <img className="offload-arrow" src={DownArrowImg} alt="arrow"/>
+                        </div>
+                      </div>
+                      :<div className="offload-edit open" ><div onClick={()=>setShowEdit(!showEdit)}><img src={filterImg} alt="edit"/><img className="offload-arrow" src={UpArrowImg} alt="arrow"/></div>
                        <Edit items={colums} 
                        inputEvent={(e)=>{
                          let newColums = colums;
                          newColums[e] = !newColums[e];
                          setColums(newColums);
                          UpdateData(offloadDetail.fish);
-                       }}/></>
+                       }}/></div>
                     }
                     <LandingsTable
                       totalWeight={offloadDetail.totalWeight}
@@ -270,7 +277,7 @@ class Edit extends React.Component {
     return (
       <>
         {Object.keys(items).map((item)=>(
-          <>
+          <div className="offload-edit-item">
             <input
               className="checkbox"
               type="checkbox"
@@ -291,7 +298,7 @@ class Edit extends React.Component {
               checked={items[item]}
             />
             <label htmlFor={item}>{item}</label>
-          </>
+          </div>
         ))}
       </>);
   }
