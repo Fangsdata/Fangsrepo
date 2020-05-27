@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { func, string } from 'prop-types';
+import { func, string, array, number, arrayOf } from 'prop-types';
 
 const LandingsTableControlls = ({
-  nextPage, prevPage, resultNo, page,
+  nextPage, prevPage, resultNo, page, defaultPageSize, pageSizeOptions
 }) => {
-  const [ammountInput, setAmmountInput] = useState(5);
+  const [ammountInput, setAmmountInput] = useState(defaultPageSize);
   return (
     <div className="controls-container">
       <button onClick={() => { prevPage(); }}>{'<'}</button>
@@ -17,18 +17,17 @@ const LandingsTableControlls = ({
           value={ammountInput}
 
           onChange={(e) => {
-            console.log(e.target.value);
-            if (e.target.value <= 25) {
+            if (e.target.value <= 500) {
               setAmmountInput(e.target.value);
             } else {
-              setAmmountInput(25);
+              setAmmountInput(500);
             }
             resultNo(e.target.value);
           }}
         >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
+          {pageSizeOptions.map((item)=>(
+            <option value={item}>{item}</option>
+          ))}
         </select>
       </div>
 
@@ -41,10 +40,14 @@ LandingsTableControlls.propTypes = {
   prevPage: func.isRequired,
   resultNo: func.isRequired,
   page: string,
+  defaultPageSize: number,
+  pageSizeOptions: arrayOf(number)
 };
 
 LandingsTableControlls.defaultProps = {
   page: '',
+  defaultPageSize: 5,
+  pageSizeOptions: [5,10,25]
 };
 
 export default LandingsTableControlls;

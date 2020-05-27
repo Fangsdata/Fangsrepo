@@ -3,6 +3,8 @@ namespace OffloadWebApi.Models.InputModels
     public class QueryParamsForTopList
     {
         public string count { get; set; }
+        public string pageNo { get; set; }
+        public string preservationMethod { get; set; }
         public string fishingGear { get; set; }
         public string boatLength { get; set; }
         public string landingTown { get; set; }

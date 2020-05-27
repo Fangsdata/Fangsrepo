@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Pie } from 'react-chartjs-2';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import MapContainer from '../Map';
 import { normalizeCase, normalizeWeight, normalizeDate } from '../../services/TextTools';
 import Anchor from './anchor.svg';
-
+import EditIcon from './icons8-edit-64.png';
 
 const OffloadDetails = ({ offloadId }) => {
   const [chartData, setChartData] = useState(
     {
       labels: ['NON'],
       datasets: [{
-        label: 'My First dataset',
+        label: '',
         backgroundColor: ['#2B59C3'],
         data: [1],
       }],
@@ -20,30 +20,17 @@ const OffloadDetails = ({ offloadId }) => {
   );
   const [offloadLoading, setOffloadLoad] = useState(false);
   const [offloadError, setOffloadError] = useState(false);
-  const [offloadDetail, setOffloadDetails] = useState({/*
-        "id": "",
-        "town": "",
-        "state": "",
-        "landingDate": "",
-        "totalWeight": 0.0,
-        "fish": [],
-        "boat": {
-            "id": -1,
-            "registration_id": "",
-            "radioSignalId": "",
-            "name": "",
-            "state": "",
-            "nationality": "",
-            "town": "",
-            "length": 0,
-            "fishingGear": "",
-            "image": ""
-            },
-         "mapData": [{
-                "latitude": 0.0,
-                "longitude": 0.0
-            }] */
-  });
+  const [offloadDetail, setOffloadDetails] = useState({});
+  const [showEdit, setShowEdit] = useState(false);
+  const [colums, setColums] = useState({
+    art: true,
+    Produkttilstand :true,
+    Kvalitet: true,
+    Anvendelse : true,
+    Landingsmåte: true,
+    Konserveringsmåte: true,
+    Rundvekt: true
+  })
 
   const generateColors = (size) => {
     const colorExample = ['#2B59C3', '#B7DFB3', '#DCB8B8', '#DCD8B8'];
@@ -66,7 +53,6 @@ const OffloadDetails = ({ offloadId }) => {
   };
 
   useEffect(() => {
-    setOffloadLoad(false);
     setOffloadLoad(false);
     fetch(`https://fangsdata-api.herokuapp.com/api/offloads/details/${offloadId}`)
       .then((res) => res.json())
@@ -121,43 +107,23 @@ const OffloadDetails = ({ offloadId }) => {
                     />
                   </div>
                   <div className="landing-table-container">
-                    <table className="landing-table detail">
-                      <tr>
-                        <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
-                      </tr>
-                      <tr>
-                        <td>Art</td>
-                        <td>Produkttilstand</td>
-                        <td>Kvalitet</td>
-                        <td>Anvendelse</td>
-                        <td>Landingsmåte</td>
-                        <td>Konserveringsmåte</td>
-                        <td>Rundvekt</td>
-                      </tr>
-                      {
-                            offloadDetail.fish.map((fish, i) => (
-
-                              <tr key={i}>
-                                <td>{fish.type}</td>
-                                <td>{fish.condition}</td>
-                                <td>{fish.quality}</td>
-                                <td>{fish.application}</td>
-                                <td>{normalizeCase(fish.packaging)}</td>
-                                <td>{fish.preservation}</td>
-                                <td>{normalizeWeight(fish.weight)}</td>
-                              </tr>
-                            ))
-                        }
-                      <tr>
-                        <td colSpan="2">Total Rundvekt</td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td>{normalizeWeight(offloadDetail.totalWeight)}</td>
-                      </tr>
-                    </table>
+                    {!showEdit
+                      ?<img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
+                      :<><img src={EditIcon} alt="edit" className="edit-icon" onClick={()=>setShowEdit(!showEdit)}/>
+                       <Edit items={colums} 
+                       inputEvent={(e)=>{
+                         let newColums = colums;
+                         newColums[e] = !newColums[e];
+                         setColums(newColums);
+                       }}/></>
+                    }
+                    <LandingsTable
+                      totalWeight={offloadDetail.totalWeight}
+                      fish={offloadDetail.fish}
+                      headers={colums}
+                    />
                   </div>
+                  
                   <div className="pie-chart">
                     <Pie
                       data={chartData}
@@ -196,5 +162,155 @@ const OffloadDetails = ({ offloadId }) => {
 OffloadDetails.propTypes = {
   offloadId: PropTypes.number.isRequired,
 };
+
+class Edit extends React.Component {
+
+  constructor(props) {
+    super(props);
+    const {items} = this.props;
+    this.state = {
+      items: items
+    };
+  }
+  com
+  render() {
+    const {inputEvent} = this.props;
+    const {items} = this.state;
+    return (
+      <>
+        {Object.keys(items).map((item)=>(
+          <>
+            <input
+              className="checkbox"
+              type="checkbox"
+              name="filters"
+              id={item}
+              value={item}
+              onChange={()=>{
+                inputEvent(item);
+                let newItems = items;
+                if(newItems[item]){
+                  newItems[item] = true;
+                }
+                else{
+                  newItems[item] = false;
+                }
+                this.setState({items: newItems})
+              }}
+              checked={items[item]}
+            />
+            <label htmlFor={item}>{item}</label>
+          </>
+        ))}
+      </>);
+  }
+}
+
+Edit.propTypes = {
+  items: PropTypes.object,
+  inputEvent: func
+};
+
+const LandingsTable = (({headers, fish, totalWeight })=>{
+
+  const offloadWidthIndex = () => {
+    let i = 0;
+    Object.keys(headers).map((head) => { if (headers[head]) i++ })
+    return i;
+  }
+  const [mergedFish, setMergedFish] = useState([{
+    type:"",
+    condition: "",
+    quality:"",
+    application: "",
+    packaging: "",
+    preservation: "",
+    weight:""
+
+  }]);
+  useEffect(()=>{
+    // Merge same colums
+    let tempFish = fish.map((item)=>{
+      let tempFish = {};
+      if(headers["art"]){ tempFish["type"] = item.type; }
+      if(headers["Produkttilstand"]){ tempFish["condition"] = item.condition; }
+      if(headers["Kvalitet"]){ tempFish["quality"] = item.quality; }
+      if(headers["Anvendelse"]){ tempFish["application"] = item.application; }
+      if(headers["Landingsmåte"]){ tempFish["packaging"] = item.packaging; }
+      if(headers["Konserveringsmåte"]){ tempFish["preservation"] = item.preservation; }
+      tempFish["weight"] = item.weight
+      return tempFish;
+    });
+
+    let mergedFish = [];
+    for(let i = 0; i < tempFish.length; i++){
+      let found = false;
+      for(let j = 0; j < mergedFish.length; j++){
+        let noWeightTemp = tempFish[i];
+        let noWeightMerged = mergedFish[j];
+        let stubitPointersMerged = mergedFish[j].weight;
+        let stubitPointersTemp = tempFish[i].weight;
+        noWeightMerged.weight = 0; 
+        noWeightTemp.weight = 0;
+        if( JSON.stringify(noWeightTemp) === JSON.stringify(noWeightMerged)){
+          mergedFish[j].weight = stubitPointersTemp + stubitPointersMerged; 
+          found = true;
+        }
+        tempFish[i].weight = stubitPointersTemp;
+        if(mergedFish[j].weight === 0){ 
+          mergedFish[j].weight = stubitPointersMerged }
+
+      }
+      if(!found){
+        
+        mergedFish.push(tempFish[i]);
+      }
+    }
+    setMergedFish(mergedFish);
+
+  },[headers["art"],
+     headers["Produkttilstand"],
+     headers["Kvalitet"],
+     headers["Anvendelse"],
+     headers["Landingsmåte"],
+     headers["Konserveringsmåte"],
+     headers["Rundvekt"]]);
+
+  return( <table className="landing-table detail">
+  <tr>
+    <th className="landing-table-header" colSpan="7">Landing Detaljer</th>
+  </tr>
+  <tr>
+  { Object.keys(headers).map((head)=>(
+    <>
+      {headers[head]
+      ?<td>{head}</td>
+      :<></>}
+    </>
+  ))}
+  </tr>
+  {
+    mergedFish.map((fish, i) => (
+      <tr key={i}>
+        {headers["art"] ?<td>{fish.type}</td> :<></>}
+        {headers["Produkttilstand"] ?<td>{fish.condition}</td>: <></>}
+        {headers["Kvalitet"] ?<td>{fish.quality}</td>: <></>}
+        {headers["Anvendelse"] ?<td>{fish.application}</td>: <></>}
+        {headers["Landingsmåte"] ?<td>{normalizeCase(fish.packaging)}</td>: <></>}
+        {headers["Konserveringsmåte"] ?<td>{fish.preservation}</td>: <></>}
+        {headers["Rundvekt"] ?<td>{normalizeWeight(fish.weight)}</td>: <></>}
+      </tr>
+    ))
+  }
+  <tr>
+    { offloadWidthIndex() !== 1
+   ?<>
+      <td colSpan={ offloadWidthIndex() - 1 }>Total Rundvekt</td>
+      <td>{normalizeWeight(totalWeight)}</td>
+    </>
+    :<td>Total Rundvekt {normalizeWeight(totalWeight)}</td>}
+  </tr>
+</table>)
+});
 
 export default OffloadDetails;

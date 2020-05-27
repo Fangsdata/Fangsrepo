@@ -204,6 +204,7 @@ namespace OffloadWebApi.Repository
             string fishingGear = string.Empty;
             string fishName = string.Empty;
             string landingState = string.Empty;
+            string preservationMethood = string.Empty;
             if(filters.BoatLength != null)
             {
                 boatLength = string.Format("AND `Største lengde` BETWEEN {0} AND {1}", filters.BoatLength[0].ToString(), filters.BoatLength[1].ToString());
@@ -219,6 +220,10 @@ namespace OffloadWebApi.Repository
             if(filters.LandingState != null)
             {
                 landingState = AddFilter(filters.LandingState, "`Landingsfylke`");
+            }
+            if(filters.PreservationMethod != null)
+            {
+                preservationMethood = AddFilter(filters.PreservationMethod, "Konserveringsmåte");
             }
             
             cmd.CommandText = string.Format(
@@ -239,17 +244,20 @@ namespace OffloadWebApi.Repository
                     {3}
                     {4}
                     {5}
+                    {6}
                     GROUP BY `Registreringsmerke (seddel)`
                     ORDER BY SUM(`Rundvekt`) DESC
-                    LIMIT {6}
-                    OFFSET 0;",
+                    LIMIT {7}
+                    OFFSET {8};",
                 filters.fromDate,
                 filters.toDate,
                 boatLength,
                 fishingGear,
                 fishName,
                 landingState,
-                filters.Count); 
+                preservationMethood,
+                filters.Count,
+                filters.pageNo); 
             Console.WriteLine(cmd.CommandText);
             var reader = cmd.ExecuteReader();
 
