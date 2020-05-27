@@ -18,6 +18,7 @@ const OffloadDetails = ({ offloadId }) => {
       }],
     },
   );
+  const [pieSize, setPieSize] = useState(500);
   const [filteredData, setFilteredData] = useState();
   const [offloadLoading, setOffloadLoad] = useState(false);
   const [offloadError, setOffloadError] = useState(false);
@@ -27,9 +28,9 @@ const OffloadDetails = ({ offloadId }) => {
     art: true,
     Produkttilstand :true,
     Kvalitet: true,
-    Anvendelse : true,
-    Landingsmåte: true,
-    Konserveringsmåte: true,
+    Anvendelse : false,
+    Landingsmåte: false,
+    Konserveringsmåte: false,
     Rundvekt: true
   })
 
@@ -41,7 +42,34 @@ const OffloadDetails = ({ offloadId }) => {
     }
     return retData;
   };
-  const CreatePieChartDataset = (data) => {
+  const CreatePieChartDataset = (data, dataInputCutoff) => {
+    
+    // ATH skítamix til að geta notað FilterOffloadDataSet
+    data = FilterOffloadDataSet(data.map((item)=>{ return { type: item.label, weight: item.value } }), {
+      art: true,
+      Produkttilstand :false,
+      Kvalitet: false,
+      Anvendelse : false,
+      Landingsmåte: false,
+      Konserveringsmåte: false,
+      Rundvekt: true
+    });
+    data = data.map((item)=>{ return { label: item.type, value: item.weight }})
+
+
+    const totalWeight = data.reduce((a,b)=>{return { value: a.value + b.value} });
+    data = data
+      .sort((a,b)=>{ 
+        return b.value - a.value })
+      .filter((item)=> {
+        if(item.value / totalWeight.value > dataInputCutoff){
+          return item;
+        }
+      });
+    
+    const rest = { label: 'resten',  value: totalWeight.value - data.reduce((a,b)=>{return { value: a.value + b.value}}).value};
+    console.log(rest)
+    if(rest.value !== 0) data.push(rest);
     const pieData = {
       labels: data.map((d) => d.label),
       datasets: [{
@@ -53,7 +81,7 @@ const OffloadDetails = ({ offloadId }) => {
     setChartData(pieData);
   };
 
-  const FilterOffloadDataSet = (fish) => {
+  const FilterOffloadDataSet = (fish, colums) => {
 
     // Merge same colums
     let tempFish = fish.map((item)=>{
@@ -92,13 +120,12 @@ const OffloadDetails = ({ offloadId }) => {
       }
     }
 
-    setFilteredData(mergedFish);
     return mergedFish;
   }
 
   const UpdateData = (fishData) => {
-    const filteredData = FilterOffloadDataSet(fishData);
-    console.log(filteredData);
+    const filteredData = FilterOffloadDataSet(fishData, colums);
+    setFilteredData(filteredData);
     const lable = Object.getOwnPropertyNames(filteredData[0])[0];
     const data = filteredData.map((item) => {
       const rObj = {
@@ -108,10 +135,22 @@ const OffloadDetails = ({ offloadId }) => {
       return rObj;
     });
 
-    CreatePieChartDataset(data);
+    CreatePieChartDataset(data, 0.015);
   }
 
   useEffect(() => {
+    if(window.innerWidth < 540){
+      setColums({
+        art: true,
+        Produkttilstand :false,
+        Kvalitet: false,
+        Anvendelse : false,
+        Landingsmåte: false,
+        Konserveringsmåte: false,
+        Rundvekt: true
+      });
+      setPieSize(window.innerWidth * 0.9);
+    }
     setOffloadLoad(false);
     fetch(`https://fangsdata-api.herokuapp.com/api/offloads/details/${offloadId}`)
       .then((res) => res.json())
@@ -182,8 +221,8 @@ const OffloadDetails = ({ offloadId }) => {
                       data={chartData}
                       legend={{ display: true, position: 'left' }}
                       redraw
-                      width={450}
-                      height={400}
+                      width={pieSize}
+                      height={pieSize}
                     />
                   </div>
                 </>
@@ -225,7 +264,6 @@ class Edit extends React.Component {
       items: items
     };
   }
-  com
   render() {
     const {inputEvent} = this.props;
     const {items} = this.state;
