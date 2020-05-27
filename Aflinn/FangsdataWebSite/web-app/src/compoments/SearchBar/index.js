@@ -52,7 +52,7 @@ const SearchBar = () => {
             updateSearch(e.target.value);
             clearTimeout(timeOut);
             const searchTerm = e.target.value;
-            timeOut = setTimeout(() => UpdateQuickSearch(searchTerm), 500);
+            timeOut = setTimeout(() => UpdateQuickSearch(searchTerm), 200);
           }}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
