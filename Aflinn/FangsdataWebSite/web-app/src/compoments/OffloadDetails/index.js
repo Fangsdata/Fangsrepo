@@ -218,6 +218,63 @@ const LandingsTable = (({headers, fish, totalWeight })=>{
     Object.keys(headers).map((head) => { if (headers[head]) i++ })
     return i;
   }
+  const [mergedFish, setMergedFish] = useState([{
+    type:"",
+    condition: "",
+    quality:"",
+    application: "",
+    packaging: "",
+    preservation: "",
+    weight:""
+
+  }]);
+  useEffect(()=>{
+    // Merge same colums
+    let tempFish = fish.map((item)=>{
+      let tempFish = {};
+      if(headers["art"]){ tempFish["type"] = item.type; }
+      if(headers["Produkttilstand"]){ tempFish["condition"] = item.condition; }
+      if(headers["Kvalitet"]){ tempFish["quality"] = item.quality; }
+      if(headers["Anvendelse"]){ tempFish["application"] = item.application; }
+      if(headers["Landingsmåte"]){ tempFish["packaging"] = item.packaging; }
+      if(headers["Konserveringsmåte"]){ tempFish["preservation"] = item.preservation; }
+      tempFish["weight"] = item.weight
+      return tempFish;
+    });
+
+    let mergedFish = [];
+    for(let i = 0; i < tempFish.length; i++){
+      let found = false;
+      for(let j = 0; j < mergedFish.length; j++){
+        let noWeightTemp = tempFish[i];
+        let noWeightMerged = mergedFish[j];
+        let stubitPointersMerged = mergedFish[j].weight;
+        let stubitPointersTemp = tempFish[i].weight;
+        noWeightMerged.weight = 0; 
+        noWeightTemp.weight = 0;
+        if( JSON.stringify(noWeightTemp) === JSON.stringify(noWeightMerged)){
+          mergedFish[j].weight = stubitPointersTemp + stubitPointersMerged; 
+          found = true;
+        }
+        tempFish[i].weight = stubitPointersTemp;
+        if(mergedFish[j].weight === 0){ 
+          mergedFish[j].weight = stubitPointersMerged }
+
+      }
+      if(!found){
+        
+        mergedFish.push(tempFish[i]);
+      }
+    }
+    setMergedFish(mergedFish);
+
+  },[headers["art"],
+     headers["Produkttilstand"],
+     headers["Kvalitet"],
+     headers["Anvendelse"],
+     headers["Landingsmåte"],
+     headers["Konserveringsmåte"],
+     headers["Rundvekt"]]);
 
   return( <table className="landing-table detail">
   <tr>
@@ -233,7 +290,7 @@ const LandingsTable = (({headers, fish, totalWeight })=>{
   ))}
   </tr>
   {
-    fish.map((fish, i) => (
+    mergedFish.map((fish, i) => (
       <tr key={i}>
         {headers["art"] ?<td>{fish.type}</td> :<></>}
         {headers["Produkttilstand"] ?<td>{fish.condition}</td>: <></>}
