@@ -163,7 +163,7 @@ class BoatDetails extends React.Component {
                         { `lengde: ${normalizeLength(length)}` }
                       </p>
                       <p className="boat-details">
-                        { `Vekt: ${normalizeWeight(weight)}` }
+                        { `Vekt: ${normalizeWeight(weight * 1000)}` }
                       </p>
                       <p className="boat-details">
                         { `År bygd: ${builtYear !== 0 ? builtYear : 'ikke registrert'}` }
