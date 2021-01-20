@@ -6,7 +6,7 @@ const Contact = () => (
     <div className="contact-info">
       <h1 className="contact-header">Kontakt oss</h1>
       <p>Hvis du har spørsmål eller kommentarer, kan du sende oss en linje.</p>
-      <a className="mail" href="mailto:hrafn@eskoy.com">Send e-post</a>
+      <a className="mail" href="mailto:fangstdata@fangstdata.no">Send e-post</a>
     </div>
     <img className="email-icon" src={Illustration} alt="" />
   </div>
