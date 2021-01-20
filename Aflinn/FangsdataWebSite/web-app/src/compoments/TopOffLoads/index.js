@@ -25,6 +25,7 @@ class TopOffLoads extends React.Component {
       allFilters: {
         fishingGear: [{ title: 'Not', checkState: false, value: 'Not' },
           { title: 'Trål', checkState: false, value: 'Trål' },
+          { title: 'Pelagisk', checkState: false, value: 'Pelagisk' },
           { title: 'Bur og ruser', checkState: false, value: 'Bur og ruser' },
           { title: 'Andre redskap', checkState: false, value: 'Andre redskap' },
           { title: 'Krokredskap', checkState: false, value: 'Krokredskap' },
