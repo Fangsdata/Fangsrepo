@@ -160,7 +160,7 @@ class BoatDetails extends React.Component {
                       <p className="boat-header">{ name !== '' ? normalizeCase(name) : boatname }</p>
                       <p className="boat-details">
 
-                        { `lengde: ${normalizeLength(length)}` }
+                        { `Lengde: ${normalizeLength(length)}` }
                       </p>
                       <p className="boat-details">
                         { `Vekt: ${normalizeWeight(weight * 1000)}` }
@@ -179,13 +179,13 @@ class BoatDetails extends React.Component {
                       </p>
                       <p className="boat-details">
 
-                        { `Relskap: ${fishingGear !== '' ? fishingGear : 'ikke registrer`'}`}
+                        { `Redskap: ${fishingGear !== '' ? fishingGear : 'ikke registrer`'}`}
                       </p>
                       <br />
                       { cleanMapData.length !== 0
                         ? (
                           <p className="boat-details">
-                            Breddegrad / lengdegrad:
+                            Breddegrad / Lengdegrad:
                             <br />
                             {`${mapData[0].latitude} / ${mapData[0].longitude}`}
                           </p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes, { number } from 'prop-types';
-import { normalizeWeight, normalizeLength } from '../../services/TextTools';
+import { normalizeWeight, normalizeLength, shortinString } from '../../services/TextTools';
 
 const OffloadListItem = ({ item, index }) => (
   <Link className="offload-link" to={`/boats/${item.boatRegistrationId}`}>
@@ -11,7 +11,7 @@ const OffloadListItem = ({ item, index }) => (
         {item.boatName ? item.boatName : item.boatRegistrationId}
       </p>
       <p className="offload-group">
-        {item.boatFishingGear}
+        {shortinString(item.boatFishingGear,11)}
       </p>
       <p className="offload-group">
         {`${normalizeLength(item.boatLength)}`}

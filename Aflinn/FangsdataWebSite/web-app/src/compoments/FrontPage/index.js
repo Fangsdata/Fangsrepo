@@ -2,22 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getOffloads } from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
+import { normalizeMonth } from '../../services/TextTools';
 
 // https://fangsdata-api.herokuapp.com/api/offloads?fishingGear=Garn&Count=5
 
 class FrontPage extends React.Component {
   constructor() {
     super();
+    const today = new Date();
+    const month = today.getMonth() + 1;
     this.state = {
       offLoads0: [],
       offLoads1: [],
       offLoads2: [],
       offLoads3: [],
+      offLoads4: [],
       tableLoaded0: false,
       tableLoaded1: false,
       tableLoaded2: false,
       tableLoaded3: false,
+      tableLoaded4: false,
       tableError: false,
+      month: month,
     };
   }
 
@@ -25,16 +31,21 @@ class FrontPage extends React.Component {
   async componentDidMount() {
     this.setState({
       offLoads0:
-          await getOffloads({ count: [5], fishingGear: ['Krokredskap'] }),
+          await getOffloads({ count: [10], fishingGear: ['Krokredskap'] }),
       tableLoaded0: true,
-      offLoads1: await getOffloads({ count: [5], fishingGear: ['Trål'] }),
+      offLoads1: await getOffloads({ count: [10], fishingGear: ['Trål'] }),
       tableLoaded1: true,
     });
     this.setState({
-      offLoads2: await getOffloads({ count: [5], fishingGear: ['Snurrevad'] }),
+      offLoads2: await getOffloads({ count: [10], fishingGear: ['Snurrevad'] }),
       tableLoaded2: true,
-      offLoads3: await getOffloads({ count: [5], fishingGear: ['Garn'] }),
+      offLoads3: await getOffloads({ count: [10], fishingGear: ['Garn'] }),
       tableLoaded3: true,
+    });
+
+    this.setState({
+      offLoads4: await getOffloads({ count: [10], fishingGear: ['Pelagisk'] }),
+      tableLoaded4: true,
     });
   }
 
@@ -44,11 +55,14 @@ class FrontPage extends React.Component {
       offLoads1,
       offLoads2,
       offLoads3,
+      offLoads4,
       tableLoaded0,
       tableLoaded1,
       tableLoaded2,
       tableLoaded3,
+      tableLoaded4,
       tableError,
+      month,
     } = this.state;
     return (
       <div className="front-page">
@@ -62,7 +76,7 @@ class FrontPage extends React.Component {
                     <div className="front-list-container">
                       <OffloadsList
                         offloads={offLoads0}
-                        title="Største Krokredskap landing"
+                        title={"Top 10 krokredskap landing i " + normalizeMonth(month)}
                       />
                       <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
@@ -71,6 +85,11 @@ class FrontPage extends React.Component {
                 : (
                   <div className="front-loading-container">
                     <div className="offload-header" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
@@ -92,7 +111,7 @@ class FrontPage extends React.Component {
                     <div className="front-list-container">
                       <OffloadsList
                         offloads={offLoads1}
-                        title="Største Trål landing"
+                        title={"Top 10 trål landing i " +  normalizeMonth(month)}
                       />
                       <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
@@ -101,6 +120,11 @@ class FrontPage extends React.Component {
                 : (
                   <div className="front-loading-container">
                     <div className="offload-header" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
@@ -122,7 +146,7 @@ class FrontPage extends React.Component {
                     <div className="front-list-container">
                       <OffloadsList
                         offloads={offLoads2}
-                        title="Største Snurrevad landing"
+                        title={"Top 10 snurrevad landing i " +  normalizeMonth(month) }
                       />
                       <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
@@ -131,6 +155,11 @@ class FrontPage extends React.Component {
                 : (
                   <div className="front-loading-container">
                     <div className="offload-header" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
@@ -152,7 +181,7 @@ class FrontPage extends React.Component {
                     <div className="front-list-container">
                       <OffloadsList
                         offloads={offLoads3}
-                        title="Største Garn landing"
+                        title={"Top 10 garn landing i " + normalizeMonth(month) }
                       />
                       <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
                     </div>
@@ -161,6 +190,46 @@ class FrontPage extends React.Component {
                 : (
                   <div className="front-loading-container">
                     <div className="offload-header" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item more" />
+                  </div>
+                )}
+            </>
+          )
+          : <><p>here was an error</p></>}
+                  {!tableError
+          ? (
+            <>
+              { tableLoaded4
+                ? (
+                  <>
+                    <div className="front-list-container">
+                      <OffloadsList
+                        offloads={offLoads4}
+                        title={"Top 10 garn landing i " + normalizeMonth(month) }
+                      />
+                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                    </div>
+                  </>
+                )
+                : (
+                  <div className="front-loading-container">
+                    <div className="offload-header" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
+                    <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />
                     <div className="placeholder-item" />

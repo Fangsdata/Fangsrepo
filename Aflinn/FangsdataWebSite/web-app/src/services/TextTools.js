@@ -49,9 +49,19 @@ export const normalizeWeight = (txtInput) => {
   return e;
 };
 
+export const shortinString = (input, desiredLength) => {
+  if (input.length <= desiredLength){
+    return input;
+  }
+  else {
+    return input.substr(0, desiredLength - 3) + "...";
+  }
+
+} 
 export const normalizeDate = (e) => format(new Date(e), 'd/M/yyyy');
 
 export const normalizeMonth = (e) => {
+  console.log(e);
   switch (e) {
     case 0: return '';
     case 1: return 'januar';
@@ -66,6 +76,6 @@ export const normalizeMonth = (e) => {
     case 10: return 'oktober';
     case 11: return 'november';
     case 12: return 'desember';
-    default: return '';
+    default: return 'prim';
   }
 };

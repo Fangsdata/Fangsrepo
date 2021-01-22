@@ -44,7 +44,7 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
             ? (
               <div className="filter-dropdown closed">
                 <p className="f-headers" onClick={() => setShowFishingGear(!showFishingGear)}>
-                  Relskap
+                  Redskap
                   <img className="arrow-icon" src={downArrow} alt="" />
                 </p>
               </div>
@@ -52,7 +52,7 @@ const FiltersContainer = ({ inputEvent, allFilters, updateDate }) => {
             : (
               <div className="filter-dropdown">
                 <p className="f-headers" onClick={() => setShowFishingGear(!showFishingGear)}>
-                  Relskap
+                  Redskap
                   <img className="arrow-icon" src={upArrow} alt="" />
                 </p>
                 <FilterCheckBox

@@ -9,7 +9,7 @@ const OffladsList = ({ offloads, title,pageNo }) => (
     <OffladsListItem
       item={{
         boatName: 'Navn',
-        boatFishingGear: 'Relskap',
+        boatFishingGear: 'Redskap',
         boatLength: 'Båt lengde',
         totalWeight: 'Total vekt',
       }}
