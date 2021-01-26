@@ -2,7 +2,7 @@ import React from 'react';
 import { getOffloads } from '../../services/OffloadService';
 import OffloadsList from '../OffloadsList';
 import FilterContainer from '../FiltersContainer';
-import { normalizeMonth } from '../../services/TextTools';
+import { normalizeMonth,generateObjectFromQueryParameters, generateQueryParamFromObject, translateGroupNames } from '../../services/TextTools';
 import LandingsTableControlls from '../LandingsTableControlls';
 
 let filterTimeOut;
@@ -10,58 +10,60 @@ let filterTimeOut;
 class TopOffLoads extends React.Component {
   constructor(props) {
     super(props);
+
+    const paramsFromQuery = generateObjectFromQueryParameters(props.location.search);
     this.state = {
       offLoads: [],
       filter: {
-        fishingGear: [],
-        boatLength: [],
-        fishName: [],
-        month: [],
-        year: [],
-        landingState: [],
-        pageNo: [1],
-        count: [10]
+        fishingGear:  paramsFromQuery['redskap'] || [],
+        boatLength:   paramsFromQuery['lengde'] || [],
+        fishName:     paramsFromQuery['fisketype'] || [],
+        month:        paramsFromQuery['maned'] || [],
+        year:         paramsFromQuery['ar'] || [],
+        landingState: paramsFromQuery['fylke'] || [],
+        pageNo:       paramsFromQuery['pageNo'] || [1],
+        count:        paramsFromQuery['count'] || [10]
       },
       allFilters: {
-        fishingGear: [{ title: 'Not', checkState: false, value: 'Not' },
-          { title: 'Trål', checkState: false, value: 'Trål' },
-          { title: 'Pelagisk', checkState: false, value: 'Pelagisk' },
-          { title: 'Bur og ruser', checkState: false, value: 'Bur og ruser' },
-          { title: 'Andre redskap', checkState: false, value: 'Andre redskap' },
-          { title: 'Krokredskap', checkState: false, value: 'Krokredskap' },
-          { title: 'Garn', checkState: false, value: 'Garn' },
-          { title: 'Snurrevad', checkState: false, value: 'Snurrevad' },
-          { title: 'Oppdrett/uspesifisert', checkState: false, value: 'Oppdrett/uspesifisert' }],
-        boatLength: [{ title: 'under 11m', value: 'under 11m', checkState: false },
-          { title: '11m - 14,99m', value: '11m - 14,99m', checkState: false },
-          { title: '15m - 20,99m', value: '15m - 20,99m', checkState: false },
-          { title: '21m - 27,99m', value: '21m - 27,99m', checkState: false },
-          { title: '28m og over', value: '28 m og over', checkState: false }],
-        fishName: [{ title: 'Pelagisk fisk', value: 'Pelagisk fisk', checkState: false },
-          { title: 'Torsk og torskeartet fisk', value: 'Torsk og torskeartet fisk', checkState: false },
-          { title: 'Flatfisk, annen bunnfisk og dypvannsfisk', value: 'Flatfisk, annen bunnfisk og dypvannsfisk', checkState: false },
-          { title: 'Bruskfisk (haifisk, skater, rokker og havmus)', value: 'Bruskfisk (haifisk, skater, rokker og havmus)', checkState: false },
-          { title: 'Skalldyr, bløtdyr og pigghuder', value: 'Skalldyr, bløtdyr og pigghuder', checkState: false },
-          { title: 'Makroalger (tang og tare)', value: 'Makroalger (tang og tare)', checkState: false }],
-        landingState: [{ title: 'Troms og Finnmark', checkState: false, value: 'Troms og Finnmark' },
-          { title: 'Nordland', checkState: false, value: 'Nordland' },
-          { title: 'Nord-Trøndelag', checkState: false, value: 'Nord-Trøndelag' },
-          { title: 'Møre og Romsdal', checkState: false, value: '"Møre og Romsdal"' },
-          { title: 'Rogaland', checkState: false, value: 'Rogaland' },
-          { title: 'Vest-Agder', checkState: false, value: 'Vest-Agder' },
-          { title: 'Aust-Agder', checkState: false, value: 'Aust-Agder' },
-          { title: 'Sør-Trøndelag', checkState: false, value: 'Sør-Trøndelag' },
-          { title: 'Hordaland', checkState: false, value: 'Hordaland' },
-          { title: 'Troms', checkState: false, value: 'Troms' },
-          { title: 'Finnmark', checkState: false, value: 'Finnmark' },
-          { title: 'Sogn og Fjordane', checkState: false, value: '"Sogn og Fjordane"' },
-          { title: 'unknown', checkState: false, value: '??' },
-          { title: 'Telemark', checkState: false, value: 'Telemark' },
-          { title: 'Østfold', checkState: false, value: 'Østfold' },
-          { title: 'Vestfold', checkState: false, value: 'Vestfold' },
-          { title: 'Akershus', checkState: false, value: 'Akershus' },
-          { title: 'Oslo', checkState: false, value: 'Oslo' },
-          { title: 'Buskerud', checkState: false, value: 'Buskerud' }],
+        fishingGear: [{ title: 'Not', checkState: paramsFromQuery['redskap'] == 'not' || false, value: 'Not' },
+          { title: 'Trål', checkState: paramsFromQuery['redskap'] == 'trål' || false, value: 'Trål' },
+          { title: 'Pelagisk', checkState: paramsFromQuery['redskap'] == 'pelagisk' || false, value: 'Pelagisk' },
+          { title: 'Bur og ruser', checkState: paramsFromQuery['redskap'] == 'bur og ruser' || false, value: 'Bur og ruser' },
+          { title: 'Andre redskap', checkState: paramsFromQuery['redskap'] == 'andre redskap' || false, value: 'Andre redskap' },
+          { title: 'Krokredskap', checkState: paramsFromQuery['redskap'] == 'krokredskap' || false, value: 'Krokredskap' },
+          { title: 'Garn', checkState: paramsFromQuery['redskap'] == 'garn' || false, value: 'Garn' },
+          { title: 'Snurrevad', checkState: paramsFromQuery['redskap'] == 'snurrevad' || false, value: 'Snurrevad' },
+          { title: 'Oppdrett/uspesifisert', checkState: paramsFromQuery['redskap'] == 'oppdrett/uspesifisert' || false, value: 'Oppdrett/uspesifisert' }],
+        boatLength: [{ title: 'under 11m', value: 'under 11m', checkState: paramsFromQuery['lengde'] == 'under 11m' || false },
+          { title: '11m - 14,99m', value: '11m - 14,99m', checkState: paramsFromQuery['lengde'] == '11m - 14,99m' || false },
+          { title: '15m - 20,99m', value: '15m - 20,99m', checkState: paramsFromQuery['lengde'] == '15m - 20,99m' || false },
+          { title: '21m - 27,99m', value: '21m - 27,99m', checkState: paramsFromQuery['lengde'] == '21m - 27,99m' || false },
+          { title: '28m og over', value: '28 m og over', checkState: paramsFromQuery['lengde'] == '28 m og over' || false }],
+        fishName: [{ title: 'Pelagisk fisk', value: 'Pelagisk fisk', checkState: paramsFromQuery['fisketype'] == 'pelagisk fisk' || false },
+          { title: 'Torsk og torskeartet fisk', value: 'Torsk og torskeartet fisk', checkState: paramsFromQuery['fisketype'] == 'torsk og torskeartet fisk' || false },
+          { title: 'Flatfisk, annen bunnfisk og dypvannsfisk', value: 'Flatfisk, annen bunnfisk og dypvannsfisk', checkState: paramsFromQuery['fisketype'] == 'flatfisk, annen bunnfisk og dypvannsfisk' ||false },
+          { title: 'Bruskfisk (haifisk, skater, rokker og havmus)', value: 'Bruskfisk (haifisk, skater, rokker og havmus)', checkState:paramsFromQuery['fisketype'] == 'bruskfisk (haifisk, skater, rokker og havmus)' || false },
+          { title: 'Skalldyr, bløtdyr og pigghuder', value: 'Skalldyr, bløtdyr og pigghuder', checkState:paramsFromQuery['fisketype'] == 'skalldyr, bløtdyr og pigghuder' || false },
+          { title: 'Makroalger (tang og tare)', value: 'Makroalger (tang og tare)', checkState:paramsFromQuery['fisketype'] == 'makroalger (tang og tare)' || false }],
+        landingState: [{ title: 'Troms og Finnmark', checkState:paramsFromQuery['fylke'] == 'Troms og Finnmark' || false, value: 'Troms og Finnmark' },
+          { title: 'Nordland', checkState: paramsFromQuery['fylke'] == 'nordland' || false, value: 'Nordland' },
+          { title: 'Nord-Trøndelag', checkState: paramsFromQuery['fylke'] == 'nord-trøndelag' || false, value: 'Nord-Trøndelag' },
+          { title: 'Møre og Romsdal', checkState: paramsFromQuery['fylke'] == 'møre og romsdal' || false, value: '"Møre og Romsdal"' },
+          { title: 'Rogaland', checkState: paramsFromQuery['fylke'] == 'rogaland' || false, value: 'Rogaland' },
+          { title: 'Vest-Agder', checkState: paramsFromQuery['fylke'] == 'vest-agder' || false, value: 'Vest-Agder' },
+          { title: 'Aust-Agder', checkState: paramsFromQuery['fylke'] == 'aust-agder' || false, value: 'Aust-Agder' },
+          { title: 'Sør-Trøndelag', checkState: paramsFromQuery['fylke'] == 'sør-trøndelag' || false, value: 'Sør-Trøndelag' },
+          { title: 'Hordaland', checkState:paramsFromQuery['fylke'] == 'hordaland' ||  false, value: 'Hordaland' },
+          { title: 'Troms', checkState: paramsFromQuery['fylke'] == 'troms' || false, value: 'Troms' },
+          { title: 'Finnmark', checkState: paramsFromQuery['fylke'] == 'finnmark' || false, value: 'Finnmark' },
+          { title: 'Sogn og Fjordane', checkState: paramsFromQuery['fylke'] == 'sogn og fjordane' || false, value: '"Sogn og Fjordane"' },
+          { title: 'unknown', checkState: paramsFromQuery['fylke'] == 'unknown' || false, value: '??' },
+          { title: 'Telemark', checkState: paramsFromQuery['fylke'] == 'telemark' || false, value: 'Telemark' },
+          { title: 'Østfold', checkState:paramsFromQuery['fylke'] == 'østfold' ||  false, value: 'Østfold' },
+          { title: 'Vestfold', checkState:paramsFromQuery['fylke'] == 'vestfold' ||  false, value: 'Vestfold' },
+          { title: 'Akershus', checkState:paramsFromQuery['fylke'] == 'akershus' ||  false, value: 'Akershus' },
+          { title: 'Oslo', checkState: paramsFromQuery['fylke'] == 'oslo' || false, value: 'Oslo' },
+          { title: 'Buskerud', checkState: paramsFromQuery['fylke'] == 'buskerud' || false, value: 'Buskerud' }],
       },
       topOffloadsLoaded: false,
       topOfflodError: false,
@@ -71,8 +73,10 @@ class TopOffLoads extends React.Component {
   }
 
   async componentDidMount() {
+
     const today = new Date();
     const {filter} = this.state;
+    
     this.setState({ selectedMonth: today.getMonth() + 1, selectedYear: today.getFullYear() });
     this.setState({ offLoads: await getOffloads(filter), topOffloadsLoaded: true });
   }
@@ -130,6 +134,22 @@ class TopOffLoads extends React.Component {
         this.setState({ offLoads: await getOffloads(filter), topOffloadsLoaded: true });
       }, 1000);
     }
+
+    let selected = {};
+    Object.keys(allFilters).forEach((keyGroup)=>{
+      allFilters[keyGroup].forEach((item)=>{
+        if(item.checkState == true){
+          if(selected[translateGroupNames(keyGroup)] == undefined){
+            selected[translateGroupNames(keyGroup)] = [item['value']];
+          }
+          else{
+            selected[translateGroupNames(keyGroup)].push(item['value']);
+          }
+        }
+      })
+    })
+    this.props.history.push('topoffloads' + generateQueryParamFromObject(selected));
+    
   }
 
   async updateDate(selectedDate) {

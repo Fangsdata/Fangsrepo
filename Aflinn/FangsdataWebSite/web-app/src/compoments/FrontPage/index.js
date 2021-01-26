@@ -78,7 +78,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads0}
                         title={"Top 10 krokredskap landing i " + normalizeMonth(month)}
                       />
-                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                      <Link to="/topoffloads?redskap=krokredskap"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -113,7 +113,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads1}
                         title={"Top 10 trål landing i " +  normalizeMonth(month)}
                       />
-                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                      <Link to="/topoffloads?redskap=trål"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -148,7 +148,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads2}
                         title={"Top 10 snurrevad landing i " +  normalizeMonth(month) }
                       />
-                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                      <Link to="/topoffloads?redskap=snurrevad"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -183,7 +183,7 @@ class FrontPage extends React.Component {
                         offloads={offLoads3}
                         title={"Top 10 garn landing i " + normalizeMonth(month) }
                       />
-                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                      <Link to="/topoffloads?redskap=garn"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )
@@ -216,9 +216,9 @@ class FrontPage extends React.Component {
                     <div className="front-list-container">
                       <OffloadsList
                         offloads={offLoads4}
-                        title={"Top 10 garn landing i " + normalizeMonth(month) }
+                        title={"Top 10 pelagisk landing i " + normalizeMonth(month) }
                       />
-                      <Link to="/topoffloads"><div className="more-btn">Se Mer</div></Link>
+                      <Link to="/topoffloads?redskap=pelagisk"><div className="more-btn">Se Mer</div></Link>
                     </div>
                   </>
                 )

@@ -14,10 +14,8 @@ const Hamburger = () => {
   const handleMenuButtonClick = (e) => {
     if (node.current.contains(e.target)) {
       setSidebarStatus(!isSidebarOpen);
-      console.log(isSidebarOpen);
     } else {
       setSidebarStatus(false);
-      console.log(isSidebarOpen);
     }
   };
 
@@ -25,7 +23,6 @@ const Hamburger = () => {
 
   return (
     <div className="navlink-container">
-      {/* {console.log("in render " + isSidebarOpen)} */}
       <div ref={node} className={`burger-container ${isSidebarOpen ? 'change' : ''}`}>
         <div className="line1" />
         <div className="line2" />

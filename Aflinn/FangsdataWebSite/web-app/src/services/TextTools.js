@@ -61,7 +61,6 @@ export const shortinString = (input, desiredLength) => {
 export const normalizeDate = (e) => format(new Date(e), 'd/M/yyyy');
 
 export const normalizeMonth = (e) => {
-  console.log(e);
   switch (e) {
     case 0: return '';
     case 1: return 'januar';
@@ -79,3 +78,43 @@ export const normalizeMonth = (e) => {
     default: return 'prim';
   }
 };
+
+export const generateObjectFromQueryParameters = (inputString) => {
+  if(inputString == ""){
+    return "";
+  }
+  let jsObject = {};
+  let params = inputString.substr(1).toLowerCase().split("&");
+  params.forEach(param => {
+    let item = param.split('=');
+    jsObject[item[0]] = item[1].split(',');
+  });
+  return jsObject;
+}
+
+
+export const translateGroupNames = (input) => {
+  switch (input) {
+    case 'fishingGear': return 'redskap';
+    case 'boatLength': return 'lengde';
+    case 'fishName': return 'fisketype';
+    case 'landingState': return 'fylke';
+    default: return '';
+  }
+}
+
+export const generateQueryParamFromObject = (inputObj) => {
+
+  let queryString = '?';
+  Object.keys(inputObj).forEach((key)=>{
+    queryString += key + '=';
+
+    inputObj[key].forEach((item)=>{
+      queryString += item + ',';
+    });
+    queryString = queryString.substring(0, queryString.length - 1);
+    queryString += '&';
+  });
+  queryString = queryString.substring(0, queryString.length - 1);
+  return queryString;
+}

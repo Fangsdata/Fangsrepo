@@ -70,7 +70,6 @@ const OffloadDetails = ({ offloadId }) => {
       });
     
     const rest = { label: 'resten',  value: totalWeight.value - data.reduce((a,b)=>{return { value: a.value + b.value}}).value};
-    console.log(rest)
     if(rest.value !== 0) data.push(rest);
     const pieData = {
       labels: data.map((d) => d.label),

@@ -51,7 +51,6 @@ class BoatDetails extends React.Component {
           fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
               .then(res => res.json())
               .then(res => {
-                console.log(res[0]);
                 if( res[0]['latitude'] !== undefined || res[0]['longitude'] !== undefined )
                 this.setState({mapData: res})
               })
@@ -96,7 +95,6 @@ class BoatDetails extends React.Component {
           fetch(`https://fangsdata-api.herokuapp.com/api/maps/boats/radio/${res.radioSignalId}`)
               .then(res => res.json())
               .then(res => {
-                console.log(res[0]);
                 if( res[0]['latitude'] === undefined && res[0]['longitude'] === undefined )
                 this.setState({mapData: res})
               })
