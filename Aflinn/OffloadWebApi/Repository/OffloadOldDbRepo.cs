@@ -758,5 +758,13 @@ namespace OffloadWebApi.Repository
         {
             throw new NotImplementedException();
         }
+        public OffloadDto GetSingleOffloadByDateAndBoat(string date, string RegistrationId)
+        {
+            throw new NotImplementedException();
+        }
+        public string GetValue(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -105,7 +105,7 @@
     <Rule Id="SA1512" Action="Error" /> <!--Your comment-->
     <Rule Id="SA1513" Action="None" /> <!--Your comment-->
     <Rule Id="SA1514" Action="Error" /> <!--Your comment-->
-    <Rule Id="SA1515" Action="Error" /> <!--Your comment-->
+    <Rule Id="SA1515" Action="None" /> <!--Your comment-->
     <Rule Id="SA1516" Action="None" /> <!--Your comment-->
     <Rule Id="SA1517" Action="Error" /> <!--Your comment-->
     <Rule Id="SA1518" Action="Error" /> <!--Your comment-->

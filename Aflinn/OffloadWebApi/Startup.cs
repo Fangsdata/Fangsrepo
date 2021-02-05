@@ -55,6 +55,7 @@ namespace OffloadWebApi
             services.AddScoped<IOffloadService, OffloadService>();
             services.AddScoped<IBoatService, BoatService>();
             services.AddScoped<IMapService, MapService>();
+            services.AddScoped<IKeyValueService, KeyValueService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,6 @@ ENV API_URL https://fangsdata-api.herokuapp.com/api
 
 COPY . /app
 WORKDIR /app
-RUN npm install --silent
+RUN npm install --no-package-lock
 
 ENTRYPOINT ["npm", "start"]

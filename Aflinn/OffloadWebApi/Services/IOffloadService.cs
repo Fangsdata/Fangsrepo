@@ -12,5 +12,6 @@ namespace OffloadWebApi.Services
         List<OffloadDto> GetOffloadById(string boatRegistrationId, int count, int pageNr);
 
         OffloadDto getOffloadDetails(string offloadId);
+        OffloadDto getOffloadDetailsByDateAndRegistration(string date, string RegistrationId);
     }
 }

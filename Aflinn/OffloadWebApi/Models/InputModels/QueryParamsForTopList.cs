@@ -11,6 +11,6 @@ namespace OffloadWebApi.Models.InputModels
         public string landingState { get; set; }
         public string month { get; set; }
         public string year { get; set; }
-        public string fishType { get; set; }
+        public string fishName { get; set; }
     }
 }

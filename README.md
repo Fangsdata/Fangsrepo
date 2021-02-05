@@ -192,6 +192,77 @@ Via: 1.1 vegur
 
 #### Request
 
+`GET api/Offloads/details/date/{date}/registratinID
+
+    curl -i https://fangsdata-api.herokuapp.com/api/Offloads/details/date/2021-01-21/F%200110NK
+
+#### Response
+```
+HTTP/1.1 200 OK
+Connection: keep-alive
+Date: Thu, 07 May 2020 11:17:27 GMT
+Content-Type: application/json; charset=utf-8
+Server: Kestrel
+Transfer-Encoding: chunked
+Via: 1.1 vegur
+```
+
+```json
+
+{
+  "id": "7000011127066",
+  "town": "NORDKAPP",
+  "state": "Troms og Finnmark",
+  "landingDate": "2020-05-04T00:00:00",
+  "totalWeight": 143074.3,
+  "fish": [
+    {
+      "id": 202001,
+      "type": "Hyse",
+      "condition": "Sløyd med hode",
+      "preservation": "Fersk/ukonservert",
+      "packaging": "Uspesifisert",
+      "quality": "Superior",
+      "application": "Fersk (konsum)",
+      "weight": 91738.08
+    },
+    {
+      "id": 201001,
+      "type": "Torsk",
+      "condition": "Sløyd uten hode, run",
+      "preservation": "Fersk/ukonservert",
+      "packaging": "Uspesifisert",
+      "quality": "A",
+      "application": "Fersk (konsum)",
+      "weight": 27756
+    },
+     ...
+  ],
+  "boat": {
+    "id": -1,
+    "registration_id": "F 0185NK",
+    "radioSignalId": "LEQS",
+    "name": "VALDIMAR H",
+    "state": "",
+    "nationality": "",
+    "town": "",
+    "length": 0,
+    "fishingGear": "Autoline",
+    "image": ""
+  },
+  "mapData": [
+    {
+      "latitude": 71.5,
+      "longitude": 14,
+      "time": null
+    }
+  ]
+}
+```
+
+
+#### Request
+
 `GET api/Offloads/details/{offloadId}
 
     curl -i https://fangsdata-api.herokuapp.com/api/Offloads/details/7000011127066

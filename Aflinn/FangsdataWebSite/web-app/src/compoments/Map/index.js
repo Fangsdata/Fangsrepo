@@ -8,7 +8,7 @@ class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      zoom: 7,
+      zoom: 4,
     };
   }
 

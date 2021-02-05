@@ -270,7 +270,7 @@ namespace OffloadWebApi.Services
                 y = DateTime.Today.Year.ToString();
             }
 
-            return parseDate(m, y, DateTime.Today.Day.ToString()); 
+            return parseDate(m, y, "31"); 
         }
         List<TopListDto> IOffloadService.GetOffloads(QueryParamsForTopList filters)
         {
@@ -287,7 +287,7 @@ namespace OffloadWebApi.Services
                     LandingState = ParseLandingState(filters.landingState),
                     Month = ParseMonth(filters.month),
                     Year = ParseYear(filters.year),
-                    FishName = ParseFishName(filters.fishType),
+                    FishName = ParseFishName(filters.fishName),
                     fromDate = ParseFromDate(ParseMonth(filters.month), ParseYear(filters.year)),
                     toDate = ParseToDate(ParseMonth(filters.month), ParseYear(filters.year)),
                 };
@@ -338,6 +338,10 @@ namespace OffloadWebApi.Services
         public OffloadDto getOffloadDetails(string offloadId)
         {
             return this._offloadRepo.GetSingleOffload(offloadId);
+        }
+        public OffloadDto getOffloadDetailsByDateAndRegistration(string date, string registrationId)
+        {
+            return this._offloadRepo.GetSingleOffloadByDateAndBoat(date, registrationId);
         }
     }
 }

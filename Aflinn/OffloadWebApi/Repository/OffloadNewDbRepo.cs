@@ -134,13 +134,11 @@ namespace OffloadWebApi.Repository
             retStr += ")";
             if(!commas)
             {
-                Console.WriteLine(retStr);
                 retStr = retStr.Replace("'", string.Empty);
-                Console.WriteLine(retStr);
             }
             return retStr;
         }
-      
+ 
         ////////////////////////////////////////////////////////////////////
         //// Public Functions //////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////
@@ -257,8 +255,7 @@ namespace OffloadWebApi.Repository
                 landingState,
                 preservationMethood,
                 filters.Count,
-                filters.pageNo); 
-            Console.WriteLine(cmd.CommandText);
+                filters.pageNo);
             var reader = cmd.ExecuteReader();
 
             using(reader)
@@ -296,7 +293,7 @@ namespace OffloadWebApi.Repository
                 SUM(`Rundvekt`)
                 FROM GetLastOffloadsFromBoat
                 WHERE `Registreringsmerke (seddel)` = '{0}'
-                GROUP BY `Dokumentnummer`
+                GROUP BY `Landingsdato`
                 ORDER BY `Landingsdato` DESC
                 LIMIT {1}
                 OFFSET {2};",
@@ -329,7 +326,114 @@ namespace OffloadWebApi.Repository
             _connection.Dispose();
             return lastOffloads;
         }
+        public OffloadDto GetSingleOffloadByDateAndBoat(string date, string registrationId)
+        {
+            var offload = new OffloadDto();
+            var cmd = _connection.CreateCommand();
+            _connection.Open();
+            cmd.CommandTimeout = 90;
 
+            cmd.CommandText = string.Format(
+            @"SELECT 
+                `Dokumentnummer`,
+                `Dokument versjonsnummer`,
+                `Dokument salgsdato`,
+                `Landingskommune`,
+                `Landingsfylke`,
+                `Registreringsmerke (seddel)`,
+                `Fartøynavn`,
+                `Lon (lokasjon)`,
+                `Lat (lokasjon)`,
+                `Landingsdato`,
+                `Landingsklokkeslett`,
+                `Landingsmåned (kode)`,
+                `Lengdegruppe`,
+                `Radiokallesignal (seddel)`,
+                `Art`,
+                `Art - gruppe`,
+                `Art - hovedgruppe`,
+                `Anvendelse`,
+                `Anvendelse hovedgruppe`,
+                `Produkttilstand`,
+                `Konserveringsmåte`,
+                `Landingsmåte`,
+                `Kvalitet`,
+                SUM(`Rundvekt`),
+                `Redskap`,
+                `Redskap - gruppe`,
+                `Redskap - hovedgruppe`,
+                `Art (kode)` as `fish_id`
+            FROM GetSingleOffload
+            WHERE `Landingsdato`= '{0}'
+            AND `Registreringsmerke (seddel)` = '{1}'
+            AND `Rundvekt` != 0
+            GROUP BY `Art`, `Produkttilstand`, `Kvalitet`, `Anvendelse`, `Landingsmåte`, `Konserveringsmåte`
+            ORDER BY SUM(`Rundvekt`) DESC;", 
+            date, 
+            registrationId);
+            var reader = cmd.ExecuteReader();
+            using(reader)
+            {
+                reader.Read();
+                if(reader.HasRows)
+                {
+                    DateTime? rowLandingTown = null;
+                    try
+                    {
+                       rowLandingTown = reader.GetDateTime(9);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e);
+                        Console.WriteLine("--- unable to create date");
+                    }
+
+                    offload = genOffloadDto(
+                        id: reader.GetInt64(0).ToString(),
+                        town: reader.GetString(3),
+                        state: reader.GetString(4),
+                        landingdate: rowLandingTown, 
+                        totalWeight: reader.GetFloat(23),
+                        boat: genSimpleBoat( 
+                            registrationId: reader.GetString(5),
+                            radioSignalId: reader.GetString(13),
+                            name: reader.GetString(6),
+                            fishingGear: reader.GetString(24)));
+
+                    offload.MapData = new List<MapDataDto>();
+                    offload.MapData.Add(genMapData(reader.GetDouble(8), reader.GetDouble(7)));
+
+                    offload.Fish = new List<FishDto>();
+                    var fishRow = genSimpleFish(
+                        reader.GetInt32(27),
+                        reader.GetString(14),
+                        reader.GetString(19),
+                        reader.GetString(20),
+                        reader.GetString(21),
+                        reader.GetString(22),
+                        reader.GetString(17),
+                        reader.GetFloat(23));
+                    offload.Fish.Add(fishRow);
+
+                    while(reader.Read())
+                    {
+                        fishRow = genSimpleFish(
+                            reader.GetInt32(27),
+                            reader.GetString(14),
+                            reader.GetString(19),
+                            reader.GetString(20),
+                            reader.GetString(21),
+                            reader.GetString(22),
+                            reader.GetString(17),
+                            reader.GetFloat(23));
+                        offload.Fish.Add(fishRow);
+                        offload.TotalWeight += reader.GetFloat(23);
+                    }
+                }
+            }
+            _connection.Dispose();
+            return offload;
+        }
         public OffloadDto GetSingleOffload(string offloadId)
         {
             var offload = new OffloadDto();
@@ -494,6 +598,26 @@ namespace OffloadWebApi.Repository
             }
             _connection.Dispose();
             return searchedBoats;
+        }
+
+        public string GetValue(string key)
+        {
+            string value = string.Empty; 
+            var cmd = _connection.CreateCommand();
+            _connection.Open();
+            cmd.CommandText = string.Format(
+                @"select `value` from Key_Value WHERE `key` = '{0}';", key);
+            var reader = cmd.ExecuteReader();
+
+            using(reader)
+            {
+                while(reader.Read())
+                {
+                    value = reader.GetString(0);
+                }
+            }
+            _connection.Dispose();
+            return value;
         }
 
         public BoatDto GetBoatByRegistration(string RegistrationId)

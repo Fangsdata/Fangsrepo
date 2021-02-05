@@ -50,6 +50,20 @@ namespace OffloadWebApi.Controllers
 
             return this.Ok(result);
         }
+        
+        // GET api/offloads/details/date
+        // details on a single offload filter by date and registratino id
+        [HttpGet("details/date/{date}/{registrationId}")]
+        public IActionResult Get(string date, string registrationId)
+        {
+            var result = this._OffloadService.getOffloadDetailsByDateAndRegistration(date, registrationId);
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
 
         // GET api/offloads/:radioSignal/:count
         [HttpGet("{boatRegistrationId}/{count}")]

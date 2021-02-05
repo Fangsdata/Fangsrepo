@@ -35,7 +35,17 @@ namespace OffloadWebApi.Repository
             };
         }
 
+        public string GetValue(string key)
+        {
+            throw new NotImplementedException();
+        }
+        
         public BoatDto? GetBoatByRegistration(string RegistrationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OffloadDto GetSingleOffloadByDateAndBoat(string date, string RegistrationId)
         {
             throw new NotImplementedException();
         }
